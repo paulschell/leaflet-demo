@@ -87,9 +87,14 @@
 
                 // Create a marker for each pharmacy
                 // const marker = L.marker([Latitude, Longitude]).addTo(map)
+                
+                var popupContent = `<strong>${Name_of_Pharmacy}</strong><br>${Address}<br><br>📞 ${Contact_Number}`;
 
-                const marker = new Marker([Latitude, Longitude]).addTo(map)
-                    .bindPopup(`<strong>${Name_of_Pharmacy}</strong><br>${Address}<br>Contact: ${Contact_Number}`);
+                var popup = new Popup({
+                    maxWidth: 500, // Maximum width of the popup
+                    minWidth: 200, // Minimum width of the popup
+                    maxHeight: 400 // Maximum height of the popup (for scrollable content)
+                }).setContent(popupContent);
             });
         } catch (error) {
             console.error('Error loading pharmacies:', error);
