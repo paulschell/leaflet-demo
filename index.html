@@ -96,6 +96,8 @@
                     minWidth: 200, // Minimum width of the popup
                     maxHeight: 400 // Maximum height of the popup (for scrollable content)
                 }).setContent(popupContent);
+
+                const marker = new Marker([Latitude, Longitude]).addTo(map).bindPopup(popup)
             });
         } catch (error) {
             console.error('Error loading pharmacies:', error);
