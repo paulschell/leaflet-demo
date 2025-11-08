@@ -1,0 +1,2060 @@
+[
+  {
+    "Name_of_Pharmacy": "Pharmacy Tamarin",
+    "Address": "London Complex Black River",
+    "Contact_Number": 4835247,
+    "Latitude": -20.353349,
+    "Longitude": 57.3653664
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Medical Trading",
+    "Address": "Cascavelle",
+    "Contact_Number": 4529045,
+    "Latitude": -20.2788997,
+    "Longitude": 57.4024617
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy de L Occident",
+    "Address": "Route Royale Flic En Flac",
+    "Contact_Number": 4535428,
+    "Latitude": -20.2762068,
+    "Longitude": 57.3781049
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Flic en Flac",
+    "Address": "Fortuna Beach Building Slot 1 B Avenue Flamingo, Flic En Flac",
+    "Contact_Number": 4539112,
+    "Latitude": -20.2799255,
+    "Longitude": 57.3686501
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy La Gaulette",
+    "Address": "Pitot Canot Shopping Centre, Royal Road, La Gaulette",
+    "Contact_Number": 54484889,
+    "Latitude": -20.4287039,
+    "Longitude": 57.3602447
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Barachois",
+    "Address": "Royal Road Tamarin",
+    "Contact_Number": 4838345,
+    "Latitude": -20.3276824,
+    "Longitude": 57.3844136
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Nautica",
+    "Address": "Nautica Complex, Royal Road, Black River",
+    "Contact_Number": "483 5449",
+    "Latitude": -20.3584777,
+    "Longitude": 57.3680366
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Bambous",
+    "Address": "Royal Road, Bambous",
+    "Contact_Number": 4521296,
+    "Latitude": -20.2569639,
+    "Longitude": 57.4178616
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy National",
+    "Address": "Geoffroy Road Bambous",
+    "Contact_Number": 4525062,
+    "Latitude": -20.267533,
+    "Longitude": 57.4160116
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Healthpoint",
+    "Address": "Royal Road Albion",
+    "Contact_Number": 2385226,
+    "Latitude": -20.2081037,
+    "Longitude": 57.408999
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Ah Sen",
+    "Address": "Atrium Building, Rose Hill",
+    "Contact_Number": 4658746,
+    "Latitude": -20.2421417,
+    "Longitude": 57.4761891
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Arthemidor",
+    "Address": "3, Trotter Street, Beau Bassin",
+    "Contact_Number": 4547523,
+    "Latitude": -20.2262197,
+    "Longitude": 57.4722981
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy AZM",
+    "Address": "272, Royal Road, RoseHill",
+    "Contact_Number": 4666892,
+    "Latitude": -20.2376118,
+    "Longitude": 57.4719753
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Biopharm",
+    "Address": "Royal Road, Beau Bassin",
+    "Contact_Number": 4541550,
+    "Latitude": -20.2209111,
+    "Longitude": 57.468704
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Buckingham",
+    "Address": "Ratsitatane Street, Stanley, Rose Hill",
+    "Contact_Number": 4646844,
+    "Latitude": -20.2439043,
+    "Longitude": 57.4662966
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy D antelme",
+    "Address": "42, C Antelme Street, Rose Hill",
+    "Contact_Number": 4544013,
+    "Latitude": -20.2446975,
+    "Longitude": 57.4657446
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Du Bien Etre",
+    "Address": "18, Rue Dr Maurice Cure, Rose Hill",
+    "Contact_Number": 4655215,
+    "Latitude": -20.2447611,
+    "Longitude": 57.4681906
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Edward VII",
+    "Address": "21, Rue Dr Maurice Cure, Rose Hill",
+    "Contact_Number": 4643967,
+    "Latitude": -20.244658,
+    "Longitude": 57.468785
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Healthcare",
+    "Address": "Inkerman Street, Rose Hill",
+    "Contact_Number": 4659491,
+    "Latitude": -20.2458005,
+    "Longitude": 57.467688
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Health Mart",
+    "Address": "Corner Ave l Independence Roche Brunes",
+    "Contact_Number": 4649905,
+    "Latitude": -20.2358651,
+    "Longitude": 57.4591076
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Hibiscus",
+    "Address": "Espace Concorde, Camp Levieux, Rose Hill",
+    "Contact_Number": 4656192,
+    "Latitude": -20.2423,
+    "Longitude": 57.4537446
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Imperiale",
+    "Address": "Royal Road, Beau Bassin",
+    "Contact_Number": 4541888,
+    "Latitude": -20.2278821,
+    "Longitude": 57.4678463
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Jaulimsing",
+    "Address": "3, Trotter Street, Beau Bassin",
+    "Contact_Number": 4541803,
+    "Latitude": -20.227122,
+    "Longitude": 57.4734789
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy La Confiance",
+    "Address": "30, Royal Road, Beau Bassin",
+    "Contact_Number": 4657566,
+    "Latitude": -20.2175377,
+    "Longitude": 57.4693564
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Maunapharm",
+    "Address": "9, Cretin Avenue Camp Le Vieux, Rose Hill",
+    "Contact_Number": 4653379,
+    "Latitude": -20.2490099,
+    "Longitude": 57.4585086
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Medical Trading",
+    "Address": "Ebene Commercial Centre, Cyber City, Ebene, Rose Hill",
+    "Contact_Number": 4669010,
+    "Latitude": -20.243088,
+    "Longitude": 57.4884593
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Medichem",
+    "Address": "Royal Road, Beau Bassin",
+    "Contact_Number": 4541437,
+    "Latitude": -20.2238482,
+    "Longitude": 57.4680437
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Mont Roches Brunes",
+    "Address": "CNR Pope Hennessy and R Rivet St, Beau Bassin",
+    "Contact_Number": 4660020,
+    "Latitude": -20.2315464,
+    "Longitude": 57.4628949
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy New Stanley",
+    "Address": "Hugnin Street, Rose Hill",
+    "Contact_Number": 4641491,
+    "Latitude": -20.2448417,
+    "Longitude": 57.4672374
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pharmavision",
+    "Address": "Soc Curpen Building, Dr Maurice Cure Street, Rose Hill",
+    "Contact_Number": 4548042,
+    "Latitude": -20.2442961,
+    "Longitude": 57.4718211
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Nupharm",
+    "Address": "5th Mile, Beau Bassin",
+    "Contact_Number": 4657813,
+    "Latitude": -20.2135559,
+    "Longitude": 57.4698472
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pharmaccess",
+    "Address": "1, Raoul Lejeune and Royal Road, Beau Bassin",
+    "Contact_Number": 4678538,
+    "Latitude": -20.2302327,
+    "Longitude": 57.4678785
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pharmexpress",
+    "Address": "1, Dr Roux Street, Rose Hill",
+    "Contact_Number": 4655422,
+    "Latitude": -20.241301,
+    "Longitude": 57.471242
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Plaza",
+    "Address": "Royal Road Rose Hill",
+    "Contact_Number": 4679243,
+    "Latitude": -20.2391573,
+    "Longitude": 57.4720985
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pope Hennessy",
+    "Address": "94, Pope Hennesy St, Beau Bassin",
+    "Contact_Number": 4666069,
+    "Latitude": -20.2331269,
+    "Longitude": 57.4631628
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Rose Hill",
+    "Address": "Royal Road, Rose Hill",
+    "Contact_Number": 4650159,
+    "Latitude": -20.2268602,
+    "Longitude": 57.46768
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Samina",
+    "Address": "14, Dr Maurice Cure Street, Rose Hill",
+    "Contact_Number": 4542081,
+    "Latitude": -20.2442906,
+    "Longitude": 57.4701047
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy de Petite Riviere",
+    "Address": "Royal Road, Petite Riviere",
+    "Contact_Number": 2331992,
+    "Latitude": -20.1951705,
+    "Longitude": 57.447601
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Standard",
+    "Address": "Arcade Magic Lantern, Royal Road, Rose Hill",
+    "Contact_Number": 4644920,
+    "Latitude": -20.2419578,
+    "Longitude": 57.4736472
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Coromandel",
+    "Address": "59, Royal Road, Coromandel",
+    "Contact_Number": 2338355,
+    "Latitude": -20.1941191,
+    "Longitude": 57.4699486
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Ahmud",
+    "Address": "B70 La Brasserie Road, Curepipe",
+    "Contact_Number": 6741940,
+    "Latitude": -20.3293608,
+    "Longitude": 57.5272679
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Active Care",
+    "Address": "Curepipe Road, Eau Coulee",
+    "Contact_Number": 6740327,
+    "Latitude": -20.3070726,
+    "Longitude": 57.5253562
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Benoit",
+    "Address": "Impasse Pot de Terre, Curepipe",
+    "Contact_Number": 6750084,
+    "Latitude": -20.3159294,
+    "Longitude": 57.5233492
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Biladams",
+    "Address": "28 A Robinson Road Floreal",
+    "Contact_Number": 6985636,
+    "Latitude": -20.3113696,
+    "Longitude": 57.5136909
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Biladross",
+    "Address": "32, Gabriel Froppier St Floreal",
+    "Contact_Number": 6701105,
+    "Latitude": -20.3272357,
+    "Longitude": 57.5240211
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Care 4U",
+    "Address": "292 Royal Road Forest Side",
+    "Contact_Number": 6764034,
+    "Latitude": -20.324177,
+    "Longitude": 57.5275415
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Charles Regnaud",
+    "Address": "Charles Regnaud St Curepipe",
+    "Contact_Number": 6865420,
+    "Latitude": -20.3070653,
+    "Longitude": 57.5202443
+  },
+  {
+    "Name_of_Pharmacy": "Curepipe Drug House",
+    "Address": "Chasteau Neuf Street, Curepipe",
+    "Contact_Number": 6761515,
+    "Latitude": -20.317831,
+    "Longitude": 57.5252015
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy D Arifat",
+    "Address": "Rue Lees, Curepipe",
+    "Contact_Number": 6707284,
+    "Latitude": -20.3169624,
+    "Longitude": 57.5330858
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy D Epinay",
+    "Address": "Curepipe Road",
+    "Contact_Number": 6749234,
+    "Latitude": -20.3100056,
+    "Longitude": 57.5239044
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy D Espagnac Ltee",
+    "Address": "Royal Road, Curepipe",
+    "Contact_Number": 6763138,
+    "Latitude": -20.3115325,
+    "Longitude": 57.5240278
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Eau Coulee",
+    "Address": "17, Royal Road, Eau Coulee",
+    "Contact_Number": 6869385,
+    "Latitude": -20.3027331,
+    "Longitude": 57.5292161
+  },
+  {
+    "Name_of_Pharmacy": "Espace Sante",
+    "Address": "How Hong Building, Route Jardin Curepipe",
+    "Contact_Number": 6704225,
+    "Latitude": -20.323368,
+    "Longitude": 57.518412
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Gerval",
+    "Address": "230, Royal Road, Curepipe",
+    "Contact_Number": 6763572,
+    "Latitude": -20.3160005,
+    "Longitude": 57.5229633
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Health Star",
+    "Address": "Sir Celicourt Antelme St Forest Side",
+    "Contact_Number": 6702824,
+    "Latitude": -20.3232068,
+    "Longitude": 57.5327272
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Innopharma",
+    "Address": "Manhattan Complex, Curepipe",
+    "Contact_Number": 6751478,
+    "Latitude": -20.3195424,
+    "Longitude": 57.5289866
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Jhugroo",
+    "Address": "C R Thomy D Arifat Jermingham, Curepipe",
+    "Contact_Number": 6746995,
+    "Latitude": -20.3151402,
+    "Longitude": 57.5249971
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy L Apothicaire",
+    "Address": "Manhattan Building, Avenue Victoria, Curepipe",
+    "Contact_Number": 6740717,
+    "Latitude": -20.3107477,
+    "Longitude": 57.5255674
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Mauritius",
+    "Address": "Chasteau Neuf Street, Curepipe",
+    "Contact_Number": 6762305,
+    "Latitude": -20.3181882,
+    "Longitude": 57.5245267
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Mesnil",
+    "Address": "Parisot Road, Mesnil",
+    "Contact_Number": 6970202,
+    "Latitude": -20.2843174,
+    "Longitude": 57.5225336
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Noel",
+    "Address": "Piton Building, Ian Palach, Curepipe",
+    "Contact_Number": 6752685,
+    "Latitude": -20.3167014,
+    "Longitude": 57.5252613
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pather",
+    "Address": "Georges Guibert Street, Curepipe",
+    "Contact_Number": 6750094,
+    "Latitude": -20.3134603,
+    "Longitude": 57.5227086
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy du Jardin",
+    "Address": "Route Du Jardin, Curepipe",
+    "Contact_Number": 6701003,
+    "Latitude": -20.3198862,
+    "Longitude": 57.5206051
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Tulsidas",
+    "Address": "19, Arcades Salaffa, Curepipe",
+    "Contact_Number": 6761714,
+    "Latitude": -20.306416,
+    "Longitude": 57.5263453
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Raza",
+    "Address": "Royal Road, Mesnil",
+    "Contact_Number": 6989580,
+    "Latitude": -20.2914472,
+    "Longitude": 57.5150381
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Sante Ville",
+    "Address": "33 Royal Road Eau Coulee",
+    "Contact_Number": 6863684,
+    "Latitude": -20.3037194,
+    "Longitude": 57.5232553
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Shahbeen",
+    "Address": "Royal Road, Floreal",
+    "Contact_Number": 6868662,
+    "Latitude": -20.312227,
+    "Longitude": 57.5051616
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Shifa Pharm",
+    "Address": "Goburdhun Bldg Corner Royal Road and Gujadhur Lane Curepipe",
+    "Contact_Number": 52587923,
+    "Latitude": -20.3173125,
+    "Longitude": 57.5236838
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy White Rose",
+    "Address": "16eme Mille Forest Side",
+    "Contact_Number": 6641401,
+    "Latitude": -20.344368,
+    "Longitude": 57.5462465
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Zenquil",
+    "Address": "Quatre Carreaux, Eau Coulee, Curepipe",
+    "Contact_Number": 6742435,
+    "Latitude": -20.3003934,
+    "Longitude": 57.5232242
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Ash Pharma",
+    "Address": "Royal Road, Montagne Blanche",
+    "Contact_Number": 4374046,
+    "Latitude": -20.2856126,
+    "Longitude": 57.6621314
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Anipharm",
+    "Address": "Royal Road Trou Deau Douce",
+    "Contact_Number": 4801291,
+    "Latitude": -20.2324625,
+    "Longitude": 57.7960789
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Avi Pharm Ltd",
+    "Address": "Boulet Rouge Flacq",
+    "Contact_Number": 4138343,
+    "Latitude": -20.2014105,
+    "Longitude": 57.7264587
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Balloo",
+    "Address": "Bus Station, Quartier Militaire",
+    "Contact_Number": 4355487,
+    "Latitude": -20.2471292,
+    "Longitude": 57.6007202
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Inderjeet",
+    "Address": "Royal Road, Bel Air",
+    "Contact_Number": 4192380,
+    "Latitude": -20.2566226,
+    "Longitude": 57.7520417
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Belle Mare",
+    "Address": "Royal Road Belle Mare",
+    "Contact_Number": 4152746,
+    "Latitude": -20.1988961,
+    "Longitude": 57.7798891
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Bramsthan",
+    "Address": "Royal Road, Bramsthan",
+    "Contact_Number": 4136693,
+    "Latitude": -20.2140183,
+    "Longitude": 57.7372616
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Cosmed",
+    "Address": "Royal Road Boulet Blanc, Central Flacq",
+    "Contact_Number": 4134802,
+    "Latitude": -20.2029069,
+    "Longitude": 57.7289398
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Dagotiere",
+    "Address": "Royal Road Dagotiere",
+    "Contact_Number": 4330488,
+    "Latitude": -20.2462962,
+    "Longitude": 57.5593999
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy de Brisee Verdiere",
+    "Address": "Royal Road Brisee Verdiere",
+    "Contact_Number": 2908987,
+    "Latitude": -20.1680013,
+    "Longitude": 57.6550055
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Flacq Drug House Co Ltd",
+    "Address": "Royal Road, Centre De Flacq",
+    "Contact_Number": 4132520,
+    "Latitude": -20.1921698,
+    "Longitude": 57.7240455
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Harris",
+    "Address": "Market Road, Central Flacq",
+    "Contact_Number": 4131344,
+    "Latitude": -20.1885171,
+    "Longitude": 57.7248904
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy HealthLink",
+    "Address": "Shopping Mall, Boulet Rouge, Flacq",
+    "Contact_Number": 4134544,
+    "Latitude": -20.2004989,
+    "Longitude": 57.7209355
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Dhuny",
+    "Address": "Royal Road, Bel Air",
+    "Contact_Number": "",
+    "Latitude": -20.2560552,
+    "Longitude": 57.7529329
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Idamed",
+    "Address": "Royal Road, Mont Ida",
+    "Contact_Number": 4168843,
+    "Latitude": -20.2441094,
+    "Longitude": 57.6456875
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Jhumun",
+    "Address": "Royal Road, La Source, Centre De Flacq",
+    "Contact_Number": 4132894,
+    "Latitude": -20.1928761,
+    "Longitude": 57.7282309
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Lotus",
+    "Address": "Royal Road, Bon Acceuil",
+    "Contact_Number": 4181894,
+    "Latitude": -20.1735604,
+    "Longitude": 57.6670432
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Roshni",
+    "Address": "Arcades Roshni, Centre De Flacq",
+    "Contact_Number": 4132069,
+    "Latitude": -20.1922202,
+    "Longitude": 57.7230799
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy New Vogue",
+    "Address": "Charles De Gaule Street, Flacq",
+    "Contact_Number": 4135877,
+    "Latitude": -20.2010206,
+    "Longitude": 57.720395
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Nishchem",
+    "Address": "Royal Road, Bel Air",
+    "Contact_Number": 54431995,
+    "Latitude": -20.2579195,
+    "Longitude": 57.7584207
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Nori Pharm",
+    "Address": "Royal Road, Lallmatie",
+    "Contact_Number": 4189048,
+    "Latitude": -20.1913496,
+    "Longitude": 57.6678384
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pyramid Pharmacare",
+    "Address": "Royal Road Bel Air Riviere Seche",
+    "Contact_Number": 4192627,
+    "Latitude": -20.2582305,
+    "Longitude": 57.7544636
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Rose 2",
+    "Address": "Super U Commercial Centre, Royal Road, Flacq",
+    "Contact_Number": 4131616,
+    "Latitude": -20.1841846,
+    "Longitude": 57.723375
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Sewpaul",
+    "Address": "Royal Road, Centre De Flacq",
+    "Contact_Number": 4132753,
+    "Latitude": -20.1926255,
+    "Longitude": 57.7229995
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Teeluck",
+    "Address": "Arcade Sibartie, La Source Road, Flacq",
+    "Contact_Number": 4130932,
+    "Latitude": -20.193212,
+    "Longitude": 57.7278113
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Vinca Pharm",
+    "Address": "Royal Road, Lallmatie",
+    "Contact_Number": 52929990,
+    "Latitude": -20.1915283,
+    "Longitude": 57.6679045
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Vial",
+    "Address": "Market Road, Eastern College Lane, Central Flacq",
+    "Contact_Number": 4130330,
+    "Latitude": -20.1930194,
+    "Longitude": 57.7237817
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy For Me Bagatelle",
+    "Address": "Mall of Mauritius, Bagatelle",
+    "Contact_Number": 4688921,
+    "Latitude": -20.2238775,
+    "Longitude": 57.4958103
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Circonstance",
+    "Address": "Royal Road St Pierre",
+    "Contact_Number": 4230015,
+    "Latitude": -20.22714,
+    "Longitude": 57.526058
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Helvetia",
+    "Address": "Les Allee Helvetia Moka",
+    "Contact_Number": 4333232,
+    "Latitude": -20.2252599,
+    "Longitude": 57.5253245
+  },
+  {
+    "Name_of_Pharmacy": "Pharmcie Moka",
+    "Address": "Leclezio Road, Moka",
+    "Contact_Number": 4331267,
+    "Latitude": -20.222563,
+    "Longitude": 57.5032003
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Montagne Blanche",
+    "Address": "Royal Road, Montagne Blanche",
+    "Contact_Number": 4375156,
+    "Latitude": -20.2856623,
+    "Longitude": 57.6606234
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Petit Verger",
+    "Address": "Petit Verger, St Pierre",
+    "Contact_Number": 4320506,
+    "Latitude": -20.214064,
+    "Longitude": 57.5251527
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy PharmaBest",
+    "Address": "Royal Road St Pierre",
+    "Contact_Number": 4335350,
+    "Latitude": -20.2201604,
+    "Longitude": 57.5335979
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pharmachic",
+    "Address": "Royal Road, St Pierre",
+    "Contact_Number": 4334593,
+    "Latitude": -20.2146231,
+    "Longitude": 57.5261092
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pharmexcel",
+    "Address": "Royal Road Moka",
+    "Contact_Number": "433 5035",
+    "Latitude": -20.2249515,
+    "Longitude": 57.5060171
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Sebastopol",
+    "Address": "Pellegrin Road, Sebastopol",
+    "Contact_Number": 57994055,
+    "Latitude": -20.2906885,
+    "Longitude": 57.6878311
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Seebun",
+    "Address": "Royal Road, Lallmatie",
+    "Contact_Number": 4181040,
+    "Latitude": -20.1933472,
+    "Longitude": 57.6694082
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Saint Pierre",
+    "Address": "Royal Road, St Pierre",
+    "Contact_Number": 4334234,
+    "Latitude": -20.2180558,
+    "Longitude": 57.5334616
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Arsenal",
+    "Address": "Royal Road Arsenal",
+    "Contact_Number": 2493777,
+    "Latitude": -20.100799,
+    "Longitude": 57.5411638
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Aloes",
+    "Address": "Middle Road, Plaine Des Papayes",
+    "Contact_Number": 2662506,
+    "Latitude": -20.0646638,
+    "Longitude": 57.5829426
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Biomed",
+    "Address": "Royal Road, 8th Mille, Triolet",
+    "Contact_Number": 2619391,
+    "Latitude": -20.0652993,
+    "Longitude": 57.5504171
+  },
+  {
+    "Name_of_Pharmacy": "BU PHARMA",
+    "Address": "Dr Hurry Building, Royal Road, Goodlands",
+    "Contact_Number": 2837509,
+    "Latitude": -20.0359002,
+    "Longitude": 57.647898
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Cap Malheureux",
+    "Address": "Mosque Road, Cap Malheureux",
+    "Contact_Number": 2626652,
+    "Latitude": -19.9878923,
+    "Longitude": 57.6169412
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Central",
+    "Address": "Royal Road, Trou aux Biches",
+    "Contact_Number": 2655703,
+    "Latitude": -20.0373087,
+    "Longitude": 57.5472596
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy d Espagnac",
+    "Address": "Royal Road, Pointe Aux Cannoniers",
+    "Contact_Number": 2632820,
+    "Latitude": -20.0091402,
+    "Longitude": 57.5612716
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Devika Co LTD",
+    "Address": "Maurel Road, Riviere Du Rempart",
+    "Contact_Number": 4122275,
+    "Latitude": -20.0560983,
+    "Longitude": 57.6552389
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Ebrahim",
+    "Address": "Royal Road, Grand Bay",
+    "Contact_Number": 2638564,
+    "Latitude": -20.0128151,
+    "Longitude": 57.5846116
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy For Me",
+    "Address": "Riverside Complex Royal Road Riviere Du Rempart",
+    "Contact_Number": 4128380,
+    "Latitude": -20.1099742,
+    "Longitude": 57.6880968
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy For Me",
+    "Address": "La Croisette, Grand Baie",
+    "Contact_Number": 2696136,
+    "Latitude": -20.0213634,
+    "Longitude": 57.5789561
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Florida",
+    "Address": "Royal Road, Terre Rouge",
+    "Contact_Number": 2488276,
+    "Latitude": -20.1262243,
+    "Longitude": 57.5407601
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy First AID",
+    "Address": "Royal Road Le Hochet",
+    "Contact_Number": 2492885,
+    "Latitude": -20.1405856,
+    "Longitude": 57.5250685
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Goodlands",
+    "Address": "Royal Road, Goodlands",
+    "Contact_Number": 2839522,
+    "Latitude": -20.0391408,
+    "Longitude": 57.6495717
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Grand Gaube",
+    "Address": "Royal Road, Grand Gaube",
+    "Contact_Number": 2881206,
+    "Latitude": -20.014212,
+    "Longitude": 57.6694082
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Gyanee",
+    "Address": "7th Mile, Triolet",
+    "Contact_Number": 2614737,
+    "Latitude": -20.0770009,
+    "Longitude": 57.5464937
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Kadress",
+    "Address": "Royal Road, Goodlands",
+    "Contact_Number": 2839077,
+    "Latitude": -20.0386109,
+    "Longitude": 57.6512342
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy la Plaine",
+    "Address": "Ramphul Road, Plaine des Papayes",
+    "Contact_Number": 2667342,
+    "Latitude": -20.0651262,
+    "Longitude": 57.5844203
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy La Fontaine",
+    "Address": "37A, Royal Road Goodlands",
+    "Contact_Number": 2820057,
+    "Latitude": -20.0391484,
+    "Longitude": 57.6521409
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Le Hochet",
+    "Address": "Royal Road, Le Hochet, Terre Rouge",
+    "Contact_Number": 2491716,
+    "Latitude": -20.137609,
+    "Longitude": 57.526655
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Mega Life",
+    "Address": "Royal Road, Terre Rouge",
+    "Contact_Number": 2486722,
+    "Latitude": -20.1244695,
+    "Longitude": 57.5391225
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Medicine Express",
+    "Address": "Shopping Promenade, Mont choisy",
+    "Contact_Number": 2696050,
+    "Latitude": -20.0245087,
+    "Longitude": 57.57628
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Northern",
+    "Address": "Royal Road, Plaine Des Papayes",
+    "Contact_Number": 2662328,
+    "Latitude": -20.0696861,
+    "Longitude": 57.5786133
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Ooriah",
+    "Address": "Royal Road, Pamplemousses",
+    "Contact_Number": 2439340,
+    "Latitude": -20.1136008,
+    "Longitude": 57.575926
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pamplemousses",
+    "Address": "Royal Road, Pamplemousses",
+    "Contact_Number": 2438895,
+    "Latitude": -20.1107271,
+    "Longitude": 57.575541
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pharmawell",
+    "Address": "Rue La Salette, Grand Baie",
+    "Contact_Number": 2690075,
+    "Latitude": -20.0138311,
+    "Longitude": 57.5872257
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pillay",
+    "Address": "Royal Road, Montagne Longue",
+    "Contact_Number": 2451568,
+    "Latitude": -20.1531168,
+    "Longitude": 57.5504453
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Platinum",
+    "Address": "Royal Road, Fond Du Sac",
+    "Contact_Number": 2665175,
+    "Latitude": -20.048255,
+    "Longitude": 57.5853592
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Ramburn",
+    "Address": "Riviere Du Rempart",
+    "Contact_Number": 4125071,
+    "Latitude": -20.0905351,
+    "Longitude": 57.6949177
+  },
+  {
+    "Name_of_Pharmacy": "Rose Beauty and Health",
+    "Address": "Super U, Grand Baie",
+    "Contact_Number": 2690289,
+    "Latitude": -20.0122665,
+    "Longitude": 57.5870888
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Sante Plus",
+    "Address": "Royal Road, St Antoine, Goodlands",
+    "Contact_Number": 2833668,
+    "Latitude": -20.0409304,
+    "Longitude": 57.6545676
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Score",
+    "Address": "Coastal Road, Tombeau Bay",
+    "Contact_Number": 2475275,
+    "Latitude": -20.1247978,
+    "Longitude": 57.502332
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Sun",
+    "Address": "Royal Road, 9th Mile, Triolet",
+    "Contact_Number": 2613465,
+    "Latitude": -20.0517689,
+    "Longitude": 57.5537735
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Terre Rouge",
+    "Address": "Royal Road, Terre Rouge",
+    "Contact_Number": 2480115,
+    "Latitude": -20.137609,
+    "Longitude": 57.526655
+  },
+  {
+    "Name_of_Pharmacy": "The Medicine Shop",
+    "Address": "Royal Road Pereybere",
+    "Contact_Number": 59586565,
+    "Latitude": -19.9924373,
+    "Longitude": 57.5927933
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy de Triolet",
+    "Address": "Royal Road, Triolet",
+    "Contact_Number": 2616720,
+    "Latitude": -20.0599291,
+    "Longitude": 57.5516324
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Trois Bras",
+    "Address": "Royal Road Trois Bras Petit Raffray",
+    "Contact_Number": 2831727,
+    "Latitude": -20.0207751,
+    "Longitude": 57.6240731
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Ducasse",
+    "Address": "Route Cotiere, Trou Aux Biches",
+    "Contact_Number": 2656538,
+    "Latitude": -20.037619,
+    "Longitude": 57.5445025
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Unicare",
+    "Address": "Royal Road Anand Square, Triolet",
+    "Contact_Number": 2611053,
+    "Latitude": -20.0598545,
+    "Longitude": 57.551557
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Unuth",
+    "Address": "Royal Road, Triolet",
+    "Contact_Number": 2614538,
+    "Latitude": -20.061467,
+    "Longitude": 57.551565
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Unichem",
+    "Address": "Royal Road, Morc. St Andre",
+    "Contact_Number": 2611752,
+    "Latitude": -20.0723762,
+    "Longitude": 57.5674318
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Wellknown",
+    "Address": "Royal Road Terre Rouge",
+    "Contact_Number": 2480249,
+    "Latitude": -20.1267554,
+    "Longitude": 57.540099
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Abercrombie",
+    "Address": "112, Route Des Pamplemousses,  Sainte Croix",
+    "Contact_Number": 2419259,
+    "Latitude": -20.1477523,
+    "Longitude": 57.5231668
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Ajmeeri",
+    "Address": "Royal Road, St Joseph Terre Rouge",
+    "Contact_Number": 2169189,
+    "Latitude": -20.1244695,
+    "Longitude": 57.5391225
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Allomed",
+    "Address": "88, Route Des Pamplemousses, Port Louis",
+    "Contact_Number": 2941792,
+    "Latitude": -20.1562941,
+    "Longitude": 57.5170123
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy An Noor",
+    "Address": "CNR E. Anquetil and Sir Virgil Naz, Port Louis",
+    "Contact_Number": 2170412,
+    "Latitude": -20.161457,
+    "Longitude": 57.508285
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Atchia",
+    "Address": "36, SSR Street, Port Louis",
+    "Contact_Number": 2402564,
+    "Latitude": -20.1619284,
+    "Longitude": 57.5068295
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Bell Village",
+    "Address": "11, Brabant Street, Port Louis",
+    "Contact_Number": 2121946,
+    "Latitude": -20.1672459,
+    "Longitude": 57.4871649
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Capital",
+    "Address": "57 SSR Street, Port Louis",
+    "Contact_Number": 2169000,
+    "Latitude": -20.160291,
+    "Longitude": 57.508687
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy City Care",
+    "Address": "46, Boulevard Victoria Vallee Pitot Port Louis",
+    "Contact_Number": 2161216,
+    "Latitude": -20.1677982,
+    "Longitude": 57.5152443
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Dauhoo",
+    "Address": "66, Sir Virgil Naz, Port Louis",
+    "Contact_Number": 2402157,
+    "Latitude": -20.1616721,
+    "Longitude": 57.5081798
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Desforges",
+    "Address": "72, SSR Street, Port Louis",
+    "Contact_Number": 2401151,
+    "Latitude": -20.1594149,
+    "Longitude": 57.5097643
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy D hotman",
+    "Address": "Brabant Street, Port Louis",
+    "Contact_Number": 2132428,
+    "Latitude": -20.1637635,
+    "Longitude": 57.4988614
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Dilmar",
+    "Address": "21, Mere Barthelamy Street, Port Louis",
+    "Contact_Number": 2103607,
+    "Latitude": -20.1663391,
+    "Longitude": 57.500608
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy du Centre",
+    "Address": "30, Desforges Street, Port Louis",
+    "Contact_Number": 2082235,
+    "Latitude": -20.1627341,
+    "Longitude": 57.5057673
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy du Port",
+    "Address": "John Kennedy Street, Port Louis",
+    "Contact_Number": 2081037,
+    "Latitude": -20.1600324,
+    "Longitude": 57.5015134
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy du Quai",
+    "Address": "Quay Street, Port Louis",
+    "Contact_Number": 2124602,
+    "Latitude": -20.1627089,
+    "Longitude": 57.5056922
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Eiman",
+    "Address": "7D, Farquar Street, Port Louis",
+    "Contact_Number": 2126753,
+    "Latitude": -20.1600362,
+    "Longitude": 57.5028947
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Farquhar",
+    "Address": "10, Farquar Street, Port Louis",
+    "Contact_Number": 2121426,
+    "Latitude": -20.160208,
+    "Longitude": 57.5029197
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Family",
+    "Address": "SSR Street, Port Louis",
+    "Contact_Number": 2170000,
+    "Latitude": -20.1606845,
+    "Longitude": 57.5082296
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Get Well",
+    "Address": "La Rue Jawaharlall Nehru, Tranquebar Port Louis",
+    "Contact_Number": 57116265,
+    "Latitude": -20.1781474,
+    "Longitude": 57.5122358
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Good Heart",
+    "Address": "Nicolay Road, St Croix, Port Louis",
+    "Contact_Number": "240 8777",
+    "Latitude": -20.1520756,
+    "Longitude": 57.5145386
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Health and Beauty",
+    "Address": "Citadelle Mall, Rue Eugene Laurent, Port Louis",
+    "Contact_Number": 2121741,
+    "Latitude": -20.1629694,
+    "Longitude": 57.5066206
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Hwa Yen",
+    "Address": "NHDC La Tour Koenig",
+    "Contact_Number": 2926888,
+    "Latitude": -20.1726764,
+    "Longitude": 57.4479862
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Kentish",
+    "Address": "Etienne Pellereau Street, Port Louis",
+    "Contact_Number": 2428205,
+    "Latitude": -20.1592131,
+    "Longitude": 57.5102926
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy La Paix",
+    "Address": "54, La Paix Street, Port Louis",
+    "Contact_Number": 2402207,
+    "Latitude": -20.1598838,
+    "Longitude": 57.5095997
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Lai Fat",
+    "Address": "22 Jummat Mosque Street, Port Louis",
+    "Contact_Number": 2420540,
+    "Latitude": -20.1604051,
+    "Longitude": 57.5053865
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Le Sante",
+    "Address": "77, Madad Ul Islam Street, Port Louis",
+    "Contact_Number": 2177328,
+    "Latitude": -20.1604049,
+    "Longitude": 57.5132444
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Link",
+    "Address": "5 La Chausse, Port Louis",
+    "Contact_Number": 2128959,
+    "Latitude": -20.1619133,
+    "Longitude": 57.5031013
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Life Care",
+    "Address": "72 Edgard Laurent Street, Plaine Verte",
+    "Contact_Number": 2173845,
+    "Latitude": -20.1620862,
+    "Longitude": 57.5144559
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Medcity",
+    "Address": "Newton Tower, Remy Ollier Street Port Louis",
+    "Contact_Number": 2112020,
+    "Latitude": -20.1628974,
+    "Longitude": 57.5046752
+  },
+  {
+    "Name_of_Pharmacy": "Medical Trading Cassis",
+    "Address": "15, Des Reserves Street",
+    "Contact_Number": 2033500,
+    "Latitude": -20.1609615,
+    "Longitude": 57.4983644
+  },
+  {
+    "Name_of_Pharmacy": "Medical Trading Chaussee",
+    "Address": "Chaussee Street, Port Louis",
+    "Contact_Number": 2940441,
+    "Latitude": -20.1633174,
+    "Longitude": 57.5013128
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Medicourt",
+    "Address": "1 Rue St Georges, Port Louis",
+    "Contact_Number": 2115511,
+    "Latitude": -20.1692565,
+    "Longitude": 57.5044099
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy New Burtally",
+    "Address": "98, Route des Pamplemousses, Port Louis",
+    "Contact_Number": 2402272,
+    "Latitude": -20.1558253,
+    "Longitude": 57.5172914
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Newton",
+    "Address": "10, Sir William Newton, Port Louis",
+    "Contact_Number": 2082244,
+    "Latitude": -20.1616764,
+    "Longitude": 57.5028404
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Nicolay",
+    "Address": "13, Noor Islam, Port Louis",
+    "Contact_Number": 59454772,
+    "Latitude": -20.1551753,
+    "Longitude": 57.5100347
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Omega",
+    "Address": "29, St Francois Xavier, Port Louis",
+    "Contact_Number": 2173259,
+    "Latitude": -20.1565478,
+    "Longitude": 57.5126953
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy A E Patel and Co",
+    "Address": "38, Sir S Ramgoolam Street, Port Louis",
+    "Contact_Number": 2401741,
+    "Latitude": -20.1612064,
+    "Longitude": 57.5077817
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pharmacare",
+    "Address": "42, Souillac Street, Port Louis",
+    "Contact_Number": 2116186,
+    "Latitude": -20.1673719,
+    "Longitude": 57.4709063
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pharmalink",
+    "Address": "32/33 Caudan Waterfront Port Louis",
+    "Contact_Number": 2118300,
+    "Latitude": -20.160863,
+    "Longitude": 57.498089
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Plaine Verte",
+    "Address": "56, Edgar Laurent Street, Port Louis",
+    "Contact_Number": 2401762,
+    "Latitude": -20.1594206,
+    "Longitude": 57.5115502
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Planet",
+    "Address": "13, Chausssee Street, Port Louis",
+    "Contact_Number": 2110235,
+    "Latitude": -20.1630362,
+    "Longitude": 57.5016995
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Port Louis",
+    "Address": "Farquar Street, Port Louis",
+    "Contact_Number": 2411649,
+    "Latitude": -20.1585192,
+    "Longitude": 57.5048705
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Ramdanee",
+    "Address": "C/R Lord Kitchner and Jemmapes, Port Louis",
+    "Contact_Number": 2123075,
+    "Latitude": -20.1637009,
+    "Longitude": 57.4987292
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Renaissance Co Ltd",
+    "Address": "SSR Street, Port Louis",
+    "Contact_Number": 2403358,
+    "Latitude": -20.1595981,
+    "Longitude": 57.5096807
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Rigel",
+    "Address": "27, Harris Street Port Louis",
+    "Contact_Number": 59177375,
+    "Latitude": -20.1727488,
+    "Longitude": 57.5046973
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy St Croix",
+    "Address": "Route de Pamplemousses St Croix,  Port Louis",
+    "Contact_Number": 2176119,
+    "Latitude": -20.1526212,
+    "Longitude": 57.5211056
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Therapharm",
+    "Address": "14, Dr Sun Yat Sun Street",
+    "Contact_Number": 2421620,
+    "Latitude": -20.1594105,
+    "Longitude": 57.5063091
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Unilink",
+    "Address": "Jumbo Score Commercial Centre Riche Terre",
+    "Contact_Number": 2484435,
+    "Latitude": -20.1294663,
+    "Longitude": 57.5217145
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Unipharm",
+    "Address": "25, Bourbon Street, Port Louis",
+    "Contact_Number": 2080743,
+    "Latitude": -20.1629588,
+    "Longitude": 57.505363
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy MediShifa",
+    "Address": "Vallee des Pretres",
+    "Contact_Number": 2171586,
+    "Latitude": -20.1654143,
+    "Longitude": 57.5334616
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Victoria",
+    "Address": "Perdreau Street Port Louis",
+    "Contact_Number": 9402630,
+    "Latitude": -20.1797345,
+    "Longitude": 57.4363866
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Primecare",
+    "Address": "27, SSR Street Port Louis",
+    "Contact_Number": 2135082,
+    "Latitude": -20.1624017,
+    "Longitude": 57.5060248
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Adam",
+    "Address": "68, Ollier Av Quatre Bornes",
+    "Contact_Number": 7991374,
+    "Latitude": -20.2622428,
+    "Longitude": 57.4676705
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Bassin",
+    "Address": "176, Bassin Road, Quatre Bornes",
+    "Contact_Number": "427 1778",
+    "Latitude": -20.2742142,
+    "Longitude": 57.4780065
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Cambridge",
+    "Address": "156, Remy Ollier Avenue, Quatre Bornes",
+    "Contact_Number": 4678746,
+    "Latitude": -20.2655437,
+    "Longitude": 57.4645954
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Capucines",
+    "Address": "La Colline Commerciale Centre, Candos",
+    "Contact_Number": 4253880,
+    "Latitude": -20.2785618,
+    "Longitude": 57.4778831
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Glaieul",
+    "Address": "St Jean Road, Quatre Bornes",
+    "Contact_Number": 4642953,
+    "Latitude": -20.261714,
+    "Longitude": 57.4823705
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy MedActive Ideale",
+    "Address": "St Jean Road, Quatre Bornes",
+    "Contact_Number": "454 5445",
+    "Latitude": -20.2642054,
+    "Longitude": 57.4803424
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy K and I",
+    "Address": "Palma Road, La Louise",
+    "Contact_Number": 59550207,
+    "Latitude": -20.2711496,
+    "Longitude": 57.474246
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy La Louise",
+    "Address": "Ramdhur Building, St Jean Building Quatre Bornes",
+    "Contact_Number": 4250326,
+    "Latitude": -20.2716226,
+    "Longitude": 57.475909
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Love Life",
+    "Address": "132, St Jean Road, Quatre Bornes",
+    "Contact_Number": 57616343,
+    "Latitude": -20.2597991,
+    "Longitude": 57.4844036
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Mayfield",
+    "Address": "G.G House, La Louise, Quatre Bornes",
+    "Contact_Number": 4256951,
+    "Latitude": -20.2713628,
+    "Longitude": 57.4750054
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Medi Health",
+    "Address": "Super U Complex, Royal Road Belle Rose",
+    "Contact_Number": 4546338,
+    "Latitude": -20.2470109,
+    "Longitude": 57.4815738
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Medical Trading Trianon",
+    "Address": "Trianon Shopping Park, Trianon",
+    "Contact_Number": 4546900,
+    "Latitude": -20.2580906,
+    "Longitude": 57.4899745
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Ollier",
+    "Address": "43, Avenue Ollier and Lapeyrousse Belle Rose",
+    "Contact_Number": 4640906,
+    "Latitude": -20.2503226,
+    "Longitude": 57.4783491
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Orchidee",
+    "Address": "Moolan Building, 77 Route St Jean",
+    "Contact_Number": 4641804,
+    "Latitude": -20.2637336,
+    "Longitude": 57.4806441
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Oxypharm",
+    "Address": "La Louise, Quatre Bornes",
+    "Contact_Number": 4245466,
+    "Latitude": -20.272619,
+    "Longitude": 57.4756193
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Peri Pharma",
+    "Address": "No. 30 Ave Renganaden Seeneevasen Quatre Bornes",
+    "Contact_Number": 4277315,
+    "Latitude": -20.2723439,
+    "Longitude": 57.4614343
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pharmalead",
+    "Address": "Cr Boundary and Royal Road, Belle Rose",
+    "Contact_Number": "467 2506",
+    "Latitude": -20.2457458,
+    "Longitude": 57.4787716
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pharmak",
+    "Address": "Palma Road, La Louise, Quatre Bornes",
+    "Contact_Number": 4242788,
+    "Latitude": -20.2713761,
+    "Longitude": 57.4753618
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy PharmaPlus",
+    "Address": "Beeltah House, St Jean Road, Quatre Bornes",
+    "Contact_Number": 4545429,
+    "Latitude": -20.2644567,
+    "Longitude": 57.4802971
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pharmasave",
+    "Address": "204, Palma Road Quatre Bornes",
+    "Contact_Number": 4278205,
+    "Latitude": -20.2745865,
+    "Longitude": 57.4672508
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pharmavatar MTIUS LTD",
+    "Address": "2 Bernandin de St Pierre ave. Quatre Bornes,",
+    "Contact_Number": 2918118,
+    "Latitude": -20.2654599,
+    "Longitude": 57.4748349
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pro Care",
+    "Address": "Cadjee Bldg, 24 Avenue Des Capucines, Quatre Bornes",
+    "Contact_Number": 4659168,
+    "Latitude": -20.2643032,
+    "Longitude": 57.4807169
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy St Jean",
+    "Address": "St Jean Road Quatre Bornes",
+    "Contact_Number": 4647571,
+    "Latitude": -20.2639025,
+    "Longitude": 57.4805053
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy St Louis",
+    "Address": "C/R Royal Road, Avenue St Louis, Belle Rose",
+    "Contact_Number": 4665777,
+    "Latitude": -20.2528163,
+    "Longitude": 57.4871904
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Boundary",
+    "Address": "Corner Stanley and Boundary Avenue, Quatre Bornes",
+    "Contact_Number": 4643507,
+    "Latitude": -20.2564208,
+    "Longitude": 57.4690805
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Superpharm LTD",
+    "Address": "Georges Town Bldg St Jean Road Quatre Bornes",
+    "Contact_Number": "465 5249",
+    "Latitude": -20.265822,
+    "Longitude": 57.479528
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Lumina Tropicale Ltee",
+    "Address": "St Jean Road, Quatre Bornes",
+    "Contact_Number": 4241534,
+    "Latitude": -20.26653,
+    "Longitude": 57.4785858
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy All In One",
+    "Address": "Royal Road Mahebourg",
+    "Contact_Number": 6314344,
+    "Latitude": -20.4059505,
+    "Longitude": 57.7034222
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Al Ikseer",
+    "Address": "Royal Road Camp Diable",
+    "Contact_Number": 6263024,
+    "Latitude": -20.464761,
+    "Longitude": 57.585901
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Baramia",
+    "Address": "Royal Road, Rose Belle",
+    "Contact_Number": 6273715,
+    "Latitude": -20.4032831,
+    "Longitude": 57.6041132
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Blue Bay",
+    "Address": "Labourdonnais Street, Mahebourg",
+    "Contact_Number": 6315146,
+    "Latitude": -20.4421379,
+    "Longitude": 57.7190156
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy BM Plus DODO",
+    "Address": "Rishi Dayanand Road Plaine Magnien",
+    "Contact_Number": 6376938,
+    "Latitude": -20.4317297,
+    "Longitude": 57.6750764
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Careline",
+    "Address": "Royal Road, Riviere Des Anguilles",
+    "Contact_Number": 6263700,
+    "Latitude": -20.4803802,
+    "Longitude": 57.5603537
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Chattaroo",
+    "Address": "Royal Road, Chemin Grenier",
+    "Contact_Number": 6226236,
+    "Latitude": -20.4922204,
+    "Longitude": 57.4727601
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Chemin Grenier",
+    "Address": "Royal Road, Chemin Grenier",
+    "Contact_Number": 6228682,
+    "Latitude": -20.4967315,
+    "Longitude": 57.468383
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy D esny",
+    "Address": "Marianes Street, Mahebourg",
+    "Contact_Number": 6317190,
+    "Latitude": -20.4059505,
+    "Longitude": 57.7034222
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Zeenpharma",
+    "Address": "Arcades Allick, Royal Road, Rose Belle",
+    "Contact_Number": 6274022,
+    "Latitude": -20.4018296,
+    "Longitude": 57.6070775
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Doorga",
+    "Address": "Royal Road, New Grove",
+    "Contact_Number": 6277766,
+    "Latitude": -20.4198381,
+    "Longitude": 57.6113262
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Doorgakant",
+    "Address": "Royal Road, Plaine Magnien",
+    "Contact_Number": 6373196,
+    "Latitude": -20.4317297,
+    "Longitude": 57.6750764
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Du Sud",
+    "Address": "Royal Road, Rose Belle",
+    "Contact_Number": 6274661,
+    "Latitude": -20.405616,
+    "Longitude": 57.6083136
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Argis",
+    "Address": "Royal Road, Rose Belle",
+    "Contact_Number": 6274823,
+    "Latitude": -20.3995826,
+    "Longitude": 57.5973701
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Grand Bois",
+    "Address": "Royal Road, Grand Bois",
+    "Contact_Number": 6179660,
+    "Latitude": -20.4189962,
+    "Longitude": 57.5524579
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Intercare",
+    "Address": "Royal Road, Chemin Grenier",
+    "Contact_Number": 6225416,
+    "Latitude": -20.4936777,
+    "Longitude": 57.4770999
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Jeet",
+    "Address": "Plaine Magnien",
+    "Contact_Number": 6377688,
+    "Latitude": -20.4332061,
+    "Longitude": 57.6759052
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Kauroo",
+    "Address": "Royal Road, Surinam",
+    "Contact_Number": 6255905,
+    "Latitude": -20.5123761,
+    "Longitude": 57.5101182
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy L escalier",
+    "Address": "Royal Road, L escalier",
+    "Contact_Number": 6360041,
+    "Latitude": -20.4726969,
+    "Longitude": 57.6184076
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Mare D albert",
+    "Address": "Royal Road Mare D Albert",
+    "Contact_Number": 6276164,
+    "Latitude": -20.420727,
+    "Longitude": 57.6283225
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy De Mahebourg",
+    "Address": "Royal Road, Mahebourg",
+    "Contact_Number": 6319621,
+    "Latitude": -20.4077682,
+    "Longitude": 57.705719
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Med Trading",
+    "Address": "Ctr Commercial du Vieux Moulin Road Rose Belle",
+    "Contact_Number": 6273148,
+    "Latitude": -20.3988787,
+    "Longitude": 57.5984037
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Nouvelle France",
+    "Address": "Grand Port Road, Royal Road,  Nouvelle France",
+    "Contact_Number": 6779959,
+    "Latitude": -20.3778249,
+    "Longitude": 57.5709933
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pharma PLUS",
+    "Address": "Flammand Road, Mahebourg",
+    "Contact_Number": 6313635,
+    "Latitude": -20.4178237,
+    "Longitude": 57.7100068
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pharmacity",
+    "Address": "Cent Gaulettes, Mahebourg",
+    "Contact_Number": 6314040,
+    "Latitude": -20.4087241,
+    "Longitude": 57.7060358
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Plaine Magnien",
+    "Address": "Arcades Winners Plaine Magnien",
+    "Contact_Number": 6374537,
+    "Latitude": -20.4309904,
+    "Longitude": 57.6658915
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Rajaram",
+    "Address": "Royal Road Tyack",
+    "Contact_Number": 6261310,
+    "Latitude": -20.4805106,
+    "Longitude": 57.5579635
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy R A R",
+    "Address": "Royal Road, Mahebourg",
+    "Contact_Number": 6318483,
+    "Latitude": -20.4143402,
+    "Longitude": 57.7051315
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy de Souillac",
+    "Address": "Royal Road, Souillac",
+    "Contact_Number": 6258570,
+    "Latitude": -20.518667,
+    "Longitude": 57.5247574
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Toorabally",
+    "Address": "Riviere Des Anguilles",
+    "Contact_Number": 6265266,
+    "Latitude": -20.4809541,
+    "Longitude": 57.5591862
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Wellcare",
+    "Address": "Flammand Road, Mahebourg",
+    "Contact_Number": 6317748,
+    "Latitude": -20.418185,
+    "Longitude": 57.7100068
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Winpharma",
+    "Address": "Chemin Grenier",
+    "Contact_Number": 2912900,
+    "Latitude": -20.4941199,
+    "Longitude": 57.4655128
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Mauree",
+    "Address": "Royal Road Trois Boutiques",
+    "Contact_Number": 6377857,
+    "Latitude": -20.4522205,
+    "Longitude": 57.6467382
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Alpha 2",
+    "Address": "6, Arcade Vavid,Route Du Club, Vacoas",
+    "Contact_Number": 6973439,
+    "Latitude": -20.2957254,
+    "Longitude": 57.4927445
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Bappoo",
+    "Address": "John Kennedy Avenue, Vacoas",
+    "Contact_Number": 6964432,
+    "Latitude": -20.3084015,
+    "Longitude": 57.4903766
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Beeharry",
+    "Address": "Royal Road, Phoenix",
+    "Contact_Number": 6863051,
+    "Latitude": -20.2820841,
+    "Longitude": 57.5033855
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Bonne Terre",
+    "Address": "320 Royal Road Bonne Terre",
+    "Contact_Number": "427 0979",
+    "Latitude": -20.2952751,
+    "Longitude": 57.4832596
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Dhuny",
+    "Address": "John Kennedy Avenue, Vacoas",
+    "Contact_Number": 6862258,
+    "Latitude": -20.2978917,
+    "Longitude": 57.4927368
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Dook s",
+    "Address": "Candos Road, Bonne Terre Vacoas",
+    "Contact_Number": 4256936,
+    "Latitude": -20.287619,
+    "Longitude": 57.4812627
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Family Care",
+    "Address": "Hollyrood and La Marie Branch Road, Vacoas",
+    "Contact_Number": 6842135,
+    "Latitude": -20.3148075,
+    "Longitude": 57.4848676
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy J and A",
+    "Address": "Modern Square, Vacoas",
+    "Contact_Number": 6963755,
+    "Latitude": -20.2986681,
+    "Longitude": 57.4839234
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Jhugroo Brothers",
+    "Address": "Jhugroo Buildings, St Paul Road, Vacoas",
+    "Contact_Number": 6864968,
+    "Latitude": -20.3005145,
+    "Longitude": 57.4897324
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Life Guard",
+    "Address": "Royal Road Phoenix",
+    "Contact_Number": 6976463,
+    "Latitude": -20.2828697,
+    "Longitude": 57.5043293
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Arvind Mayaram",
+    "Address": "St Paul Road, Vacoas",
+    "Contact_Number": 6981433,
+    "Latitude": -20.2986882,
+    "Longitude": 57.4925065
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Galien",
+    "Address": "Phoenix Commercial Centre",
+    "Contact_Number": 6971639,
+    "Latitude": -20.2792638,
+    "Longitude": 57.4959022
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Medplus",
+    "Address": "175, John Kennedy Avenue, Vacoas",
+    "Contact_Number": 6862121,
+    "Latitude": -20.3058199,
+    "Longitude": 57.4920274
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Miopharm",
+    "Address": "St Paul Road, Phoenix",
+    "Contact_Number": 6979651,
+    "Latitude": -20.2939789,
+    "Longitude": 57.5029993
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Moraby",
+    "Address": "John Kennedy Avenue, Vacoas",
+    "Contact_Number": 6861157,
+    "Latitude": -20.2959936,
+    "Longitude": 57.4930882
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy New Vacoas",
+    "Address": "John Kennedy Avenue, Vacoas",
+    "Contact_Number": "69644 61",
+    "Latitude": -20.295931,
+    "Longitude": 57.4927533
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Noush",
+    "Address": "John Kennedy Avenue, Vacoas",
+    "Contact_Number": 6988682,
+    "Latitude": -20.2972241,
+    "Longitude": 57.4929839
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Onea",
+    "Address": "St Paul Road, Vacoas",
+    "Contact_Number": 6967232,
+    "Latitude": -20.2965247,
+    "Longitude": 57.4978924
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pharmapoint",
+    "Address": "St Paul Road, Phoenix",
+    "Contact_Number": 57183868,
+    "Latitude": -20.2900543,
+    "Longitude": 57.5106168
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Pharmway",
+    "Address": "Royal Road, La Marie Road,  La Caverne Vacoas",
+    "Contact_Number": 6968183,
+    "Latitude": -20.319969,
+    "Longitude": 57.4849319
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Phoenix",
+    "Address": "Royal Road, Phoenix",
+    "Contact_Number": 6964670,
+    "Latitude": -20.2834487,
+    "Longitude": 57.5049701
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Quinze Cartons",
+    "Address": "La Marie Road Vacoas",
+    "Contact_Number": 6961609,
+    "Latitude": -20.3078448,
+    "Longitude": 57.4850821
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Royale",
+    "Address": "Royal Road, Glen Park, Vacoas",
+    "Contact_Number": 6840184,
+    "Latitude": -20.3223969,
+    "Longitude": 57.4846825
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy SNK Care Plus",
+    "Address": "Opposite, Candos Hospital, Candos",
+    "Contact_Number": 4272269,
+    "Latitude": -20.2785517,
+    "Longitude": 57.4778777
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Solferino",
+    "Address": "Vacoas Road, Mon Desir, Solferino, Vacoas",
+    "Contact_Number": 4278152,
+    "Latitude": -20.288155,
+    "Longitude": 57.4747476
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Somedico",
+    "Address": "La Caverne, Vacoas",
+    "Contact_Number": 6977114,
+    "Latitude": -20.3026125,
+    "Longitude": 57.4847066
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Trochetia",
+    "Address": "245, Royal Road Phoenix",
+    "Contact_Number": 6983224,
+    "Latitude": -20.2947392,
+    "Longitude": 57.5185846
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Promedplus",
+    "Address": "Royal Road, Floreal",
+    "Contact_Number": 6987226,
+    "Latitude": -20.3065368,
+    "Longitude": 57.5076556
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Visitation",
+    "Address": "Royal Road, Visitation, Vacoas",
+    "Contact_Number": 6861371,
+    "Latitude": -20.3015372,
+    "Longitude": 57.4846765
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy Camp Fouquereaux",
+    "Address": "Tout Court Road Camp Fouquereaux",
+    "Contact_Number": 6861968,
+    "Latitude": -20.2809872,
+    "Longitude": 57.5202191
+  },
+  {
+    "Name_of_Pharmacy": "Pharmacy St Paul",
+    "Address": "160, Saint Paul Avenue Phoenix",
+    "Contact_Number": 6973084,
+    "Latitude": -20.2924065,
+    "Longitude": 57.5052658
+  }
+]

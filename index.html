@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Map Example</title>
+    <link rel="stylesheet" href="./node_modules/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+        #locate-button {
+            margin: 10px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #locate-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<button id="locate-button">Locate My Position</button>
+<div id="map"></div>
+<script type="importmap">
+    {
+        "imports": {
+            "leaflet": "./node_modules/leaflet/dist/leaflet.js"
+        }
+    }
+</script>
+<script type="module">
+    import L, {Map, TileLayer, Marker, LatLng, LatLngBounds} from 'leaflet';
+
+    // Initialize the map with a specific view
+    const initialLat = -20.575581867678267; // Latitude for the center of the view
+    const initialLon = 57.89588928222657;  // Longitude for the center of the view
+    const initialZoom = 11;
+
+    // Define the bounds using the provided coordinates
+    const southWest = new LatLng(-20.575581867678267, 57.23327636718751);
+    const northEast = new LatLng(-19.95656892635273, 57.919235229492195);
+    const bounds = new LatLngBounds(southWest, northEast);
+
+    // Initialize the map
+    const map = new Map('map').setView([initialLat, initialLon], initialZoom); // Default view
+    console.log(map);
+    map.fitBounds(bounds);
+    map.setMaxBounds(bounds);
+
+    // Add OpenStreetMap tile layer
+    const tiles = new TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        minZoom: 11,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    // Function to get current location
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    // Function to locate the user's position
+    function locateUser() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function showPosition(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        // Set the map view to the current location
+        map.setView([lat, lon], 13);
+
+        // Add a marker for the current location
+        const marker = new Marker([lat, lon]).addTo(map)
+            .bindPopup("You are here!")
+            .openPopup();
+    }
+
+    function showError(error) {
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                alert("User denied the request for Geolocation.");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                alert("Location information is unavailable.");
+                break;
+            case error.TIMEOUT:
+                alert("The request to get user location timed out.");
+                break;
+            case error.UNKNOWN_ERROR:
+                alert("An unknown error occurred.");
+                break;
+        }
+    }
+
+    // Function to load pharmacies from JSON
+    async function loadPharmacies() {
+        try {
+            const response = await fetch('./data/mu_pharmacies.json');
+            const pharmacies = await response.json();
+
+            pharmacies.forEach(pharmacy => {
+                const { Name_of_Pharmacy, Address, Contact_Number, Latitude, Longitude } = pharmacy;
+
+                // Create a marker for each pharmacy
+                // const marker = L.marker([Latitude, Longitude]).addTo(map)
+
+                const marker = new Marker([Latitude, Longitude]).addTo(map)
+                    .bindPopup(`<strong>${Name_of_Pharmacy}</strong><br>${Address}<br>Contact: ${Contact_Number}`);
+            });
+        } catch (error) {
+            console.error('Error loading pharmacies:', error);
+        }
+    }
+
+    // Call the function to load pharmacies
+    loadPharmacies();
+
+    // Call the function to get the current location
+    // getLocation();
+    document.getElementById('locate-button').addEventListener('click', locateUser);
+</script>
+</body>
+</html>
