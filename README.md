@@ -2,4 +2,4 @@
 Shows leaflet (2.0.0-alpha) map with pharmacies in Mauritius.
 
 ## Sources
-Dataset from https://geoportal.govmu.org/catalogue/#/dataset/34 
+Datasets from https://geoportal.govmu.org/catalogue/#/search/?f=dataset
