@@ -1,18 +1,21 @@
 {
-  "name": "html",
+  "name": "leaflet-demo",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
+  "description": "Leaflet 2.0-alpha demo maps for Mauritius",
   "scripts": {
     "start": "http-server -p 8080",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": [
+    "leaflet",
+    "mauritius",
+    "geojson"
+  ],
+  "author": "Paul Schell",
+  "license": "MIT",
   "devDependencies": {
-    "http-server": "^14.1.1",
-    "vite": "^6.3.5"
+    "http-server": "^14.1.1"
   },
   "dependencies": {
     "leaflet": "^2.0.0-alpha"
