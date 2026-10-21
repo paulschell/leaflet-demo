@@ -7,9 +7,29 @@
     <link rel="stylesheet" href="./node_modules/leaflet/dist/leaflet.css" />
     <link rel="shortcut icon" href="#">
     <style>
+        body {
+          margin: 0;
+        }
         #map {
           height: 100vh;
           width: 100%;
+        }
+        .legend {
+          background: white;
+          padding: 8px 10px;
+          border-radius: 5px;
+          box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+          font: 13px/20px Arial, sans-serif;
+        }
+        .legend i {
+          display: inline-block;
+          width: 12px;
+          height: 12px;
+          margin-right: 6px;
+          border: 1.5px solid white;
+          border-radius: 50%;
+          vertical-align: -2px;
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
@@ -23,7 +43,7 @@
       }
   </script>
   <script type="module">
-      import {Map, Control, TileLayer, LayerGroup, GeoJSON, Marker, Popup} from 'leaflet';
+      import {Map, Control, DomUtil, TileLayer, LayerGroup, GeoJSON, CircleMarker, Popup} from 'leaflet';
 
     // Leaflet GeoJSON layers
     let primarySchoolsLayer = new LayerGroup();
@@ -57,6 +77,20 @@
       "Stadia": stadiaAlidadeSmooth,
       "Esri Satellite": esriWorldImagery
     };
+
+    // Marker colors per category (Okabe-Ito palette, colorblind safe)
+    const colors = {
+        "Primary Schools": '#E69F00',
+        "Shopping Malls": '#CC79A7',
+        "Busstops": '#56B4E9',
+        "Postoffices": '#0072B2',
+        "Hospitals & Clinics": '#D55E00',
+        "Pharmacies": '#009E73',
+    };
+
+    function pointStyle(color) {
+      return { radius: 6, fillColor: color, color: '#fff', weight: 1.5, opacity: 1, fillOpacity: 0.9 };
+    }
 
     var overlays = {
         "Primary Schools": primarySchoolsLayer,
@@ -104,14 +138,14 @@
     };
 
     // Load a GeoJSON file into a layer group, showing the given fields in the popup
-    async function loadGeoJSON(url, targetLayer, title, fields, toGeoJSON = data => data) {
+    async function loadGeoJSON(url, targetLayer, title, fields, color, toGeoJSON = data => data) {
       try {
         const response = await fetch(url);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const geojson = toGeoJSON(await response.json());
 
         new GeoJSON(geojson, {
-          style: { color: '#ff7800', weight: 2 }, // Customize
+          pointToLayer: (feature, latlng) => new CircleMarker(latlng, pointStyle(color)),
           onEachFeature: (feature, layer) => {
             layer.bindPopup(buildPopup(feature, title, fields));
           },
@@ -121,12 +155,12 @@
       }
     }
 
-    loadGeoJSON('./data/primary_schools.geojson', primarySchoolsLayer, 'Primary School', ['name', 'description']);
-    loadGeoJSON('./data/shoppingmall.geojson', shoppingmallLayer, 'Shopping Mall', ['name', 'address']);
-    loadGeoJSON('./data/busstops.geojson', busstopLayer, 'Bus Stop', ['name']);
+    loadGeoJSON('./data/primary_schools.geojson', primarySchoolsLayer, 'Primary School', ['name', 'description'], colors['Primary Schools']);
+    loadGeoJSON('./data/shoppingmall.geojson', shoppingmallLayer, 'Shopping Mall', ['name', 'address'], colors['Shopping Malls']);
+    loadGeoJSON('./data/busstops.geojson', busstopLayer, 'Bus Stop', ['name'], colors['Busstops']);
     // post_offices.json has no attributes, so the popup shows the coordinates
-    loadGeoJSON('./data/post_offices.json', postOfficeLayer, 'Post Office', [], geometryCollectionToFeatures);
-    loadGeoJSON('./data/hospitals_clinics.json', hospitalClinicsLayer, 'Hospital / Clinic', ['name', 'address', 'type']);
+    loadGeoJSON('./data/post_offices.json', postOfficeLayer, 'Post Office', [], colors['Postoffices'], geometryCollectionToFeatures);
+    loadGeoJSON('./data/hospitals_clinics.json', hospitalClinicsLayer, 'Hospital / Clinic', ['name', 'address', 'type'], colors['Hospitals & Clinics']);
 
     // Function to load pharmacies from JSON
     async function loadPharmacies() {
@@ -145,7 +179,7 @@
                 maxHeight: 400   // makes the popup scrollable if content overflows
             }).setContent(popupContent);
 
-            new Marker([Latitude, Longitude]).addTo(pharmaciesLayer).bindPopup(popup);
+            new CircleMarker([Latitude, Longitude], pointStyle(colors['Pharmacies'])).addTo(pharmaciesLayer).bindPopup(popup);
         });
       } catch (error) {
         console.error('Error loading pharmacies:', error);
@@ -157,6 +191,17 @@
 
     // new Control.Layers(baseLayers).addTo(map);
     new Control.Layers(baseLayers, overlays).addTo(map);
+
+    // Legend with the category colors
+    const legend = new Control({ position: 'bottomright' });
+    legend.onAdd = function () {
+        const div = DomUtil.create('div', 'legend');
+        div.innerHTML = Object.entries(colors)
+          .map(([name, color]) => `<i style="background:${color}"></i>${name}`)
+          .join('<br>');
+        return div;
+    };
+    legend.addTo(map);
   </script>
 </body>
 </html>
