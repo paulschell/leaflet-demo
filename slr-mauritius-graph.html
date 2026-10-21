@@ -90,6 +90,8 @@
             { year: 2023, level: 15.2 }
         ];
 
+        // rise.hoch (SSP5-8.5) sind die bisherigen Zonenwerte. rise.niedrig (SSP1-2.6) ist daraus abgeleitet:
+        // Zonenwert × regionales Verhältnis (2050: 16/24, 2100: 28/49), auf ganze cm gerundet.
         const slrZones = {
             type: 'FeatureCollection',
             features: [
@@ -97,9 +99,7 @@
                     type: 'Feature',
                     properties: {
                         area: 'Port Louis Hafen',
-                        risk: 'Hoch',
-                        rise_2050: 24,
-                        rise_2100: 49,
+                        rise: { niedrig: { 2050: 16, 2100: 28 }, hoch: { 2050: 24, 2100: 49 } },
                         source: 'MMS / World Bank',
                         station: 'Port Louis Tide Gauge'
                     },
@@ -112,9 +112,7 @@
                     type: 'Feature',
                     properties: {
                         area: 'Grand Baie',
-                        risk: 'Mittel',
-                        rise_2050: 20,
-                        rise_2100: 40,
+                        rise: { niedrig: { 2050: 13, 2100: 23 }, hoch: { 2050: 20, 2100: 40 } },
                         source: 'IPCC AR6',
                         station: 'Regionale Projektion'
                     },
@@ -127,9 +125,7 @@
                     type: 'Feature',
                     properties: {
                         area: 'Flic en Flac',
-                        risk: 'Niedrig',
-                        rise_2050: 16,
-                        rise_2100: 28,
+                        rise: { niedrig: { 2050: 11, 2100: 16 }, hoch: { 2050: 16, 2100: 28 } },
                         source: 'World Bank CCKP',
                         station: 'Küstenmodell'
                     },
@@ -141,18 +137,21 @@
             ]
         };
 
-        // Farben
-        function getColor(rise) {
-            return rise < 20 ? '#a6d96a' : rise < 40 ? '#fdae61' : '#d7191c';
+        // Risikostufe und Farbe aus dem Anstieg in cm
+        function getRisk(rise) {
+            if (rise < 20) return { label: 'Niedrig', color: '#a6d96a' };
+            if (rise < 40) return { label: 'Mittel', color: '#fdae61' };
+            return { label: 'Hoch', color: '#d7191c' };
         }
 
         // === Chart erstellen ===
-        function createChart(ctx, zone) {
+        function createChart(ctx, zone, scenario) {
             const histYears = historicalData.map(d => d.year);
             const histLevels = historicalData.map(d => d.level);
 
-            const proj2050 = zone.rise_2050;
-            const proj2100 = zone.rise_2100;
+            const proj2050 = zone.rise[scenario][2050];
+            const proj2100 = zone.rise[scenario][2100];
+            const ssp = scenario === 'niedrig' ? 'SSP1-2.6' : 'SSP5-8.5';
 
             return new Chart(ctx, {
                 type: 'line',
@@ -169,7 +168,7 @@
                             pointRadius: 4
                         },
                         {
-                            label: 'Prognose 2050',
+                            label: `Prognose 2050 (${ssp})`,
                             data: [null, null, null, null, null, null, null, null, null, proj2050, null],
                             borderColor: '#ff7f00',
                             borderDash: [5, 5],
@@ -177,7 +176,7 @@
                             pointBackgroundColor: '#ff7f00'
                         },
                         {
-                            label: 'Prognose 2100',
+                            label: `Prognose 2100 (${ssp})`,
                             data: [null, null, null, null, null, null, null, null, null, null, proj2100],
                             borderColor: '#e31a1c',
                             borderDash: [5, 5],
@@ -210,28 +209,28 @@
 
             slrLayer = new GeoJSON(slrZones, {
                 style: (f) => ({
-                    fillColor: getColor(scenario === 'hoch' ? f.properties.rise_2100 * 1.2 : f.properties.rise_2050),
+                    fillColor: getRisk(f.properties.rise[scenario][year]).color,
                     weight: 2, color: 'white', fillOpacity: 0.7
                 }),
                 onEachFeature: (feature, layer) => {
                     layer.bindPopup(() => {
+                        const rise = feature.properties.rise[scenario][year];
                         const div = DomUtil.create('div', 'popup-content');
                         div.innerHTML = `
               <b>${feature.properties.area}</b><br>
               <small>Werte angelehnt an: ${feature.properties.source} (Beispielzone)</small><hr>
               <canvas id="slrChart"></canvas>
               <p style="font-size:12px; margin-top:8px;">
-                <strong>${year === 2050 ? '2050' : '2100'}:</strong> 
-                ${scenario === 'hoch' ? (feature.properties.rise_2100 * 1.2).toFixed(1) :
-                                (year === 2050 ? feature.properties.rise_2050 : feature.properties.rise_2100).toFixed(1)} cm
-                (${scenario === 'niedrig' ? 'SSP1-2.6' : 'SSP5-8.5'})
+                <strong>${year}:</strong> ${rise} cm
+                (${scenario === 'niedrig' ? 'SSP1-2.6' : 'SSP5-8.5'}),
+                Risikostufe: <strong>${getRisk(rise).label}</strong>
               </p>
             `;
 
                         // Chart nach Popup-Öffnen erstellen
                         setTimeout(() => {
                             const ctx = div.querySelector('#slrChart').getContext('2d');
-                            currentChart = createChart(ctx, feature.properties);
+                            currentChart = createChart(ctx, feature.properties, scenario);
                         }, 100);
 
                         return div;

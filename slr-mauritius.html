@@ -74,21 +74,23 @@
         // Zonen sind schematische Rechtecke. Die Werte orientieren sich an regionalen Projektionen
         // (IPCC AR6, NASA Sea Level Projection Tool, World Bank CCKP), sind aber nicht pro Ort belegt.
         // Prognosen: Niedrig (SSP1-2.6): ~16cm (2050), ~28cm (2100); Hoch (SSP5-8.5): ~24cm (2050), ~49cm (2100)
+        // rise.hoch (SSP5-8.5) sind die bisherigen Zonenwerte. rise.niedrig (SSP1-2.6) ist daraus abgeleitet:
+        // Zonenwert × regionales Verhältnis (2050: 16/24, 2100: 28/49), auf ganze cm gerundet.
         const slrData = {
             type: 'FeatureCollection',
             features: [
-                { type: 'Feature', properties: { risk: 'Hoch', area: 'Port Louis Hafen', rise_2050: 24, rise_2100: 49, source: 'World Bank/NASA' }, geometry: { type: 'Polygon', coordinates: [[[57.49, -20.15], [57.51, -20.15], [57.51, -20.17], [57.49, -20.17], [57.49, -20.15]]] } },
-                { type: 'Feature', properties: { risk: 'Mittel', area: 'Grand Baie', rise_2050: 20, rise_2100: 40, source: 'MMS/IPCC' }, geometry: { type: 'Polygon', coordinates: [[[57.58, -20.00], [57.60, -20.00], [57.60, -20.02], [57.58, -20.02], [57.58, -20.00]]] } },
-                { type: 'Feature', properties: { risk: 'Niedrig', area: 'Flic en Flac', rise_2050: 16, rise_2100: 28, source: 'World Bank' }, geometry: { type: 'Polygon', coordinates: [[[57.35, -20.28], [57.37, -20.28], [57.37, -20.30], [57.35, -20.30], [57.35, -20.28]]] } },
-                { type: 'Feature', properties: { risk: 'Hoch', area: 'Blue Bay', rise_2050: 22, rise_2100: 45, source: 'MMS' }, geometry: { type: 'Polygon', coordinates: [[[57.72, -20.51], [57.74, -20.51], [57.74, -20.53], [57.72, -20.53], [57.72, -20.51]]] } }
+                { type: 'Feature', properties: { area: 'Port Louis Hafen', rise: { niedrig: { 2050: 16, 2100: 28 }, hoch: { 2050: 24, 2100: 49 } }, source: 'World Bank/NASA' }, geometry: { type: 'Polygon', coordinates: [[[57.49, -20.15], [57.51, -20.15], [57.51, -20.17], [57.49, -20.17], [57.49, -20.15]]] } },
+                { type: 'Feature', properties: { area: 'Grand Baie', rise: { niedrig: { 2050: 13, 2100: 23 }, hoch: { 2050: 20, 2100: 40 } }, source: 'MMS/IPCC' }, geometry: { type: 'Polygon', coordinates: [[[57.58, -20.00], [57.60, -20.00], [57.60, -20.02], [57.58, -20.02], [57.58, -20.00]]] } },
+                { type: 'Feature', properties: { area: 'Flic en Flac', rise: { niedrig: { 2050: 11, 2100: 16 }, hoch: { 2050: 16, 2100: 28 } }, source: 'World Bank' }, geometry: { type: 'Polygon', coordinates: [[[57.35, -20.28], [57.37, -20.28], [57.37, -20.30], [57.35, -20.30], [57.35, -20.28]]] } },
+                { type: 'Feature', properties: { area: 'Blue Bay', rise: { niedrig: { 2050: 15, 2100: 26 }, hoch: { 2050: 22, 2100: 45 } }, source: 'MMS' }, geometry: { type: 'Polygon', coordinates: [[[57.72, -20.51], [57.74, -20.51], [57.74, -20.53], [57.72, -20.53], [57.72, -20.51]]] } }
             ]
         };
 
-        // Farben für Risikostufen (dynamisch basierend auf Jahr und Szenario)
-        function getColor(properties, year, scenario) {
-            let rise = year === 2050 ? properties.rise_2050 : properties.rise_2100;
-            if (scenario === 'hoch') rise *= 1.2; // Anpassung für hohes Szenario
-            return rise < 20 ? '#a6d96a' : rise < 40 ? '#fdae61' : '#d7191c';
+        // Risikostufe und Farbe aus dem Anstieg in cm
+        function getRisk(rise) {
+            if (rise < 20) return { label: 'Niedrig', color: '#a6d96a' };
+            if (rise < 40) return { label: 'Mittel', color: '#fdae61' };
+            return { label: 'Hoch', color: '#d7191c' };
         }
 
         // Layer-Gruppe für SLR
@@ -97,16 +99,15 @@
             if (slrLayer) map.removeLayer(slrLayer);
             slrLayer = new GeoJSON(slrData, {
                 style: (feature) => ({
-                    fillColor: getColor(feature.properties, year, scenario),
+                    fillColor: getRisk(feature.properties.rise[scenario][year]).color,
                     weight: 2, color: 'white', fillOpacity: 0.7
                 }),
                 onEachFeature: (feature, layer) => {
-                    const rise = year === 2050 ? feature.properties.rise_2050 : feature.properties.rise_2100;
-                    const adjRise = scenario === 'hoch' ? rise * 1.2 : rise;
+                    const rise = feature.properties.rise[scenario][year];
                     layer.bindPopup(`
             <b>${feature.properties.area}</b><br>
-            Prognostizierter Anstieg ${year}: <strong>${adjRise.toFixed(1)} cm</strong><br>
-            Risikostufe: <strong>${feature.properties.risk}</strong><br>
+            Prognostizierter Anstieg ${year}: <strong>${rise} cm</strong> (${scenario === 'niedrig' ? 'SSP1-2.6' : 'SSP5-8.5'})<br>
+            Risikostufe: <strong>${getRisk(rise).label}</strong><br>
             Werte angelehnt an: ${feature.properties.source} (Beispielzone)<br>
             <em>Historisch: ~3.8 mm/Jahr (Port Louis)</em>
           `);
