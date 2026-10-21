@@ -70,7 +70,9 @@
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // === ECHTE SLR-DATEN (basierend auf World Bank/NASA/IPCC) ===
+        // === SLR-BEISPIELDATEN ===
+        // Zonen sind schematische Rechtecke. Die Werte orientieren sich an regionalen Projektionen
+        // (IPCC AR6, NASA Sea Level Projection Tool, World Bank CCKP), sind aber nicht pro Ort belegt.
         // Prognosen: Niedrig (SSP1-2.6): ~16cm (2050), ~28cm (2100); Hoch (SSP5-8.5): ~24cm (2050), ~49cm (2100)
         const slrData = {
             type: 'FeatureCollection',
@@ -105,7 +107,7 @@
             <b>${feature.properties.area}</b><br>
             Prognostizierter Anstieg ${year}: <strong>${adjRise.toFixed(1)} cm</strong><br>
             Risikostufe: <strong>${feature.properties.risk}</strong><br>
-            Quelle: ${feature.properties.source}<br>
+            Werte angelehnt an: ${feature.properties.source} (Beispielzone)<br>
             <em>Historisch: ~3.8 mm/Jahr (Port Louis)</em>
           `);
                 }
@@ -146,7 +148,7 @@
         const title = new Control({ position: 'topleft' });
         title.onAdd = function () {
             const div = DomUtil.create('div', 'info');
-            div.innerHTML = '<h3>Meeresspiegelanstieg - Mauritius (basierend auf NASA/World Bank)</h3>';
+            div.innerHTML = '<h3>Meeresspiegelanstieg - Mauritius</h3><small>Beispieldaten: Zonen schematisch, Werte zur Illustration.<br>Quellen: <a href="https://www.ipcc.ch/report/ar6/wg1/" target="_blank">IPCC AR6</a>, <a href="https://sealevel.nasa.gov/data_tools/17" target="_blank">NASA Sea Level Projection Tool</a>, <a href="https://climateknowledgeportal.worldbank.org/country/mauritius" target="_blank">World Bank CCKP</a></small>';
             div.style.background = 'rgba(255,255,255,0.8)';
             div.style.padding = '10px';
             div.style.borderRadius = '5px';

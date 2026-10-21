@@ -68,6 +68,7 @@
         }).addTo(map);
 
         // === KLIMA-RISIKO-DATEN (GeoJSON) ===
+        // Beispieldaten: Zonen sind erfundene Rechtecke, die Risikostufen sind fiktiv
         const floodRisk = {
             "type": "FeatureCollection",
             "features": [
@@ -168,7 +169,7 @@
         const title = new Control({ position: 'topleft' });
         title.onAdd = function () {
             const div = DomUtil.create('div', 'info');
-            div.innerHTML = '<h3>Klima-Risiko-Modell Mauritius</h3>';
+            div.innerHTML = '<h3>Klima-Risiko-Modell Mauritius</h3><small>Beispieldaten: Zonen und Risikostufen sind fiktiv</small>';
             div.style.background = 'rgba(255,255,255,0.8)';
             div.style.padding = '10px';
             div.style.borderRadius = '5px';
