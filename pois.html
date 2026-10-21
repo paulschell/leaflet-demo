@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Points of Interest Mauritius</title>
+    <link rel="stylesheet" href="./node_modules/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/site.css" />
+    <link rel="shortcut icon" href="#">
+    <style>
+        .legend {
+          background: white;
+          padding: 8px 10px;
+          border-radius: 5px;
+          box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+          font: 13px/20px Arial, sans-serif;
+        }
+        .legend i {
+          display: inline-block;
+          width: 12px;
+          height: 12px;
+          margin-right: 6px;
+          border: 1.5px solid white;
+          border-radius: 50%;
+          vertical-align: -2px;
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="index.html">Leaflet Demo · Mauritius</a>
+    <nav>
+      <a href="index.html">Map</a>
+      <a href="pois.html" aria-current="page">POIs</a>
+      <a href="climate.html">Climate &amp; Sea Level</a>
+      <a href="wind/wind.html">Wind &amp; Currents</a>
+    </nav>
+  </header>
+  <div id="map"></div>
+  <script type="importmap">
+      {
+          "imports": {
+              "leaflet": "./node_modules/leaflet/dist/leaflet.js"
+          }
+      }
+  </script>
+  <script type="module">
+      import {Map, Control, DomUtil, TileLayer, LayerGroup, GeoJSON, CircleMarker, Popup} from 'leaflet';
+
+    // Leaflet GeoJSON layers
+    let primarySchoolsLayer = new LayerGroup();
+    let shoppingmallLayer = new LayerGroup();
+    let busstopLayer = new LayerGroup();
+    let postOfficeLayer = new LayerGroup();
+    let hospitalClinicsLayer = new LayerGroup();
+    let pharmaciesLayer = new LayerGroup();
+
+    const map = new Map('map').setView([-20.27, 57.57], 10); // Adjust center/zoom
+
+    var osm = new TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);  // Default base layer
+
+    var stadiaAlidadeSmooth = new TileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.{ext}', {
+      minZoom: 0,
+      maxZoom: 20,
+      attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      ext: 'png'
+    });
+
+    var esriWorldImagery = new TileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    });
+
+    // Add layer control for base layers and overlays (POI categories)
+    // @see: https://leaflet-extras.github.io/leaflet-providers/preview/
+    var baseLayers = {
+      "OpenStreetMap": osm,
+      "Stadia": stadiaAlidadeSmooth,
+      "Esri Satellite": esriWorldImagery
+    };
+
+    // Marker colors per category (Okabe-Ito palette, colorblind safe)
+    const colors = {
+        "Primary Schools": '#E69F00',
+        "Shopping Malls": '#CC79A7',
+        "Busstops": '#56B4E9',
+        "Postoffices": '#0072B2',
+        "Hospitals & Clinics": '#D55E00',
+        "Pharmacies": '#009E73',
+    };
+
+    function pointStyle(color) {
+      return { radius: 6, fillColor: color, color: '#fff', weight: 1.5, opacity: 1, fillOpacity: 0.9 };
+    }
+
+    var overlays = {
+        "Primary Schools": primarySchoolsLayer,
+        "Shopping Malls": shoppingmallLayer,
+        "Busstops": busstopLayer,
+        "Postoffices": postOfficeLayer,
+        "Hospitals & Clinics": hospitalClinicsLayer,
+        "Pharmacies": pharmaciesLayer,
+    };
+
+    // Escape HTML special characters, but keep the <br> line breaks used in the data
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/&lt;br\s*\/?&gt;/gi, '<br>');
+    }
+
+    // Popup with category title, the given fields, or the coordinates if no field has a value
+    function buildPopup(feature, title, fields) {
+      const props = feature.properties || {};
+      const rows = fields
+        .filter(key => props[key] != null)
+        .map(key => `<strong>${key}:</strong> ${escapeHtml(props[key])}`)
+        .join('<br>');
+
+      if (rows) return `<strong>${title}</strong><br>${rows}`;
+
+      const [lng, lat] = feature.geometry.coordinates;
+      return `<strong>${title}</strong><br>${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+    }
+
+    function geometryCollectionToFeatures(gc) {
+        return gc.geometries.map((geom, idx) => ({
+          type: "Feature",
+          id: idx + 1,                     // optional ID
+          properties: {                    // you can enrich later
+            index: idx + 1
+          },
+          geometry: geom
+        }));
+    };
+
+    // Load a GeoJSON file into a layer group, showing the given fields in the popup
+    async function loadGeoJSON(url, targetLayer, title, fields, color, toGeoJSON = data => data) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const geojson = toGeoJSON(await response.json());
+
+        new GeoJSON(geojson, {
+          pointToLayer: (feature, latlng) => new CircleMarker(latlng, pointStyle(color)),
+          onEachFeature: (feature, layer) => {
+            layer.bindPopup(buildPopup(feature, title, fields));
+          },
+        }).addTo(targetLayer);
+      } catch (error) {
+        console.error(`Error loading ${url}:`, error);
+      }
+    }
+
+    loadGeoJSON('./data/primary_schools.geojson', primarySchoolsLayer, 'Primary School', ['name', 'description'], colors['Primary Schools']);
+    loadGeoJSON('./data/shoppingmall.geojson', shoppingmallLayer, 'Shopping Mall', ['name', 'address'], colors['Shopping Malls']);
+    loadGeoJSON('./data/busstops.geojson', busstopLayer, 'Bus Stop', ['name'], colors['Busstops']);
+    // post_offices.json has no attributes, so the popup shows the coordinates
+    loadGeoJSON('./data/post_offices.json', postOfficeLayer, 'Post Office', [], colors['Postoffices'], geometryCollectionToFeatures);
+    loadGeoJSON('./data/hospitals_clinics.json', hospitalClinicsLayer, 'Hospital / Clinic', ['name', 'address', 'type'], colors['Hospitals & Clinics']);
+
+    // Function to load pharmacies from JSON
+    async function loadPharmacies() {
+      try {
+        const response = await fetch('./data/mu_pharmacies.json');
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const pharmacies = await response.json();
+
+        pharmacies.forEach(pharmacy => {
+            const { Name_of_Pharmacy, Address, Contact_Number, Latitude, Longitude } = pharmacy;
+            const popupContent = `<strong>${escapeHtml(Name_of_Pharmacy)}</strong><br>${escapeHtml(Address)}<br><br>📞 ${escapeHtml(Contact_Number)}`;
+
+            const popup = new Popup({
+                maxWidth: 500,
+                minWidth: 200,
+                maxHeight: 400   // makes the popup scrollable if content overflows
+            }).setContent(popupContent);
+
+            new CircleMarker([Latitude, Longitude], pointStyle(colors['Pharmacies'])).addTo(pharmaciesLayer).bindPopup(popup);
+        });
+      } catch (error) {
+        console.error('Error loading pharmacies:', error);
+      }
+    }
+
+    // Call the function to load pharmacies
+    loadPharmacies();
+
+    // new Control.Layers(baseLayers).addTo(map);
+    new Control.Layers(baseLayers, overlays).addTo(map);
+
+    // Legend with the category colors
+    const legend = new Control({ position: 'bottomright' });
+    legend.onAdd = function () {
+        const div = DomUtil.create('div', 'legend');
+        div.innerHTML = Object.entries(colors)
+          .map(([name, color]) => `<i style="background:${color}"></i>${name}`)
+          .join('<br>');
+        return div;
+    };
+    legend.addTo(map);
+  </script>
+</body>
+</html>

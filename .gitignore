@@ -137,3 +137,13 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Local documentation
+docs/
+
+# Raw data exports (geoportal.govmu.org)
+downloads/
+
+# Playwright
+test-results/
+playwright-report/
