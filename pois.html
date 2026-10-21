@@ -25,6 +25,14 @@
           vertical-align: -2px;
           box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
         }
+        .legend i.line {
+          height: 0;
+          border: none;
+          border-top: 3px solid;
+          border-radius: 0;
+          box-shadow: none;
+          vertical-align: 4px;
+        }
     </style>
 </head>
 <body>
@@ -55,8 +63,18 @@
     let postOfficeLayer = new LayerGroup();
     let hospitalClinicsLayer = new LayerGroup();
     let pharmaciesLayer = new LayerGroup();
+    let socialWelfareCentresLayer = new LayerGroup();
+    let policeStationsLayer = new LayerGroup();
+    let atmsLayer = new LayerGroup();
+    let speedCamerasLayer = new LayerGroup();
+    let dangerousBathingLayer = new LayerGroup();
+    let busRoutesLayer = new LayerGroup();
+    let districtsLayer = new LayerGroup();
 
     const map = new Map('map').setView([-20.27, 57.57], 10); // Adjust center/zoom
+
+    // Lines and polygons get their own pane below the points, so they never cover a marker
+    map.createPane('shapes').style.zIndex = 350;
 
     var osm = new TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -81,7 +99,8 @@
       "Esri Satellite": esriWorldImagery
     };
 
-    // Marker colors per category (Okabe-Ito palette, colorblind safe)
+    // Marker colors per category (Okabe-Ito palette, colorblind safe,
+    // extended with colors from Paul Tol's muted palette)
     const colors = {
         "Primary Schools": '#E69F00',
         "Shopping Malls": '#CC79A7',
@@ -89,6 +108,17 @@
         "Postoffices": '#0072B2',
         "Hospitals & Clinics": '#D55E00',
         "Pharmacies": '#009E73',
+        "Social Welfare Centres": '#332288',
+        "Police Stations": '#000000',
+        "ATMs": '#999933',
+        "Speed Cameras": '#882255',
+        "Dangerous Bathing": '#F0E442',
+    };
+
+    // Styles of the line and polygon categories
+    const shapeStyles = {
+        "Bus Routes": { color: '#0072B2', weight: 3, opacity: 0.6 },
+        "Districts": { color: '#444', weight: 2, dashArray: '6 4', fillColor: '#444', fillOpacity: 0.05 },
     };
 
     function pointStyle(color) {
@@ -102,6 +132,13 @@
         "Postoffices": postOfficeLayer,
         "Hospitals & Clinics": hospitalClinicsLayer,
         "Pharmacies": pharmaciesLayer,
+        "Social Welfare Centres": socialWelfareCentresLayer,
+        "Police Stations": policeStationsLayer,
+        "ATMs": atmsLayer,
+        "Speed Cameras": speedCamerasLayer,
+        "Dangerous Bathing": dangerousBathingLayer,
+        "Bus Routes": busRoutesLayer,
+        "Districts": districtsLayer,
     };
 
     // Escape HTML special characters, but keep the <br> line breaks used in the data
@@ -115,15 +152,19 @@
         .replace(/&lt;br\s*\/?&gt;/gi, '<br>');
     }
 
-    // Popup with category title, the given fields, or the coordinates if no field has a value
+    // Popup with category title, the given fields, or the coordinates if a point has no field with a value
     function buildPopup(feature, title, fields) {
       const props = feature.properties || {};
       const rows = fields
         .filter(key => props[key] != null)
-        .map(key => `<strong>${key}:</strong> ${escapeHtml(props[key])}`)
+        .map(key => {
+          const value = typeof props[key] === 'number' ? props[key].toLocaleString('en') : props[key];
+          return `<strong>${key}:</strong> ${escapeHtml(value)}`;
+        })
         .join('<br>');
 
       if (rows) return `<strong>${title}</strong><br>${rows}`;
+      if (feature.geometry.type !== 'Point') return `<strong>${title}</strong>`;
 
       const [lng, lat] = feature.geometry.coordinates;
       return `<strong>${title}</strong><br>${lat.toFixed(5)}, ${lng.toFixed(5)}`;
@@ -140,15 +181,25 @@
         }));
     };
 
+    // GeoJSON layer options for points drawn as colored circles
+    function points(color) {
+      return { pointToLayer: (feature, latlng) => new CircleMarker(latlng, pointStyle(color)) };
+    }
+
+    // GeoJSON layer options for lines and polygons in the pane below the points
+    function shapes(style) {
+      return { pane: 'shapes', style };
+    }
+
     // Load a GeoJSON file into a layer group, showing the given fields in the popup
-    async function loadGeoJSON(url, targetLayer, title, fields, color, toGeoJSON = data => data) {
+    async function loadGeoJSON(url, targetLayer, title, fields, layerOptions, toGeoJSON = data => data) {
       try {
         const response = await fetch(url);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const geojson = toGeoJSON(await response.json());
 
         new GeoJSON(geojson, {
-          pointToLayer: (feature, latlng) => new CircleMarker(latlng, pointStyle(color)),
+          ...layerOptions,
           onEachFeature: (feature, layer) => {
             layer.bindPopup(buildPopup(feature, title, fields));
           },
@@ -158,12 +209,20 @@
       }
     }
 
-    loadGeoJSON('./data/primary_schools.geojson', primarySchoolsLayer, 'Primary School', ['name', 'description'], colors['Primary Schools']);
-    loadGeoJSON('./data/shoppingmall.geojson', shoppingmallLayer, 'Shopping Mall', ['name', 'address'], colors['Shopping Malls']);
-    loadGeoJSON('./data/busstops.geojson', busstopLayer, 'Bus Stop', ['name'], colors['Busstops']);
+    loadGeoJSON('./data/primary_schools.geojson', primarySchoolsLayer, 'Primary School', ['name', 'description'], points(colors['Primary Schools']));
+    loadGeoJSON('./data/shoppingmall.geojson', shoppingmallLayer, 'Shopping Mall', ['name', 'address'], points(colors['Shopping Malls']));
+    loadGeoJSON('./data/busstops.geojson', busstopLayer, 'Bus Stop', ['name'], points(colors['Busstops']));
     // post_offices.json has no attributes, so the popup shows the coordinates
-    loadGeoJSON('./data/post_offices.json', postOfficeLayer, 'Post Office', [], colors['Postoffices'], geometryCollectionToFeatures);
-    loadGeoJSON('./data/hospitals_clinics.json', hospitalClinicsLayer, 'Hospital / Clinic', ['name', 'address', 'type'], colors['Hospitals & Clinics']);
+    loadGeoJSON('./data/post_offices.json', postOfficeLayer, 'Post Office', [], points(colors['Postoffices']), geometryCollectionToFeatures);
+    loadGeoJSON('./data/hospitals_clinics.json', hospitalClinicsLayer, 'Hospital / Clinic', ['name', 'address', 'type'], points(colors['Hospitals & Clinics']));
+    loadGeoJSON('./data/social_welfare_centres.geojson', socialWelfareCentresLayer, 'Social Welfare Centre', ['name'], points(colors['Social Welfare Centres']));
+    loadGeoJSON('./data/police_stations.geojson', policeStationsLayer, 'Police Station', ['name', 'phone'], points(colors['Police Stations']));
+    loadGeoJSON('./data/atms.geojson', atmsLayer, 'ATM', ['name', 'bank', 'address', 'services'], points(colors['ATMs']));
+    loadGeoJSON('./data/speed_cameras.geojson', speedCamerasLayer, 'Speed Camera', ['name', 'code', 'location', 'region'], points(colors['Speed Cameras']));
+    loadGeoJSON('./data/dangerous_bathing.geojson', dangerousBathingLayer, 'Dangerous Bathing', ['name', 'district'], points(colors['Dangerous Bathing']));
+    // bus_routes.geojson has no attributes, so the popup shows only the title
+    loadGeoJSON('./data/bus_routes.geojson', busRoutesLayer, 'Bus Route', [], shapes(shapeStyles['Bus Routes']));
+    loadGeoJSON('./data/districts.geojson', districtsLayer, 'District', ['name', 'area_km2', 'population', 'male', 'female'], shapes(shapeStyles['Districts']));
 
     // Function to load pharmacies from JSON
     async function loadPharmacies() {
@@ -195,13 +254,15 @@
     // new Control.Layers(baseLayers).addTo(map);
     new Control.Layers(baseLayers, overlays).addTo(map);
 
-    // Legend with the category colors
+    // Legend with the category colors and line styles
     const legend = new Control({ position: 'bottomright' });
     legend.onAdd = function () {
         const div = DomUtil.create('div', 'legend');
-        div.innerHTML = Object.entries(colors)
-          .map(([name, color]) => `<i style="background:${color}"></i>${name}`)
-          .join('<br>');
+        const pointItems = Object.entries(colors)
+          .map(([name, color]) => `<i style="background:${color}"></i>${name}`);
+        const shapeItems = Object.entries(shapeStyles)
+          .map(([name, style]) => `<i class="line" style="border-top-color:${style.color};border-top-style:${style.dashArray ? 'dashed' : 'solid'}"></i>${name}`);
+        div.innerHTML = [...pointItems, ...shapeItems].join('<br>');
         return div;
     };
     legend.addTo(map);
