@@ -47,5 +47,10 @@ The zones on the climate page are **example data**: invented rectangles with val
 
 Sea level projections referenced: [IPCC AR6 WG1](https://www.ipcc.ch/report/ar6/wg1/), [NASA Sea Level Projection Tool](https://sealevel.nasa.gov/data_tools/17), [World Bank Climate Change Knowledge Portal](https://climateknowledgeportal.worldbank.org/country/mauritius).
 
+## Support
+If you like this demo, you can buy me a coffee:
+
+<a href="https://buymeacoffee.com/pshell"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" height="40"></a>
+
 ## License
 [MIT](LICENSE)
