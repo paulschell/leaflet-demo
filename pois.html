@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Map Example</title>
+    <link rel="stylesheet" href="./node_modules/leaflet/dist/leaflet.css" />
+    <link rel="shortcut icon" href="#">
+    <style>
+        #map {
+          height: 100vh;
+          width: 100%;
+        }
+    </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script type="importmap">
+      {
+          "imports": {
+              "leaflet": "./node_modules/leaflet/dist/leaflet.js"
+          }
+      }
+  </script>
+  <script type="module">
+      import {Map, Control, TileLayer, LayerGroup, GeoJSON, Marker, Popup} from 'leaflet';
+
+    // Leaflet GeoJSON layers
+    let primarySchoolsLayer = new LayerGroup();
+    let shoppingmallLayer = new LayerGroup();
+    let busstopLayer = new LayerGroup();
+    let postOfficeLayer = new LayerGroup();
+    let hospitalClinicsLayer = new LayerGroup();
+    let pharmaciesLayer = new LayerGroup();
+
+    const map = new Map('map').setView([-20.27, 57.57], 10); // Adjust center/zoom
+    new TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    var osm = new TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);  // Default base layer
+
+    var stadiaAlidadeSmooth = new TileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.{ext}', {
+      minZoom: 0,
+      maxZoom: 20,
+      attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      ext: 'png'
+    });
+
+    var esriWorldImagery = new TileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    });
+
+    // Add layer control for base layers and overlays (POI categories)
+    // @see: https://leaflet-extras.github.io/leaflet-providers/preview/
+    var baseLayers = {
+      "OpenStreetMap": osm,
+      "Stadia": stadiaAlidadeSmooth,
+      "Esri Satellite": esriWorldImagery
+    };
+
+    var overlays = {
+        "Primary Schools": primarySchoolsLayer,
+        "Shopping Malls": shoppingmallLayer,
+        "Busstops": busstopLayer,
+        "Postoffices": postOfficeLayer,
+        "Hospitals & Clinics": hospitalClinicsLayer,
+        "Pharmacies": pharmaciesLayer,
+    };
+
+    function buildPrimarySchoolPopup(feature) {
+      const props = feature.properties;
+      const rows = ['name', 'description']
+        .filter(key => props.hasOwnProperty(key) && props[key] != null)
+        .map(key => `<strong>${key}:</strong> ${props[key]}`)
+        .join('<br>');
+
+      return rows || 'No data';
+    };
+
+    function buildShoppingMallPopup(feature) {
+        const props = feature.properties;
+        const rows = ['name', 'address']
+          .filter(key => props.hasOwnProperty(key) && props[key] != null)
+          .map(key => `<strong>${key}:</strong> ${props[key]}`)
+          .join('<br>');
+
+        return rows || 'No data';
+      };
+
+    function buildBusstopsPopup(feature) {
+        const props = feature.properties;
+        const rows = ['name']
+          .filter(key => props.hasOwnProperty(key) && props[key] != null)
+          .map(key => `<strong>${key}:</strong> ${props[key]}`)
+          .join('<br>');
+
+        return rows || 'No data';
+    };
+
+    function buildHospitalsPopup(feature) {
+        const props = feature.properties;
+        const rows = ['name', 'address', 'type']
+          .filter(key => props.hasOwnProperty(key) && props[key] != null)
+          .map(key => `<strong>${key}:</strong> ${props[key]}`)
+          .join('<br>');
+
+        return rows || 'No data';
+    };
+
+    function geometryCollectionToFeatures(gc) {
+        return gc.geometries.map((geom, idx) => ({
+          type: "Feature",
+          id: idx + 1,                     // optional ID
+          properties: {                    // you can enrich later
+            index: idx + 1
+          },
+          geometry: geom
+        }));
+    };
+
+    // Load GeoJSON
+    fetch('./data/primary_schools.geojson')
+      .then(res => res.json())
+      .then(geojson => {
+        new GeoJSON(geojson, {
+          style: { color: '#ff7800', weight: 2 }, // Customize
+          onEachFeature: (feature, layer) => {
+            if (feature.properties) {
+              layer.bindPopup(buildPrimarySchoolPopup(feature));
+            }
+          },
+        }).addTo(primarySchoolsLayer);
+      });
+
+    fetch('./data/shoppingmall.geojson')
+        .then(res => res.json())
+        .then(geojson => {
+          new GeoJSON(geojson, {
+            style: { color: '#ff7800', weight: 2 }, // Customize
+            onEachFeature: (feature, layer) => {
+              if (feature.properties) {
+                layer.bindPopup(buildShoppingMallPopup(feature));
+              }
+            },
+          }).addTo(shoppingmallLayer);
+        });
+
+    fetch('./data/busstops.geojson')
+      .then(res => res.json())
+      .then(geojson => {
+          new GeoJSON(geojson, {
+            style: { color: '#ff7800', weight: 2 }, // Customize
+            onEachFeature: (feature, layer) => {
+              if (feature.properties) {
+                layer.bindPopup(buildBusstopsPopup(feature));
+              }
+            },
+          }).addTo(busstopLayer);
+        });
+
+    fetch('./data/post_offices.json')
+        .then(res => res.json())
+        .then(geojson => {
+          const feats = geometryCollectionToFeatures(geojson);
+          new GeoJSON(feats, {
+            style: { color: '#ff7800', weight: 2 },
+            onEachFeature: (feature, layer) => {
+              if (feature.properties) {
+                layer.bindPopup(buildBusstopsPopup(feature));
+              }
+            },
+          }).addTo(postOfficeLayer);
+        });
+
+    fetch('./data/hospitals_clinics.json')
+        .then(res => res.json())
+        .then(geojson => {
+          new GeoJSON(geojson, {
+            style: { color: '#ff7800', weight: 2 },
+            onEachFeature: (feature, layer) => {
+              if (feature.properties) {
+                  layer.bindPopup(buildHospitalsPopup(feature));
+              }
+            },
+          }).addTo(hospitalClinicsLayer);
+        });
+
+    // Function to load pharmacies from JSON
+    async function loadPharmacies() {
+      try {
+        const response = await fetch('./data/mu_pharmacies.json');
+        const pharmacies = await response.json();
+
+        pharmacies.forEach(pharmacy => {
+            const { Name_of_Pharmacy, Address, Contact_Number, Latitude, Longitude } = pharmacy;
+            const popupContent = ` <strong>${Name_of_Pharmacy}</strong><br>${Address}<br><br>📞 ${Contact_Number}`;
+
+            const popup = new Popup({
+                maxWidth: 500,
+                minWidth: 200,
+                maxHeight: 400   // makes the popup scrollable if content overflows
+            }).setContent(popupContent);
+
+            // const marker = new Marker([Latitude, Longitude]).addTo(map).bindPopup(popup);
+            const marker = new Marker([Latitude, Longitude]).addTo(pharmaciesLayer).bindPopup(popup);
+        });
+      } catch (error) {
+        console.error('Error loading pharmacies:', error);
+      }
+    }
+
+    // Call the function to load pharmacies
+    loadPharmacies();
+
+    // new Control.Layers(baseLayers).addTo(map);
+    new Control.Layers(baseLayers, overlays).addTo(map);
+  </script>
+</body>
+</html>
