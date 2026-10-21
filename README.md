@@ -41,8 +41,8 @@ The zones on the climate page are **example data**: invented rectangles with val
 | File | Source |
 |---|---|
 | `data/mu_pharmacies.json` | https://geoportal.govmu.org/catalogue/#/dataset/34 |
-| `data/primary_schools.geojson`, `data/shoppingmall.geojson`, `data/hospitals_clinics.json`, `data/post_offices.json` | https://geoportal.govmu.org/catalogue/ |
-| `data/busstops.geojson` | https://geoportal.govmu.org/catalogue/ (contains OpenStreetMap node IDs, © OpenStreetMap contributors, ODbL) |
+| `data/primary_schools.geojson`, `data/shoppingmall.geojson`, `data/hospitals_clinics.json`, `data/post_offices.json` | https://geoportal.govmu.org/catalogue/#/search/?f=dataset |
+| `data/busstops.geojson` | https://geoportal.govmu.org/catalogue/#/search/?f=dataset (contains OpenStreetMap node IDs, © OpenStreetMap contributors, ODbL) |
 | `wind/wind-mauritius.json`, `wind/currents-mauritius.json` | [Open-Meteo](https://open-meteo.com/) Weather and Marine API (CC BY 4.0), 0.1° grid, created by `scripts/fetch-wind.mjs` |
 
 Sea level projections referenced: [IPCC AR6 WG1](https://www.ipcc.ch/report/ar6/wg1/), [NASA Sea Level Projection Tool](https://sealevel.nasa.gov/data_tools/17), [World Bank Climate Change Knowledge Portal](https://climateknowledgeportal.worldbank.org/country/mauritius).
