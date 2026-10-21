@@ -21,9 +21,7 @@ The tests start their own server on port 8090 and fail on any JavaScript or cons
 |---|---|
 | `index.html` | Start page with navigation, switchable base maps (OSM, Stadia, Esri) and pharmacies |
 | `pois.html` | Points of interest: primary schools, shopping malls, bus stops, post offices, hospitals & clinics, pharmacies |
-| `klima-mauritius.html` | Climate risk zones (flood, drought, storm) |
-| `slr-mauritius.html` | Sea level rise by year (2050/2100) and emission scenario (SSP1-2.6/SSP5-8.5) |
-| `slr-mauritius-graph.html` | Same as above, with a Chart.js graph per zone |
+| `climate.html` | Climate risk zones (flood, drought, storm) and sea level rise by year (2050/2100) and emission scenario (SSP1-2.6/SSP5-8.5), with a Chart.js graph per zone |
 | `wind/wind.html` | Animated wind and ocean currents around Mauritius with [leaflet-velocity](https://github.com/onaci/leaflet-velocity) |
 
 The wind demo is the only page that still uses Leaflet 1.9.4 (from CDN), because leaflet-velocity does not load with Leaflet 2.0-alpha.
@@ -34,7 +32,7 @@ npm run fetch-wind
 ```
 The GitHub Action [Update wind data](.github/workflows/fetch-wind.yml) does this weekly on Monday at 04:00 UTC on `main` and commits the new snapshot. It can also be started manually from the Actions tab.
 
-The zones on the climate risk and sea level rise pages are **example data**: invented rectangles with values loosely based on regional projections, not measured per location.
+The zones on the climate page are **example data**: invented rectangles with values loosely based on regional projections, not measured per location.
 
 ## Data sources
 | File | Source |

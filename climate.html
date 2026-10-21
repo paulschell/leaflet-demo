@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Climate Risk Mauritius</title>
+    <link rel="shortcut icon" href="#">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="./node_modules/leaflet/dist/leaflet.css" />
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+
+        .legend,
+        .info,
+        .control {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+            line-height: 18px;
+        }
+
+        .info {
+            max-width: 280px;
+        }
+
+        .info h3 {
+            margin: 0 0 6px;
+        }
+
+        .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.8;
+        }
+
+        .control label,
+        .control select {
+            display: block;
+            margin: 5px 0;
+        }
+
+        .control fieldset {
+            border: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            max-height: 180px;
+        }
+
+        .popup-content {
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "leaflet": "./node_modules/leaflet/dist/leaflet.js"
+            }
+        }
+    </script>
+    <script type="module">
+        import {Map, Control, DomUtil, TileLayer, GeoJSON} from 'leaflet';
+
+        // Center the map on Mauritius
+        const map = new Map('map').setView([-20.2, 57.55], 10);
+
+        new TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // === EXAMPLE DATA ===
+        // The zones are invented rectangles and the risk levels are fictional.
+        const zone = (area, risk, [west, north, east, south]) => ({
+            type: 'Feature',
+            properties: { area, risk },
+            geometry: { type: 'Polygon', coordinates: [[[west, north], [east, north], [east, south], [west, south], [west, north]]] }
+        });
+
+        const riskZones = {
+            flood: [
+                zone('Port Louis', 'High', [57.49, -20.15, 57.51, -20.17]),
+                zone('Beau Bassin', 'Medium', [57.47, -20.22, 57.49, -20.24]),
+                zone('Curepipe', 'Low', [57.52, -20.31, 57.54, -20.33])
+            ],
+            drought: [
+                zone('Grand Port', 'High', [57.70, -20.38, 57.73, -20.41]),
+                zone('Flacq', 'Medium', [57.71, -20.20, 57.74, -20.23])
+            ],
+            storm: [
+                zone('Pamplemousses', 'High', [57.50, -20.10, 57.53, -20.13]),
+                zone('Rivière du Rempart', 'Medium', [57.65, -20.07, 57.68, -20.10])
+            ]
+        };
+
+        // Sea level rise in cm. The measured series and the zones are for illustration only;
+        // the projections are loosely based on IPCC AR6, the NASA Sea Level Projection Tool and World Bank CCKP.
+        // rise.high (SSP5-8.5) are the original zone values. rise.low (SSP1-2.6) is derived from them:
+        // zone value × regional ratio (2050: 16/24, 2100: 28/49), rounded to whole cm.
+        const historicalData = [
+            { year: 1987, level: 0.0 },
+            { year: 1990, level: 1.0 },
+            { year: 1995, level: 2.6 },
+            { year: 2000, level: 4.3 },
+            { year: 2005, level: 6.1 },
+            { year: 2010, level: 8.0 },
+            { year: 2015, level: 11.4 },
+            { year: 2020, level: 14.0 },
+            { year: 2023, level: 15.2 }
+        ];
+
+        const slrZone = (area, source, rise, bounds) => {
+            const feature = zone(area, null, bounds);
+            feature.properties = { area, source, rise };
+            return feature;
+        };
+
+        const slrZones = [
+            slrZone('Port Louis Harbour', 'MMS / World Bank', { low: { 2050: 16, 2100: 28 }, high: { 2050: 24, 2100: 49 } }, [57.49, -20.15, 57.51, -20.17]),
+            slrZone('Grand Baie', 'IPCC AR6', { low: { 2050: 13, 2100: 23 }, high: { 2050: 20, 2100: 40 } }, [57.58, -20.00, 57.60, -20.02]),
+            slrZone('Flic en Flac', 'World Bank CCKP', { low: { 2050: 11, 2100: 16 }, high: { 2050: 16, 2100: 28 } }, [57.35, -20.28, 57.37, -20.30]),
+            slrZone('Blue Bay', 'MMS', { low: { 2050: 15, 2100: 26 }, high: { 2050: 22, 2100: 45 } }, [57.72, -20.51, 57.74, -20.53])
+        ];
+
+        const SSP = { low: 'SSP1-2.6', high: 'SSP5-8.5' };
+        const COLORS = { Low: '#a6d96a', Medium: '#fdae61', High: '#d7191c' };
+
+        // Risk level from the sea level rise in cm
+        function slrRisk(rise) {
+            return rise < 20 ? 'Low' : rise < 40 ? 'Medium' : 'High';
+        }
+
+        const SOURCES = 'Sources: <a href="https://www.ipcc.ch/report/ar6/wg1/" target="_blank">IPCC AR6</a>, <a href="https://sealevel.nasa.gov/data_tools/17" target="_blank">NASA Sea Level Projection Tool</a>, <a href="https://climateknowledgeportal.worldbank.org/country/mauritius" target="_blank">World Bank CCKP</a>';
+
+        const TOPICS = {
+            flood: { label: 'Flood', title: 'Flood risk' },
+            drought: { label: 'Drought', title: 'Drought risk' },
+            storm: { label: 'Storm', title: 'Storm risk' },
+            slr: { label: 'Sea level rise', title: 'Sea level rise' }
+        };
+
+        // === Sea level chart ===
+        function createChart(canvas, rise, scenario) {
+            const labels = [...historicalData.map(d => d.year), 2050, 2100];
+            const projection = year => labels.map(label => label === year ? rise[scenario][year] : null);
+
+            return new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [
+                        {
+                            label: 'Measured (Port Louis)',
+                            data: historicalData.map(d => d.level),
+                            borderColor: '#1f78b4',
+                            backgroundColor: 'rgba(31, 120, 180, 0.1)',
+                            fill: true,
+                            tension: 0.3,
+                            pointRadius: 4
+                        },
+                        {
+                            label: `Projection 2050 (${SSP[scenario]})`,
+                            data: projection(2050),
+                            borderColor: '#ff7f00',
+                            pointRadius: 6,
+                            pointBackgroundColor: '#ff7f00'
+                        },
+                        {
+                            label: `Projection 2100 (${SSP[scenario]})`,
+                            data: projection(2100),
+                            borderColor: '#e31a1c',
+                            pointRadius: 6,
+                            pointBackgroundColor: '#e31a1c'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'top', labels: { font: { size: 11 } } },
+                        title: { display: true, text: 'Sea level rise (cm)', font: { size: 13 } }
+                    },
+                    scales: {
+                        y: { title: { display: true, text: 'Rise (cm)' }, beginAtZero: true },
+                        x: { title: { display: true, text: 'Year' } }
+                    }
+                }
+            });
+        }
+
+        // === Layers ===
+        const style = color => ({ fillColor: color, weight: 2, color: 'white', fillOpacity: 0.7 });
+
+        function riskLayer(topic) {
+            return new GeoJSON({ type: 'FeatureCollection', features: riskZones[topic] }, {
+                style: feature => style(COLORS[feature.properties.risk]),
+                onEachFeature: (feature, layer) => {
+                    layer.bindPopup(`<b>${feature.properties.area}</b><br>${TOPICS[topic].title}: <strong>${feature.properties.risk}</strong>`);
+                }
+            });
+        }
+
+        function slrLayer(year, scenario) {
+            return new GeoJSON({ type: 'FeatureCollection', features: slrZones }, {
+                style: feature => style(COLORS[slrRisk(feature.properties.rise[scenario][year])]),
+                onEachFeature: (feature, layer) => {
+                    const { area, source, rise } = feature.properties;
+                    const value = rise[scenario][year];
+                    layer.bindPopup(`
+                        <div class="popup-content">
+                            <b>${area}</b><br>
+                            <small>Values based on: ${source} (example zone)</small><hr>
+                            <canvas></canvas>
+                            <p style="font-size:12px; margin-top:8px;">
+                                <strong>${year}:</strong> ${value} cm (${SSP[scenario]}),
+                                risk level: <strong>${slrRisk(value)}</strong><br>
+                                <em>Historical: ~3.8 mm/year (Port Louis)</em>
+                            </p>
+                        </div>
+                    `);
+
+                    // Create the chart once the popup is in the DOM, remove it when it closes
+                    let chart;
+                    layer.on('popupopen', e => {
+                        chart = createChart(e.popup.getElement().querySelector('canvas'), rise, scenario);
+                    });
+                    layer.on('popupclose', () => chart?.destroy());
+                }
+            });
+        }
+
+        // === Control panel ===
+        const control = new Control({ position: 'topright' });
+        control.onAdd = () => {
+            const div = DomUtil.create('div', 'control');
+            div.innerHTML = `
+                <b>Topic</b>
+                ${Object.entries(TOPICS).map(([value, { label }]) =>
+                    `<label><input type="radio" name="topic" value="${value}"${value === 'flood' ? ' checked' : ''}> ${label}</label>`).join('')}
+                <fieldset id="slr-options" hidden>
+                    <label>Year: <select id="year"><option value="2050">2050</option><option value="2100">2100</option></select></label>
+                    <label>Emissions: <select id="scenario"><option value="low">Low (SSP1-2.6)</option><option value="high">High (SSP5-8.5)</option></select></label>
+                </fieldset>
+            `;
+            return div;
+        };
+        control.addTo(map);
+
+        // === Legend ===
+        const legend = new Control({ position: 'bottomright' });
+        legend.onAdd = () => DomUtil.create('div', 'info legend');
+        legend.addTo(map);
+
+        // === Title ===
+        const title = new Control({ position: 'topleft' });
+        title.onAdd = () => DomUtil.create('div', 'info');
+        title.addTo(map);
+
+        // Show the selected topic: layer, legend and title
+        let activeLayer;
+        function update() {
+            const topic = document.querySelector('input[name="topic"]:checked').value;
+            const isSlr = topic === 'slr';
+
+            if (activeLayer) map.removeLayer(activeLayer);
+            activeLayer = isSlr
+                ? slrLayer(parseInt(document.getElementById('year').value), document.getElementById('scenario').value)
+                : riskLayer(topic);
+            activeLayer.addTo(map);
+
+            document.getElementById('slr-options').hidden = !isSlr;
+
+            const ranges = isSlr ? { Low: ' (&lt;20 cm)', Medium: ' (20–40 cm)', High: ' (&gt;40 cm)' } : {};
+            legend.getContainer().innerHTML = '<b>Risk level</b><br>' +
+                Object.entries(COLORS).map(([level, color]) => `<i style="background:${color}"></i> ${level}${ranges[level] ?? ''}<br>`).join('');
+
+            title.getContainer().innerHTML = `<h3>${TOPICS[topic].title} – Mauritius</h3>` + (isSlr
+                ? `<small>Click a zone for the measured series and projection.<br>Example data: zones and measured series for illustration only.<br>${SOURCES}</small>`
+                : '<small>Example data: zones and risk levels are fictional.</small>');
+        }
+
+        document.querySelectorAll('input[name="topic"], #year, #scenario').forEach(input => input.addEventListener('change', update));
+        update();
+    </script>
+</body>
+</html>
