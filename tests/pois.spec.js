@@ -28,7 +28,7 @@ test.describe('pois.html', () => {
 
   test('lists all POI categories as overlays and in the legend', async ({ page }) => {
     expect(await overlayLabels(page)).toEqual(Object.keys(OVERLAYS));
-    await expect(page.locator('.legend')).toHaveText(Object.keys(OVERLAYS).join(''));
+    await expect(page.locator('.legend .legend-items')).toHaveText(Object.keys(OVERLAYS).join(''));
   });
 
   for (const [name, { count, popup }] of Object.entries(OVERLAYS)) {
