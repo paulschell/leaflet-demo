@@ -140,3 +140,6 @@ vite.config.ts.timestamp-*
 
 # Local documentation
 docs/
+
+# Raw data exports (geoportal.govmu.org)
+downloads/
