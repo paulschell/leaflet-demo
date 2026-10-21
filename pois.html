@@ -33,6 +33,109 @@
           box-shadow: none;
           vertical-align: 4px;
         }
+
+        /* Leaflet 2.0-alpha only sets min-width/max-width on the popup content,
+           so without a width it shrinks to its longest word */
+        .leaflet-popup-content {
+          width: max-content;
+          margin: 12px 16px;
+        }
+        .poi-popup {
+          font: 13px/1.45 Arial, sans-serif;
+          color: #222;
+        }
+        .poi-badge {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 11px;
+          font-weight: bold;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+          color: #555;
+        }
+        .poi-badge i {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+        }
+        .poi-badge i.line {
+          width: 14px;
+          height: 0;
+          border-top: 3px solid;
+          border-radius: 0;
+          box-shadow: none;
+        }
+        .poi-title {
+          margin: 4px 0 0;
+          font-size: 15px;
+          font-weight: bold;
+          line-height: 1.3;
+          color: #111;
+        }
+        .poi-subtitle {
+          color: #555;
+        }
+        .poi-rows {
+          display: grid;
+          grid-template-columns: auto 1fr;
+          gap: 3px 12px;
+          margin: 10px 0 0;
+        }
+        .poi-rows dt {
+          color: #777;
+        }
+        .poi-rows dd {
+          margin: 0;
+          overflow-wrap: anywhere;
+        }
+        .poi-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 4px;
+        }
+        .poi-tags span {
+          padding: 0 7px;
+          border-radius: 10px;
+          background: #eef1f5;
+          font-size: 12px;
+        }
+        .poi-warning {
+          margin-top: 10px;
+          padding: 6px 8px;
+          border-left: 4px solid #d4c400;
+          background: #fffbe0;
+        }
+        .poi-split {
+          display: flex;
+          height: 6px;
+          margin-top: 4px;
+          border-radius: 3px;
+          overflow: hidden;
+          background: #E69F00;
+        }
+        .poi-split span,
+        .poi-rows i.male {
+          background: #0072B2;
+        }
+        .poi-rows i.female {
+          background: #E69F00;
+        }
+        .poi-rows i {
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          margin-right: 5px;
+          border-radius: 2px;
+        }
+        .poi-footer {
+          margin-top: 10px;
+          padding-top: 6px;
+          border-top: 1px solid #eee;
+          font-size: 12px;
+          color: #777;
+        }
     </style>
 </head>
 <body>
@@ -54,7 +157,7 @@
       }
   </script>
   <script type="module">
-      import {Map, Control, DomUtil, TileLayer, LayerGroup, GeoJSON, CircleMarker, Popup} from 'leaflet';
+      import {Map, Control, DomUtil, TileLayer, LayerGroup, GeoJSON, CircleMarker} from 'leaflet';
 
     // Leaflet GeoJSON layers
     let primarySchoolsLayer = new LayerGroup();
@@ -141,34 +244,189 @@
         "Districts": districtsLayer,
     };
 
-    // Escape HTML special characters, but keep the <br> line breaks used in the data
     function escapeHtml(value) {
       return String(value)
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;')
-        .replace(/&lt;br\s*\/?&gt;/gi, '<br>');
+        .replace(/'/g, '&#39;');
     }
 
-    // Popup with category title, the given fields, or the coordinates if a point has no field with a value
-    function buildPopup(feature, title, fields) {
-      const props = feature.properties || {};
-      const rows = fields
-        .filter(key => props[key] != null)
-        .map(key => {
-          const value = typeof props[key] === 'number' ? props[key].toLocaleString('en') : props[key];
-          return `<strong>${key}:</strong> ${escapeHtml(value)}`;
-        })
-        .join('<br>');
+    // Clean up a text value from the open data exports: broken characters, extra
+    // whitespace, spaces before commas and texts written in capital letters only
+    function tidy(value) {
+      const text = String(value)
+        .replace(/(\p{L})�(\p{L})/gu, "$1'$2")
+        .replace(/�/g, '')
+        .replace(/\s+/g, ' ')
+        .replace(/\s*,\s*/g, ', ')
+        .replace(/^[\s,]+|[\s,]+$/g, '');
 
-      if (rows) return `<strong>${title}</strong><br>${rows}`;
-      if (feature.geometry.type !== 'Point') return `<strong>${title}</strong>`;
-
-      const [lng, lat] = feature.geometry.coordinates;
-      return `<strong>${title}</strong><br>${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+      if (/\p{Ll}/u.test(text) || !/\p{Lu}{4,}/u.test(text)) return text;
+      return text.toLowerCase().replace(/(^|[\s,(\-\/'.])(\p{L})/gu, (match, before, letter) => before + letter.toUpperCase());
     }
+
+    function formatNumber(value, digits = 0) {
+      return value.toLocaleString('en', { maximumFractionDigits: digits });
+    }
+
+    // Phone numbers as tel: links, several numbers may be separated by "/" or ","
+    function phoneLinks(value) {
+      return String(value).split(/[\/,]/).map(part => part.trim()).filter(Boolean).map(number => {
+        let digits = number.replace(/[^\d+]/g, '');
+        if (/^230\d{7,8}$/.test(digits)) digits = `+${digits}`;
+        return `<a href="tel:${digits}">${escapeHtml(number)}</a>`;
+      }).join(', ');
+    }
+
+    function emailLink(value) {
+      return `<a href="mailto:${escapeHtml(value)}">${escapeHtml(value)}</a>`;
+    }
+
+    function websiteLink(value) {
+      const url = /^https?:\/\//.test(value) ? value : `https://${value}`;
+      const label = value.replace(/^(https?:\/\/)?(www\.)?|\/$/g, '');
+      return `<a href="${escapeHtml(url)}" target="_blank" rel="noopener">${escapeHtml(label)}</a>`;
+    }
+
+    // Split free text such as "ROYAL ROAD<br>Tel: 248-8157<br>Fax: ...<br>Email: ..." into popup rows
+    function contactRows(value) {
+      const address = [];
+      const rows = [];
+      const notes = [];
+      const lines = String(value ?? '').split(/<br\s*\/?>/i).map(line => tidy(line.replace(/\t/g, ', '))).filter(Boolean);
+
+      for (const line of lines) {
+        // "Tel: 123", "Tel No. 123" or any other "Label: value"
+        const labeled = line.match(/^(tel|phone|fax|e-?mail)\b\.?\s*(?:no\.?)?\s*:?\s*(.+)$/i)
+          ?? line.match(/^([\p{L} .]{2,40}?)\s*:\s*(.+)$/u);
+        const label = labeled?.[1].trim().toLowerCase();
+        const text = labeled?.[2].trim();
+
+        if (label === 'address' || label === 'city') address.push(text);
+        else if (label === 'tel' || label === 'phone') rows.push(['Phone', phoneLinks(text)]);
+        else if (label === 'fax') rows.push(['Fax', escapeHtml(text)]);
+        else if (label === 'email' || label === 'e-mail') rows.push(['Email', emailLink(text)]);
+        else if (labeled) rows.push([escapeHtml(labeled[1].trim()), phoneLinks(text)]);
+        else if (/^[+\d()\s\-\/]{7,}$/.test(line)) rows.push(['Phone', phoneLinks(line)]);
+        else if (rows.length) notes.push(line);
+        else address.push(line);
+      }
+
+      if (address.length) rows.unshift(['Address', escapeHtml(address.join(', '))]);
+      if (notes.length) rows.push(['Note', escapeHtml(notes.join(', '))]);
+      return rows;
+    }
+
+    function tags(values) {
+      return `<div class="poi-tags">${values.map(value => `<span>${escapeHtml(value)}</span>`).join('')}</div>`;
+    }
+
+    // Popup markup shared by all categories: badge with the category color, title,
+    // subtitle, label/value rows, extra HTML and the coordinates for points
+    function popupHtml(category, feature, { title, subtitle, rows = [], extra = '' }) {
+      const color = colors[category] ?? shapeStyles[category].color;
+      const swatch = colors[category]
+        ? `<i style="background:${color}"></i>`
+        : `<i class="line" style="border-top-color:${color}"></i>`;
+      const visibleRows = rows.filter(([, value]) => value);
+
+      let footer = '';
+      if (feature.geometry.type === 'Point') {
+        const [lng, lat] = feature.geometry.coordinates;
+        const coordinates = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+        footer = `<div class="poi-footer">${coordinates} · <a href="https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=18/${lat}/${lng}" target="_blank" rel="noopener">OpenStreetMap</a></div>`;
+      }
+
+      return `<div class="poi-popup">
+        <div class="poi-badge">${swatch}${escapeHtml(category)}</div>
+        ${title ? `<div class="poi-title">${escapeHtml(title)}</div>` : ''}
+        ${subtitle ? `<div class="poi-subtitle">${escapeHtml(subtitle)}</div>` : ''}
+        ${visibleRows.length ? `<dl class="poi-rows">${visibleRows.map(([label, value]) => `<dt>${label}</dt><dd>${value}</dd>`).join('')}</dl>` : ''}
+        ${extra}
+        ${footer}
+      </div>`;
+    }
+
+    const yesNo = value => value === 'yes' ? 'Yes' : value === 'no' ? 'No' : value && escapeHtml(value);
+    const text = value => value != null && value !== '' ? escapeHtml(tidy(value)) : '';
+
+    // Popup content per category: title, subtitle and rows from the feature properties
+    const popups = {
+      "Primary Schools": p => ({ title: tidy(p.name), rows: contactRows(p.description) }),
+      "Shopping Malls": p => ({
+        title: tidy(p.name),
+        subtitle: p.district,
+        rows: [
+          ['Address', text(p.address)],
+          ['Phone', p.contact_nu && phoneLinks(p.contact_nu)],
+          ['Website', p.website && websiteLink(p.website)],
+        ],
+      }),
+      "Busstops": p => ({
+        title: p.name ? tidy(p.name) : 'Bus stop',
+        subtitle: p.network,
+        rows: [
+          ['Operator', text(p.operator)],
+          ['Street', text(p.addr_stree)],
+          ['Shelter', yesNo(p.shelter)],
+          ['Bench', yesNo(p.bench)],
+          ['Wheelchair', yesNo(p.wheelchair)],
+          ['OSM node', p.full_id && `<a href="https://www.openstreetmap.org/node/${p.full_id.slice(1)}" target="_blank" rel="noopener">${p.full_id.slice(1)}</a>`],
+        ],
+      }),
+      // post_offices.json has no attributes, so the popup shows only the coordinates
+      "Postoffices": () => ({ title: 'Post office' }),
+      "Hospitals & Clinics": p => ({
+        title: tidy(p.name),
+        subtitle: { Hospitals: 'Hospital', Clinics: 'Clinic', Mediclinics: 'Mediclinic' }[p.type] ?? p.type,
+        rows: contactRows(p.address),
+      }),
+      "Pharmacies": p => ({ title: tidy(p.name), rows: [['Address', text(p.address)], ['Phone', p.phone && phoneLinks(p.phone)]] }),
+      "Social Welfare Centres": p => ({ title: tidy(p.name).replace(/\bSWC$/, 'Social Welfare Centre') }),
+      "Police Stations": p => ({ title: tidy(p.name), rows: [['Phone', p.phone && phoneLinks(p.phone)]] }),
+      "ATMs": p => {
+        const services = [...new Set((p.services ?? '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean))];
+        return {
+          title: tidy(p.name),
+          subtitle: p.bank,
+          rows: [['Address', text(p.address)], ['Services', services.length && tags(services)]],
+        };
+      },
+      "Speed Cameras": p => ({
+        title: tidy(p.location),
+        subtitle: p.name,
+        rows: [['Code', text(p.code)], ['Region', text(p.region)]],
+      }),
+      "Dangerous Bathing": p => ({
+        title: tidy(p.name).replace(/\s*Dangerous Bathing$/i, ''),
+        subtitle: p.district,
+        extra: '<div class="poi-warning">⚠ Marked as dangerous for bathing</div>',
+      }),
+      "Bus Routes": (p, layer) => {
+        // A LineString has a list of points, a MultiLineString a list of lines
+        const latlngs = layer.getLatLngs();
+        const lines = Array.isArray(latlngs[0]) ? latlngs : [latlngs];
+        const meters = lines.reduce((sum, line) =>
+          sum + line.slice(1).reduce((length, point, i) => length + map.distance(line[i], point), 0), 0);
+        return { title: 'Bus route', rows: [['Length', `${formatNumber(meters / 1000, 1)} km`]] };
+      },
+      "Districts": p => {
+        const male = p.male / p.population * 100;
+        return {
+          title: p.name,
+          rows: [
+            ['Area', `${formatNumber(p.area_km2)} km²`],
+            ['Population', formatNumber(p.population)],
+            ['Density', `${formatNumber(p.population / p.area_km2)} per km²`],
+            ['<i class="male"></i>Male', `${formatNumber(p.male)} (${formatNumber(male, 1)}%)`],
+            ['<i class="female"></i>Female', `${formatNumber(p.female)} (${formatNumber(100 - male, 1)}%)`],
+          ],
+          extra: `<div class="poi-split" title="Male / female share"><span style="width:${male.toFixed(1)}%"></span></div>`,
+        };
+      },
+    };
 
     function geometryCollectionToFeatures(gc) {
         return gc.geometries.map((geom, idx) => ({
@@ -181,6 +439,15 @@
         }));
     };
 
+    // mu_pharmacies.json is a plain list with coordinates
+    function pharmaciesToFeatures(pharmacies) {
+      return pharmacies.map(pharmacy => ({
+        type: "Feature",
+        properties: { name: pharmacy.Name_of_Pharmacy, address: pharmacy.Address, phone: pharmacy.Contact_Number },
+        geometry: { type: "Point", coordinates: [pharmacy.Longitude, pharmacy.Latitude] },
+      }));
+    }
+
     // GeoJSON layer options for points drawn as colored circles
     function points(color) {
       return { pointToLayer: (feature, latlng) => new CircleMarker(latlng, pointStyle(color)) };
@@ -191,8 +458,13 @@
       return { pane: 'shapes', style };
     }
 
-    // Load a GeoJSON file into a layer group, showing the given fields in the popup
-    async function loadGeoJSON(url, targetLayer, title, fields, layerOptions, toGeoJSON = data => data) {
+    // Narrower popups on small screens, kept below the zoom and layer controls when the map pans
+    function popupOptions() {
+      return { minWidth: 200, maxWidth: Math.min(320, map.getSize().x - 80), autoPanPaddingTopLeft: [10, 90] };
+    }
+
+    // Load a GeoJSON file into the layer group of a category
+    async function loadGeoJSON(url, category, layerOptions, toGeoJSON = data => data) {
       try {
         const response = await fetch(url);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -201,55 +473,28 @@
         new GeoJSON(geojson, {
           ...layerOptions,
           onEachFeature: (feature, layer) => {
-            layer.bindPopup(buildPopup(feature, title, fields));
+            const content = popups[category](feature.properties || {}, layer);
+            layer.bindPopup(popupHtml(category, feature, content), popupOptions());
           },
-        }).addTo(targetLayer);
+        }).addTo(overlays[category]);
       } catch (error) {
         console.error(`Error loading ${url}:`, error);
       }
     }
 
-    loadGeoJSON('./data/primary_schools.geojson', primarySchoolsLayer, 'Primary School', ['name', 'description'], points(colors['Primary Schools']));
-    loadGeoJSON('./data/shoppingmall.geojson', shoppingmallLayer, 'Shopping Mall', ['name', 'address'], points(colors['Shopping Malls']));
-    loadGeoJSON('./data/busstops.geojson', busstopLayer, 'Bus Stop', ['name'], points(colors['Busstops']));
-    // post_offices.json has no attributes, so the popup shows the coordinates
-    loadGeoJSON('./data/post_offices.json', postOfficeLayer, 'Post Office', [], points(colors['Postoffices']), geometryCollectionToFeatures);
-    loadGeoJSON('./data/hospitals_clinics.json', hospitalClinicsLayer, 'Hospital / Clinic', ['name', 'address', 'type'], points(colors['Hospitals & Clinics']));
-    loadGeoJSON('./data/social_welfare_centres.geojson', socialWelfareCentresLayer, 'Social Welfare Centre', ['name'], points(colors['Social Welfare Centres']));
-    loadGeoJSON('./data/police_stations.geojson', policeStationsLayer, 'Police Station', ['name', 'phone'], points(colors['Police Stations']));
-    loadGeoJSON('./data/atms.geojson', atmsLayer, 'ATM', ['name', 'bank', 'address', 'services'], points(colors['ATMs']));
-    loadGeoJSON('./data/speed_cameras.geojson', speedCamerasLayer, 'Speed Camera', ['name', 'code', 'location', 'region'], points(colors['Speed Cameras']));
-    loadGeoJSON('./data/dangerous_bathing.geojson', dangerousBathingLayer, 'Dangerous Bathing', ['name', 'district'], points(colors['Dangerous Bathing']));
-    // bus_routes.geojson has no attributes, so the popup shows only the title
-    loadGeoJSON('./data/bus_routes.geojson', busRoutesLayer, 'Bus Route', [], shapes(shapeStyles['Bus Routes']));
-    loadGeoJSON('./data/districts.geojson', districtsLayer, 'District', ['name', 'area_km2', 'population', 'male', 'female'], shapes(shapeStyles['Districts']));
-
-    // Function to load pharmacies from JSON
-    async function loadPharmacies() {
-      try {
-        const response = await fetch('./data/mu_pharmacies.json');
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const pharmacies = await response.json();
-
-        pharmacies.forEach(pharmacy => {
-            const { Name_of_Pharmacy, Address, Contact_Number, Latitude, Longitude } = pharmacy;
-            const popupContent = `<strong>${escapeHtml(Name_of_Pharmacy)}</strong><br>${escapeHtml(Address)}<br><br>📞 ${escapeHtml(Contact_Number)}`;
-
-            const popup = new Popup({
-                maxWidth: 500,
-                minWidth: 200,
-                maxHeight: 400   // makes the popup scrollable if content overflows
-            }).setContent(popupContent);
-
-            new CircleMarker([Latitude, Longitude], pointStyle(colors['Pharmacies'])).addTo(pharmaciesLayer).bindPopup(popup);
-        });
-      } catch (error) {
-        console.error('Error loading pharmacies:', error);
-      }
-    }
-
-    // Call the function to load pharmacies
-    loadPharmacies();
+    loadGeoJSON('./data/primary_schools.geojson', 'Primary Schools', points(colors['Primary Schools']));
+    loadGeoJSON('./data/shoppingmall.geojson', 'Shopping Malls', points(colors['Shopping Malls']));
+    loadGeoJSON('./data/busstops.geojson', 'Busstops', points(colors['Busstops']));
+    loadGeoJSON('./data/post_offices.json', 'Postoffices', points(colors['Postoffices']), geometryCollectionToFeatures);
+    loadGeoJSON('./data/hospitals_clinics.json', 'Hospitals & Clinics', points(colors['Hospitals & Clinics']));
+    loadGeoJSON('./data/mu_pharmacies.json', 'Pharmacies', points(colors['Pharmacies']), pharmaciesToFeatures);
+    loadGeoJSON('./data/social_welfare_centres.geojson', 'Social Welfare Centres', points(colors['Social Welfare Centres']));
+    loadGeoJSON('./data/police_stations.geojson', 'Police Stations', points(colors['Police Stations']));
+    loadGeoJSON('./data/atms.geojson', 'ATMs', points(colors['ATMs']));
+    loadGeoJSON('./data/speed_cameras.geojson', 'Speed Cameras', points(colors['Speed Cameras']));
+    loadGeoJSON('./data/dangerous_bathing.geojson', 'Dangerous Bathing', points(colors['Dangerous Bathing']));
+    loadGeoJSON('./data/bus_routes.geojson', 'Bus Routes', shapes(shapeStyles['Bus Routes']));
+    loadGeoJSON('./data/districts.geojson', 'Districts', shapes(shapeStyles['Districts']));
 
     // new Control.Layers(baseLayers).addTo(map);
     new Control.Layers(baseLayers, overlays).addTo(map);
