@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIS WebApp with Leaflet</title>
+    <link rel="shortcut icon" href="#">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <style>
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        // Initialize the map with a specific view
+        const initialLat =  51.519; // Latitude for the center of the view
+        const initialLon =  -0.118092;  // Longitude for the center of the view
+        const initialZoom = 11;
+
+        // Define the bounds using the provided coordinates
+        const southWest = new L.latLng(-20.575581867678267, 57.23327636718751);
+        const northEast = new L.latLng(-19.95656892635273, 57.919235229492195);
+        const bounds = new L.latLngBounds(southWest, northEast);
+
+        // Initialize the map centered on a location (e.g., London)
+        var map = L.map('map').setView([initialLat, initialLon], initialZoom);
+
+        // -------------------------------------------------
+        // 2. Variables that will hold the data
+        // -------------------------------------------------
+        let primarySchoolsData = null;   // raw GeoJSON object
+        let primarySchoolsLayer = null;  // Leaflet GeoJSON layer
+
+        // Define multiple base layers (maps)
+        var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);  // Default base layer
+
+        var stadiaAlidadeSmooth = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.{ext}', {
+            minZoom: 0,
+            maxZoom: 20,
+            attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            ext: 'png'
+        });
+
+        var esriWorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        });
+
+        // Define POI categories as layer groups (markers)
+        var restaurants = L.layerGroup();
+        var parks = L.layerGroup();
+        var museums = L.layerGroup();
+        var primarySchools = L.layerGroup();
+
+        // Add sample POI markers to categories
+        // Restaurants (red icons)
+        L.marker([51.5074, -0.1278], { icon: L.icon({ iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] }) }).addTo(restaurants).bindPopup('Restaurant: Big Ben Cafe');
+        L.marker([51.5007, -0.1246], { icon: L.icon({ iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] }) }).addTo(restaurants).bindPopup('Restaurant: Thames Diner');
+
+        // Parks (green icons) - Using a custom color by overriding the icon
+        var greenIcon = L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+        L.marker([51.5033, -0.1195], { icon: greenIcon }).addTo(parks).bindPopup('Park: Westminster Park');
+        L.marker([51.5136, -0.0984], { icon: greenIcon }).addTo(parks).bindPopup('Park: City Garden');
+
+        // Museums (blue icons)
+        var blueIcon = L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+        L.marker([51.5194, -0.1269], { icon: blueIcon }).addTo(museums).bindPopup('Museum: British Museum');
+        L.marker([51.4963, -0.1769], { icon: blueIcon }).addTo(museums).bindPopup('Museum: Natural History Museum');
+
+        // Add layer control for base layers and overlays (POI categories)
+        // @see: https://leaflet-extras.github.io/leaflet-providers/preview/
+        var baseLayers = {
+            "OpenStreetMap": osm,
+            "Stadia": stadiaAlidadeSmooth,
+            "Esri Satellite": esriWorldImagery
+        };
+
+        var overlays = {
+            "Restaurants": restaurants,
+            "Parks": parks,
+            "Museums": museums,
+            "Primary Schools": primarySchools,
+        };
+
+        const wantedProps = ['name', 'description'];
+        function buildPopup(feature) {
+            const props = feature.properties;
+            const rows = wantedProps
+              .filter(key => props.hasOwnProperty(key) && props[key] != null)
+              .map(key => `<strong>${key}:</strong> ${props[key]}`)
+              .join('<br>');
+
+            return rows || 'No data';
+        };
+
+        // Load GeoJSON
+        fetch('./data/primary_schools.geojson')
+          .then(res => {
+            if (!res.ok) throw new Error('Network response was not ok');
+            // console.log('res.json():', res.json());
+            return res.json();
+          })
+          .then(geojson => {
+            primarySchoolsData = geojson;
+            console.log('geojson:', geojson);
+            primarySchoolsLayer = L.geoJSON(geojson, {
+              // Optional: custom marker style
+              pointToLayer: (feature, latlng) => {
+                return L.circleMarker(latlng, {
+                  radius: 6,
+                  fillColor: '#d35400',
+                  color: '#fff',
+                  weight: 1.5,
+                  opacity: 1,
+                  fillOpacity: 0.8
+                });
+              },
+              onEachFeature: (feature, layer) => {
+                if (feature.properties) {
+                  layer.bindPopup(Object.entries(feature.properties).map(([k, v]) => `${k}: ${v}`).join('<br>'));
+                  //layer.bindPopup(buildPopup(feature));
+                }
+              },
+            }).addTo(primarySchools);
+
+            primarySchools.addTo(map);
+
+            console.log('primarySchoolsData:', primarySchoolsData);
+            console.log('primarySchoolsLayer:', primarySchoolsLayer);
+          })
+          .catch(err => {
+            console.error('Failed to load GeoJSON:', err);
+            alert('Could not load primary_schools.geojson – check the console.');
+          });
+
+        L.control.layers(baseLayers, overlays).addTo(map);
+        //restaurants.addTo(map);
+        //parks.addTo(map);
+        //museums.addTo(map);
+    </script>
+</body>
+</html>
