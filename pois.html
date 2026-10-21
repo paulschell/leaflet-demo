@@ -34,7 +34,6 @@
     let pharmaciesLayer = new LayerGroup();
 
     const map = new Map('map').setView([-20.27, 57.57], 10); // Adjust center/zoom
-    new TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
     var osm = new TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
