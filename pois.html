@@ -78,14 +78,18 @@
         .replace(/&lt;br\s*\/?&gt;/gi, '<br>');
     }
 
-    function buildPopup(feature, fields) {
+    // Popup with category title, the given fields, or the coordinates if no field has a value
+    function buildPopup(feature, title, fields) {
       const props = feature.properties || {};
       const rows = fields
         .filter(key => props[key] != null)
         .map(key => `<strong>${key}:</strong> ${escapeHtml(props[key])}`)
         .join('<br>');
 
-      return rows || 'No data';
+      if (rows) return `<strong>${title}</strong><br>${rows}`;
+
+      const [lng, lat] = feature.geometry.coordinates;
+      return `<strong>${title}</strong><br>${lat.toFixed(5)}, ${lng.toFixed(5)}`;
     }
 
     function geometryCollectionToFeatures(gc) {
@@ -100,7 +104,7 @@
     };
 
     // Load a GeoJSON file into a layer group, showing the given fields in the popup
-    async function loadGeoJSON(url, targetLayer, fields, toGeoJSON = data => data) {
+    async function loadGeoJSON(url, targetLayer, title, fields, toGeoJSON = data => data) {
       try {
         const response = await fetch(url);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -109,7 +113,7 @@
         new GeoJSON(geojson, {
           style: { color: '#ff7800', weight: 2 }, // Customize
           onEachFeature: (feature, layer) => {
-            layer.bindPopup(buildPopup(feature, fields));
+            layer.bindPopup(buildPopup(feature, title, fields));
           },
         }).addTo(targetLayer);
       } catch (error) {
@@ -117,11 +121,12 @@
       }
     }
 
-    loadGeoJSON('./data/primary_schools.geojson', primarySchoolsLayer, ['name', 'description']);
-    loadGeoJSON('./data/shoppingmall.geojson', shoppingmallLayer, ['name', 'address']);
-    loadGeoJSON('./data/busstops.geojson', busstopLayer, ['name']);
-    loadGeoJSON('./data/post_offices.json', postOfficeLayer, ['name'], geometryCollectionToFeatures);
-    loadGeoJSON('./data/hospitals_clinics.json', hospitalClinicsLayer, ['name', 'address', 'type']);
+    loadGeoJSON('./data/primary_schools.geojson', primarySchoolsLayer, 'Primary School', ['name', 'description']);
+    loadGeoJSON('./data/shoppingmall.geojson', shoppingmallLayer, 'Shopping Mall', ['name', 'address']);
+    loadGeoJSON('./data/busstops.geojson', busstopLayer, 'Bus Stop', ['name']);
+    // post_offices.json has no attributes, so the popup shows the coordinates
+    loadGeoJSON('./data/post_offices.json', postOfficeLayer, 'Post Office', [], geometryCollectionToFeatures);
+    loadGeoJSON('./data/hospitals_clinics.json', hospitalClinicsLayer, 'Hospital / Clinic', ['name', 'address', 'type']);
 
     // Function to load pharmacies from JSON
     async function loadPharmacies() {
