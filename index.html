@@ -29,37 +29,29 @@
 <script type="module">
     import {Map, Control, TileLayer, LatLng, LatLngBounds} from 'leaflet';
 
-    // Initialize the map with a specific view
-    const initialLat = -20.575581867678267; // Latitude for the center of the view
-    const initialLon = 57.89588928222657;  // Longitude for the center of the view
-    const initialZoom = 11;
+    // Mauritius: the map shows the whole island and cannot be panned or zoomed out beyond it
+    const bounds = new LatLngBounds(
+        new LatLng(-20.575581867678267, 57.23327636718751),
+        new LatLng(-19.95656892635273, 57.919235229492195)
+    );
 
-    // Define the bounds using the provided coordinates
-    const southWest = new LatLng(-20.575581867678267, 57.23327636718751);
-    const northEast = new LatLng(-19.95656892635273, 57.919235229492195);
-    const bounds = new LatLngBounds(southWest, northEast);
-
-    // Initialize the map
-    const map = new Map('map').setView([initialLat, initialLon], initialZoom); // Default view
+    const map = new Map('map', { maxBounds: bounds });
     map.fitBounds(bounds);
-    map.setMaxBounds(bounds);
+    map.setMinZoom(map.getZoom());
 
     const osm = new TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
-      minZoom: 11,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     });
 
     const stadia = new TileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.{ext}', {
       maxZoom: 19,
-      minZoom: 11,
       attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       ext: 'png'
     });
 
     const esri = new TileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       maxZoom: 19,
-      minZoom: 11,
       attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
     });
 
