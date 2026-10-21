@@ -10,7 +10,9 @@ module.exports = defineConfig({
     viewport: { width: 1280, height: 800 },
   },
   projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } } },
+    { name: 'chromium', testIgnore: /mobile\.spec\.js/, use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } } },
+    // Phone with touch: layout, header and accessibility checks
+    { name: 'mobile', testMatch: /(header|mobile|a11y)\.spec\.js/, use: { ...devices['Pixel 7'] } },
   ],
   // Serve the pages without caching on a separate port, so `npm start` can keep running
   webServer: {
