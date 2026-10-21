@@ -122,8 +122,11 @@
             }
         });
 
+        // Risiko-Layer je Radio-Button-Wert
+        const riskLayers = { flood: floodLayer, drought: droughtLayer, storm: stormLayer };
+
         // Layer hinzufügen (standardmäßig Überflutung)
-        floodLayer.addTo(map);
+        let activeLayer = floodLayer.addTo(map);
 
         // === Kontrollpanel ===
         const control = new Control({ position: 'topright' });
@@ -142,10 +145,8 @@
         // Radio-Button-Logik
         document.querySelectorAll('input[name="risk"]').forEach(radio => {
             radio.addEventListener('change', (e) => {
-                map.eachLayer(layer => { if (layer !== map._layers[Object.keys(map._layers)[0]]) map.removeLayer(layer); });
-                if (e.target.value === 'flood') floodLayer.addTo(map);
-                if (e.target.value === 'drought') droughtLayer.addTo(map);
-                if (e.target.value === 'storm') stormLayer.addTo(map);
+                map.removeLayer(activeLayer);
+                activeLayer = riskLayers[e.target.value].addTo(map);
             });
         });
 
