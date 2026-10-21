@@ -3,42 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaflet Map Example</title>
+    <title>Pharmacies Mauritius</title>
     <link rel="shortcut icon" href="#">
     <link rel="stylesheet" href="./node_modules/leaflet/dist/leaflet.css" />
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            margin: 0;
-        }
-        #map {
-            flex: 1;
-            width: 100%;
-        }
-        nav ul {
-            margin: 0;
-            padding: 5px 10px;
-        }
-        nav ul li {
-            display: inline-block;
-            padding: 5px;
-        }
-        nav ul li a{
-            color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="css/site.css" />
 </head>
 <body>
-<nav>
-    <ul>
-        <li><a href="climate.html">Climate &amp; Sea Level</a></li>
-        <li><a href="pois.html">POI's</a></li>
-        <li><a href="wind/wind.html">Wind</a></li>
-    </ul>
-</nav>
-<div id="map"></div>
+    <header class="site-header">
+        <a class="site-title" href="index.html">Leaflet Demo · Mauritius</a>
+        <nav>
+            <a href="index.html" aria-current="page">Pharmacies</a>
+            <a href="pois.html">POIs</a>
+            <a href="climate.html">Climate &amp; Sea Level</a>
+            <a href="wind/wind.html">Wind &amp; Currents</a>
+        </nav>
+    </header>
+    <div id="map"></div>
 <script type="importmap">
     {
         "imports": {

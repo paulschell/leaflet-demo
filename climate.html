@@ -7,20 +7,10 @@
     <link rel="shortcut icon" href="#">
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="./node_modules/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/site.css" />
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        #map {
-            height: 100vh;
-            width: 100%;
-        }
-
         .legend,
         .info,
         .control {
@@ -60,8 +50,16 @@
             padding: 0;
         }
 
-        canvas {
-            max-height: 180px;
+        .chart {
+            position: relative;
+            height: 240px;
+        }
+
+        /* Leave room for the topic panel on narrow screens */
+        @media (max-width: 600px) {
+            .info:not(.legend) {
+                max-width: calc(100vw - 190px);
+            }
         }
 
         .popup-content {
@@ -70,6 +68,15 @@
     </style>
 </head>
 <body>
+    <header class="site-header">
+        <a class="site-title" href="index.html">Leaflet Demo · Mauritius</a>
+        <nav>
+            <a href="index.html">Pharmacies</a>
+            <a href="pois.html">POIs</a>
+            <a href="climate.html" aria-current="page">Climate &amp; Sea Level</a>
+            <a href="wind/wind.html">Wind &amp; Currents</a>
+        </nav>
+    </header>
     <div id="map"></div>
 
     <script type="importmap">
@@ -196,9 +203,9 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'top', labels: { font: { size: 11 } } },
-                        title: { display: true, text: 'Sea level rise (cm)', font: { size: 13 } }
+                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
                     },
                     scales: {
                         y: { title: { display: true, text: 'Rise (cm)' }, beginAtZero: true },
@@ -230,7 +237,7 @@
                         <div class="popup-content">
                             <b>${area}</b><br>
                             <small>Values based on: ${source} (example zone)</small><hr>
-                            <canvas></canvas>
+                            <div class="chart"><canvas></canvas></div>
                             <p style="font-size:12px; margin-top:8px;">
                                 <strong>${year}:</strong> ${value} cm (${SSP[scenario]}),
                                 risk level: <strong>${slrRisk(value)}</strong><br>

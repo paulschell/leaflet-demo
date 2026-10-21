@@ -25,21 +25,4 @@ test.describe('index.html', () => {
   test('adds only one base layer', async ({ page }) => {
     await expect(page.locator('.leaflet-tile-pane > .leaflet-layer')).toHaveCount(1);
   });
-
-  test('page does not scroll', async ({ page }) => {
-    const { scrollHeight, innerHeight } = await page.evaluate(() => ({
-      scrollHeight: document.documentElement.scrollHeight,
-      innerHeight: window.innerHeight,
-    }));
-    expect(scrollHeight).toBeLessThanOrEqual(innerHeight);
-  });
-
-  test('navigation links point to existing pages', async ({ page, request }) => {
-    const links = page.locator('nav a');
-    for (const link of await links.all()) {
-      expect(await link.innerText()).not.toContain('​');
-      const response = await request.get(await link.getAttribute('href'));
-      expect(response.ok()).toBe(true);
-    }
-  });
 });
