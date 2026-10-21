@@ -70,14 +70,14 @@
 <body>
     <header class="site-header">
         <a class="site-title" href="index.html">Leaflet Demo · Mauritius</a>
-        <nav>
+        <nav aria-label="Pages">
             <a href="index.html">Map</a>
             <a href="pois.html">POIs</a>
             <a href="climate.html" aria-current="page">Climate &amp; Sea Level</a>
             <a href="wind/wind.html">Wind &amp; Currents</a>
         </nav>
     </header>
-    <div id="map"></div>
+    <main id="map" aria-label="Climate Risk Mauritius"></main>
 
     <script type="importmap">
         {
@@ -111,6 +111,7 @@
                 zone('Curepipe', 'Low', [57.52, -20.31, 57.54, -20.33])
             ],
             drought: [
+        <h1 class="sr-only">Climate Risk Mauritius</h1>
                 zone('Grand Port', 'High', [57.70, -20.38, 57.73, -20.41]),
                 zone('Flacq', 'Medium', [57.71, -20.20, 57.74, -20.23])
             ],
