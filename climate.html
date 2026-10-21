@@ -26,8 +26,25 @@
             max-width: 280px;
         }
 
-        .info h3 {
-            margin: 0 0 6px;
+        .info summary h2 {
+            display: inline;
+            margin: 0;
+            font-size: 17px;
+        }
+
+        .info .note {
+            margin-left: 4px;
+            padding: 0 6px;
+            border-radius: 8px;
+            background: #fff3cd;
+            font-size: 12px;
+            font-weight: normal;
+            white-space: nowrap;
+        }
+
+        .info p {
+            margin: 6px 0 0;
+            font-size: 13px;
         }
 
         .legend i {
@@ -50,25 +67,51 @@
             padding: 0;
         }
 
+        .control legend {
+            padding: 0;
+            font-weight: bold;
+        }
+
         .chart {
             position: relative;
             height: 240px;
         }
 
-        /* Leave room for the topic panel on narrow screens */
+        .popup-content {
+            width: min(300px, calc(100vw - 90px));
+        }
+
+        /* Small screens: compact panels, leaving room for the topic panel and the popup */
         @media (max-width: 600px) {
             .info:not(.legend) {
                 max-width: calc(100vw - 190px);
             }
-        }
 
-        .popup-content {
-            width: 300px;
+            .legend,
+            .info,
+            .control {
+                padding: 6px 8px;
+                font-size: 13px;
+            }
+
+            .info summary h2 {
+                font-size: 15px;
+            }
+
+            .control label,
+            .control select {
+                margin: 2px 0;
+            }
+
+            .chart {
+                height: 180px;
+            }
         }
     </style>
 </head>
 <body>
     <header class="site-header">
+        <h1 class="sr-only">Climate Risk Mauritius</h1>
         <a class="site-title" href="index.html">Leaflet Demo · Mauritius</a>
         <nav aria-label="Pages">
             <a href="index.html">Map</a>
@@ -87,7 +130,7 @@
         }
     </script>
     <script type="module">
-        import {Map, Control, DomUtil, TileLayer, GeoJSON} from 'leaflet';
+        import {Map, Control, DomUtil, DomEvent, TileLayer, GeoJSON} from 'leaflet';
 
         // Center the map on Mauritius
         const map = new Map('map').setView([-20.2, 57.55], 10);
@@ -111,7 +154,6 @@
                 zone('Curepipe', 'Low', [57.52, -20.31, 57.54, -20.33])
             ],
             drought: [
-        <h1 class="sr-only">Climate Risk Mauritius</h1>
                 zone('Grand Port', 'High', [57.70, -20.38, 57.73, -20.41]),
                 zone('Flacq', 'Medium', [57.71, -20.20, 57.74, -20.23])
             ],
@@ -151,6 +193,7 @@
         ];
 
         const SSP = { low: 'SSP1-2.6', high: 'SSP5-8.5' };
+        const smallScreen = matchMedia('(max-width: 600px)').matches;
         const COLORS = { Low: '#a6d96a', Medium: '#fdae61', High: '#d7191c' };
 
         // Risk level from the sea level rise in cm
@@ -219,11 +262,35 @@
         // === Layers ===
         const style = color => ({ fillColor: color, weight: 2, color: 'white', fillOpacity: 0.7 });
 
+        // Zones can be reached with the Tab key and opened with Enter or Space
+        function focusable(layer, label) {
+            layer.on('add', () => {
+                const element = layer.getElement();
+                element.setAttribute('tabindex', '0');
+                element.setAttribute('role', 'button');
+                element.setAttribute('aria-label', label);
+                element.addEventListener('keydown', e => {
+                    if (e.key !== 'Enter' && e.key !== ' ') return;
+                    e.preventDefault();
+                    layer.openPopup();
+                });
+            });
+        }
+
+        // Keep popups below the panels at the top of the map when the map pans
+        function popupOptions() {
+            const mapTop = map.getContainer().getBoundingClientRect().top;
+            const panels = [control, title].map(panel => panel.getContainer().getBoundingClientRect().bottom - mapTop);
+            return { autoPanPaddingTopLeft: [10, Math.max(...panels) + 10] };
+        }
+
         function riskLayer(topic) {
             return new GeoJSON({ type: 'FeatureCollection', features: riskZones[topic] }, {
                 style: feature => style(COLORS[feature.properties.risk]),
                 onEachFeature: (feature, layer) => {
-                    layer.bindPopup(`<b>${feature.properties.area}</b><br>${TOPICS[topic].title}: <strong>${feature.properties.risk}</strong>`);
+                    const { area, risk } = feature.properties;
+                    layer.bindPopup(`<b>${area}</b><br>${TOPICS[topic].title}: <strong>${risk}</strong>`, popupOptions());
+                    focusable(layer, `${area}: ${TOPICS[topic].title.toLowerCase()} ${risk.toLowerCase()}`);
                 }
             });
         }
@@ -238,14 +305,15 @@
                         <div class="popup-content">
                             <b>${area}</b><br>
                             <small>Values based on: ${source} (example zone)</small><hr>
-                            <div class="chart"><canvas></canvas></div>
+                            <div class="chart"><canvas role="img" aria-label="Sea level rise at ${area}: measured series since 1987 and projections for 2050 (${rise[scenario][2050]} cm) and 2100 (${rise[scenario][2100]} cm), ${SSP[scenario]}"></canvas></div>
                             <p style="font-size:12px; margin-top:8px;">
                                 <strong>${year}:</strong> ${value} cm (${SSP[scenario]}),
                                 risk level: <strong>${slrRisk(value)}</strong><br>
                                 <em>Historical: ~3.8 mm/year (Port Louis)</em>
                             </p>
                         </div>
-                    `);
+                    `, popupOptions());
+                    focusable(layer, `${area}: sea level rise ${value} cm in ${year}`);
 
                     // Create the chart once the popup is in the DOM, remove it when it closes
                     let chart;
@@ -261,10 +329,13 @@
         const control = new Control({ position: 'topright' });
         control.onAdd = () => {
             const div = DomUtil.create('div', 'control');
+            DomEvent.disableClickPropagation(div);
             div.innerHTML = `
-                <b>Topic</b>
-                ${Object.entries(TOPICS).map(([value, { label }]) =>
-                    `<label><input type="radio" name="topic" value="${value}"${value === 'flood' ? ' checked' : ''}> ${label}</label>`).join('')}
+                <fieldset>
+                    <legend>Topic</legend>
+                    ${Object.entries(TOPICS).map(([value, { label }]) =>
+                        `<label><input type="radio" name="topic" value="${value}"${value === 'flood' ? ' checked' : ''}> ${label}</label>`).join('')}
+                </fieldset>
                 <fieldset id="slr-options" hidden>
                     <label>Year: <select id="year"><option value="2050">2050</option><option value="2100">2100</option></select></label>
                     <label>Emissions: <select id="scenario"><option value="low">Low (SSP1-2.6)</option><option value="high">High (SSP5-8.5)</option></select></label>
@@ -280,8 +351,14 @@
         legend.addTo(map);
 
         // === Title ===
+        // Collapsed on small screens, the summary keeps the title and the example data note visible
         const title = new Control({ position: 'topleft' });
-        title.onAdd = () => DomUtil.create('div', 'info');
+        title.onAdd = () => {
+            const details = DomUtil.create('details', 'info map-panel');
+            details.open = !smallScreen;
+            DomEvent.disableClickPropagation(details);
+            return details;
+        };
         title.addTo(map);
 
         // Show the selected topic: layer, legend and title
@@ -290,21 +367,22 @@
             const topic = document.querySelector('input[name="topic"]:checked').value;
             const isSlr = topic === 'slr';
 
-            if (activeLayer) map.removeLayer(activeLayer);
-            activeLayer = isSlr
-                ? slrLayer(parseInt(document.getElementById('year').value), document.getElementById('scenario').value)
-                : riskLayer(topic);
-            activeLayer.addTo(map);
-
             document.getElementById('slr-options').hidden = !isSlr;
 
             const ranges = isSlr ? { Low: ' (&lt;20 cm)', Medium: ' (20–40 cm)', High: ' (&gt;40 cm)' } : {};
             legend.getContainer().innerHTML = '<b>Risk level</b><br>' +
                 Object.entries(COLORS).map(([level, color]) => `<i style="background:${color}"></i> ${level}${ranges[level] ?? ''}<br>`).join('');
 
-            title.getContainer().innerHTML = `<h3>${TOPICS[topic].title} – Mauritius</h3>` + (isSlr
-                ? `<small>Click a zone for the measured series and projection.<br>Example data: zones and measured series for illustration only.<br>${SOURCES}</small>`
-                : '<small>Example data: zones and risk levels are fictional.</small>');
+            title.getContainer().innerHTML = `<summary><h2>${TOPICS[topic].title} – Mauritius</h2><span class="note">Example data</span></summary>` + (isSlr
+                ? `<p>Click a zone for the measured series and projection.<br>Example data: zones and measured series for illustration only.<br>${SOURCES}</p>`
+                : '<p>Example data: zones and risk levels are fictional.</p>');
+
+            // The layer comes last, its popups keep clear of the panels updated above
+            if (activeLayer) map.removeLayer(activeLayer);
+            activeLayer = isSlr
+                ? slrLayer(parseInt(document.getElementById('year').value), document.getElementById('scenario').value)
+                : riskLayer(topic);
+            activeLayer.addTo(map);
         }
 
         document.querySelectorAll('input[name="topic"], #year, #scenario').forEach(input => input.addEventListener('change', update));
