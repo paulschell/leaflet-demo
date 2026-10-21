@@ -271,12 +271,25 @@
       return value.toLocaleString('en', { maximumFractionDigits: digits });
     }
 
-    // Phone numbers as tel: links, several numbers may be separated by "/" or ","
+    // Phone numbers as tel: links with the country code +230 of Mauritius, e.g. "+230 242 3020".
+    // Several numbers may be separated by "/" or ","; short numbers such as hotlines stay as they are.
     function phoneLinks(value) {
-      return String(value).split(/[\/,]/).map(part => part.trim()).filter(Boolean).map(number => {
-        let digits = number.replace(/[^\d+]/g, '');
-        if (/^230\d{7,8}$/.test(digits)) digits = `+${digits}`;
-        return `<a href="tel:${digits}">${escapeHtml(number)}</a>`;
+      const numbers = [];
+      for (const part of String(value).split(/[\/,]/)) {
+        let digits = part.replace(/\D/g, '').replace(/^230(?=\d{7,8}$)/, '');
+        const previous = numbers.at(-1) ?? '';
+        // "627 9340/1" or "266 2238 / 39": the next number only lists the digits that change
+        if (digits.length > 0 && digits.length <= 2 && previous.length >= 7) {
+          digits = previous.slice(0, -digits.length) + digits;
+        }
+        if (digits && !numbers.includes(digits)) numbers.push(digits);
+      }
+
+      return numbers.map(local => {
+        if (!/^\d{7,8}$/.test(local)) return `<a href="tel:${local}">${local}</a>`;
+        // Landlines have 7 digits (123 4567), mobile numbers 8 (5123 4567)
+        const formatted = local.replace(/^(\d{3,4})(\d{4})$/, '$1 $2');
+        return `<a href="tel:+230${local}">+230 ${formatted}</a>`;
       }).join(', ');
     }
 
@@ -290,32 +303,42 @@
       return `<a href="${escapeHtml(url)}" target="_blank" rel="noopener">${escapeHtml(label)}</a>`;
     }
 
-    // Split free text such as "ROYAL ROAD<br>Tel: 248-8157<br>Fax: ...<br>Email: ..." into popup rows
+    // Split free text such as "ROYAL ROAD<br>Tel: 248-8157<br>Fax: ...<br>Email: ..." into popup rows (without fax)
     function contactRows(value) {
       const address = [];
       const rows = [];
       const notes = [];
-      const lines = String(value ?? '').split(/<br\s*\/?>/i).map(line => tidy(line.replace(/\t/g, ', '))).filter(Boolean);
+      // Lines are separated by <br>, but some entries list "Tel: … Fax: … Email: …" in one line.
+      // Tabs separate parts of an address or several numbers.
+      const lines = String(value ?? '')
+        .split(/<br\s*\/?>|[\s,]+(?=(?:tel|fax|phone|e-?mail|medium)(?![a-z]))/i)
+        .map(line => tidy(line.replace(/:\s*\t+/g, ': ').replace(/\t/g, ', ')))
+        .filter(Boolean);
 
       for (const line of lines) {
-        // "Tel: 123", "Tel No. 123" or any other "Label: value"
-        const labeled = line.match(/^(tel|phone|fax|e-?mail)\b\.?\s*(?:no\.?)?\s*:?\s*(.+)$/i)
+        if (/^(https?:\/\/|www\.)/i.test(line)) {
+          rows.push(['Website', websiteLink(line)]);
+          continue;
+        }
+
+        // "Tel: 123", "Tel No. 123", "Fax123" or any other "Label: value"
+        const labeled = line.match(/^(tel|phone|fax|e-?mail|emali)(?![a-z])\.?\s*(?:no\.?)?\s*:?\s*(.+)$/i)
           ?? line.match(/^([\p{L} .]{2,40}?)\s*:\s*(.+)$/u);
         const label = labeled?.[1].trim().toLowerCase();
         const text = labeled?.[2].trim();
 
         if (label === 'address' || label === 'city') address.push(text);
         else if (label === 'tel' || label === 'phone') rows.push(['Phone', phoneLinks(text)]);
-        else if (label === 'fax') rows.push(['Fax', escapeHtml(text)]);
-        else if (label === 'email' || label === 'e-mail') rows.push(['Email', emailLink(text)]);
-        else if (labeled) rows.push([escapeHtml(labeled[1].trim()), phoneLinks(text)]);
+        else if (label === 'fax') continue;
+        else if (['email', 'e-mail', 'emali'].includes(label)) rows.push(['Email', emailLink(text)]);
+        else if (labeled) rows.push([escapeHtml(labeled[1].trim()), /^[+\d()\s\-\/]+$/.test(text) ? phoneLinks(text) : escapeHtml(text)]);
         else if (/^[+\d()\s\-\/]{7,}$/.test(line)) rows.push(['Phone', phoneLinks(line)]);
         else if (rows.length) notes.push(line);
         else address.push(line);
       }
 
       if (address.length) rows.unshift(['Address', escapeHtml(address.join(', '))]);
-      if (notes.length) rows.push(['Note', escapeHtml(notes.join(', '))]);
+      if (notes.length) rows.push(['Note', escapeHtml(notes.join(', ').replace(/^ZEP$/, 'ZEP (priority education zone)'))]);
       return rows;
     }
 

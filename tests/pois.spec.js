@@ -3,14 +3,14 @@ const { test, expect, overlayLabels, setOverlay, openPopup } = require('./fixtur
 // Overlay label -> number of features and pattern the popup text has to match
 // (the clicked marker may be any of several overlapping ones)
 const POINT_OVERLAYS = {
-  'Primary Schools': { count: 259, popup: /^PRIMARY SCHOOLS .+ Address .+ Phone [\d ()+-]+/ },
+  'Primary Schools': { count: 259, popup: /^PRIMARY SCHOOLS .+ Address .+ Phone \+230 \d{3,4} \d{4}/ },
   'Shopping Malls': { count: 30, popup: /^SHOPPING MALLS .+ Address .+/ },
   'Busstops': { count: 508, popup: /^BUSSTOPS .+ OSM node \d+/ },
   'Postoffices': { count: 102, popup: /^POSTOFFICES Post office / },
   'Hospitals & Clinics': { count: 32, popup: /^HOSPITALS & CLINICS .+ (Hospital|Clinic|Mediclinic) Address .+ Phone / },
-  'Pharmacies': { count: 294, popup: /^PHARMACIES .+ Address .+ Phone \d/ },
+  'Pharmacies': { count: 294, popup: /^PHARMACIES .+ Address .+ Phone \+230 \d{3,4} \d{4} / },
   'Social Welfare Centres': { count: 52, popup: /^SOCIAL WELFARE CENTRES .+/ },
-  'Police Stations': { count: 74, popup: /^POLICE STATIONS .+ Police / },
+  'Police Stations': { count: 74, popup: /^POLICE STATIONS .+ Police .+ Phone \+230 \d{3} \d{4}/ },
   'ATMs': { count: 241, popup: /^ATMS .+ ATM .+ Address / },
   'Speed Cameras': { count: 61, popup: /^SPEED CAMERAS .+ Radar \d+ Code \S+ Region \w+/ },
   'Dangerous Bathing': { count: 63, popup: /^DANGEROUS BATHING .+ ⚠ Marked as dangerous for bathing/ },
@@ -39,6 +39,7 @@ test.describe('pois.html', () => {
 
       const text = await openPopup(page, features.first());
       expect(text).toMatch(popup);
+      expect(text).not.toContain('Fax');
       expect(text).not.toMatch(/undefined|null|NaN|<br>|\uFFFD/);
     });
   }
@@ -64,7 +65,10 @@ test.describe('pois.html', () => {
   test('phone numbers, emails and websites are links', async ({ page }) => {
     await setOverlay(page, 'Primary Schools', true);
     await openPopup(page, page.locator('path.leaflet-interactive').first());
-    await expect(page.locator('.poi-rows a[href^="tel:"]').first()).toHaveAttribute('href', /^tel:\+?\d{7,}$/);
+    const phone = page.locator('.poi-rows a[href^="tel:"]').first();
+    await expect(phone).toHaveAttribute('href', /^tel:\+230\d{7,8}$/);
+    await expect(phone).toHaveText(/^\+230 \d{3,4} \d{4}$/);
+    await expect(page.locator('.poi-rows dt', { hasText: 'Fax' })).toHaveCount(0);
     await page.locator('.leaflet-popup-close-button').click();
 
     await setOverlay(page, 'Primary Schools', false);
@@ -74,13 +78,23 @@ test.describe('pois.html', () => {
     await expect(page.locator('.poi-rows a[href="https://www.mallofmauritius.com"]')).toHaveText('mallofmauritius.com');
   });
 
+  test('phone numbers that only list the changing last digits are expanded', async ({ page }) => {
+    await setOverlay(page, 'Police Stations', true);
+    // Rose Belle Police Station: "6279340/1, 6279342/3"
+    const station = page.locator('path.leaflet-interactive').nth(61);
+    await expect(async () => {
+      const text = await openPopup(page, station);
+      expect(text).toContain('Phone +230 627 9340, +230 627 9341, +230 627 9342, +230 627 9343');
+    }).toPass();
+  });
+
   test('contact details in free text are split into rows', async ({ page }) => {
     await setOverlay(page, 'Hospitals & Clinics', true);
-    // Jeetoo Hospital: address in capitals, "Tel No." and "Fax No." without colon
+    // Jeetoo Hospital: address in capitals, "Tel No." and "Fax No." without colon, fax is left out
     const jeetoo = page.locator('path.leaflet-interactive').nth(25);
     await expect(async () => {
       const text = await openPopup(page, jeetoo);
-      expect(text).toContain('Address Volcy Pougnet Street, P. Louis Phone (+230)203-1001 Fax (+230)212-8958');
+      expect(text).toContain('Address Volcy Pougnet Street, P. Louis Phone +230 203 1001 -20.');
     }).toPass();
   });
 
