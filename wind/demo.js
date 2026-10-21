@@ -27,9 +27,12 @@ function initDemoMap() {
     layers: [Esri_WorldImagery]
   });
 
-  var layerControl = L.control.layers(baseLayers);
+  var layerControl = L.control.layers(baseLayers, null, { sortLayers: true });
   layerControl.addTo(map);
-  map.setView([-22, 150], 5);
+  map.setView([-20.25, 57.55], 10);
+  map.attributionControl.addAttribution(
+    'Wind &amp; currents: <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a> (CC BY 4.0)'
+  );
 
   return {
     map: map,
@@ -55,13 +58,13 @@ function getJSON(url, callback) {
     });
 }
 
-// load data (u, v grids) from somewhere (e.g. https://github.com/danwild/wind-js-server)
-getJSON("wind-gbr.json", function(data) {
+// load data (u, v grids) around Mauritius, created with `npm run fetch-wind`
+getJSON("wind-mauritius.json", function(data) {
   var velocityLayer = L.velocityLayer({
     displayValues: true,
     displayOptions: {
-      velocityType: "GBR Wind",
-      position: "bottomleft",
+      velocityType: "Wind 10 m (" + formatTime(data[0].header.refTime) + ")",
+      position: "topleft",
       emptyString: "No wind data",
       showCardinal: true
     },
@@ -69,36 +72,27 @@ getJSON("wind-gbr.json", function(data) {
     maxVelocity: 10
   });
 
-  layerControl.addOverlay(velocityLayer, "Wind - Great Barrier Reef");
+  layerControl.addOverlay(velocityLayer, "Wind - Mauritius");
+  velocityLayer.addTo(map);
 });
 
-getJSON("water-gbr.json", function(data) {
+getJSON("currents-mauritius.json", function(data) {
   var velocityLayer = L.velocityLayer({
     displayValues: true,
     displayOptions: {
-      velocityType: "GBR Water",
-      position: "bottomleft",
-      emptyString: "No water data"
+      velocityType: "Ocean current (" + formatTime(data[0].header.refTime) + ")",
+      position: "topleft",
+      emptyString: "No current data"
     },
     data: data,
     maxVelocity: 0.6,
     velocityScale: 0.1 // arbitrary default 0.005
   });
 
-  layerControl.addOverlay(velocityLayer, "Ocean Current - Great Barrier Reef");
+  layerControl.addOverlay(velocityLayer, "Ocean Current - Mauritius");
 });
 
-getJSON("wind-global.json", function(data) {
-  var velocityLayer = L.velocityLayer({
-    displayValues: true,
-    displayOptions: {
-      velocityType: "Global Wind",
-      position: "bottomleft",
-      emptyString: "No wind data"
-    },
-    data: data,
-    maxVelocity: 15
-  });
-
-  layerControl.addOverlay(velocityLayer, "Wind - Global");
-});
+// e.g. "2026-10-21 05:00 UTC"
+function formatTime(isoTime) {
+  return isoTime.slice(0, 16).replace("T", " ") + " UTC";
+}

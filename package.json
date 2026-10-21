@@ -5,7 +5,8 @@
   "description": "Leaflet 2.0-alpha demo maps for Mauritius",
   "scripts": {
     "start": "http-server -p 8080",
-    "test": "playwright test"
+    "test": "playwright test",
+    "fetch-wind": "node scripts/fetch-wind.mjs"
   },
   "keywords": [
     "leaflet",
