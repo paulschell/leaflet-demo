@@ -1,5 +1,36 @@
 # leaflet-demo
-Shows leaflet (2.0.0-alpha) map with pharmacies in Mauritius.
+Demo maps of Mauritius built with [Leaflet](https://leafletjs.com/) 2.0.0-alpha.
 
-## Sources
-Dataset from https://geoportal.govmu.org/catalogue/#/dataset/34 
+## Getting started
+```sh
+npm install
+npm start
+```
+Then open http://localhost:8080. The pages load Leaflet from `node_modules` via an import map, so they need to be served over HTTP rather than opened as files.
+
+## Pages
+| Page | Content |
+|---|---|
+| `index.html` | Start page with navigation, switchable base maps (OSM, Stadia, Esri) and pharmacies |
+| `pois.html` | Points of interest: primary schools, shopping malls, bus stops, post offices, hospitals & clinics, pharmacies |
+| `klima-mauritius.html` | Climate risk zones (flood, drought, storm) |
+| `slr-mauritius.html` | Sea level rise by year (2050/2100) and emission scenario (SSP1-2.6/SSP5-8.5) |
+| `slr-mauritius-graph.html` | Same as above, with a Chart.js graph per zone |
+| `wind/wind.html` | Animated wind and ocean currents with [leaflet-velocity](https://github.com/onaci/leaflet-velocity) |
+
+The wind demo is the only page that still uses Leaflet 1.9.4 (from CDN), because leaflet-velocity does not load with Leaflet 2.0-alpha. Its data covers the Great Barrier Reef and the globe, not Mauritius.
+
+The zones on the climate risk and sea level rise pages are **example data**: invented rectangles with values loosely based on regional projections, not measured per location.
+
+## Data sources
+| File | Source |
+|---|---|
+| `data/mu_pharmacies.json` | https://geoportal.govmu.org/catalogue/#/dataset/34 |
+| `data/primary_schools.geojson`, `data/shoppingmall.geojson`, `data/hospitals_clinics.json`, `data/post_offices.json` | https://geoportal.govmu.org/catalogue/ |
+| `data/busstops.geojson` | https://geoportal.govmu.org/catalogue/ (contains OpenStreetMap node IDs, © OpenStreetMap contributors, ODbL) |
+| `wind/*.json` | Demo data from [onaci/leaflet-velocity](https://github.com/onaci/leaflet-velocity/tree/master/demo) |
+
+Sea level projections referenced: [IPCC AR6 WG1](https://www.ipcc.ch/report/ar6/wg1/), [NASA Sea Level Projection Tool](https://sealevel.nasa.gov/data_tools/17), [World Bank Climate Change Knowledge Portal](https://climateknowledgeportal.worldbank.org/country/mauritius).
+
+## License
+[MIT](LICENSE)
