@@ -17,7 +17,7 @@ The pages are tested in Chromium with [Playwright](https://playwright.dev/). Ins
 npx playwright install --only-shell chromium
 npm test
 ```
-The tests start their own server on port 8090 and fail on any JavaScript or console error. Map tiles, Chart.js and leaflet-velocity are loaded from external servers, so an internet connection is required. Use `npx playwright test --headed` to watch the browser, or `npx playwright test tests/pois.spec.js` to run a single file.
+The tests start their own server on port 8090 and fail on any JavaScript or console error. They run on a desktop browser and, for the layout and accessibility tests, on a phone (Pixel 7 emulation). The accessibility tests check every page with [axe-core](https://github.com/dequelabs/axe-core). Map tiles, Chart.js and leaflet-velocity are loaded from external servers, so an internet connection is required. Use `npx playwright test --headed` to watch the browser, or `npx playwright test tests/pois.spec.js` to run a single file.
 
 ## Pages
 | Page | Content |

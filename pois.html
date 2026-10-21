@@ -15,6 +15,12 @@
           box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
           font: 13px/20px Arial, sans-serif;
         }
+        .legend summary {
+          font-size: 14px;
+        }
+        .legend[open] summary {
+          margin-bottom: 4px;
+        }
         .legend i {
           display: inline-block;
           width: 12px;
@@ -84,7 +90,7 @@
           margin: 10px 0 0;
         }
         .poi-rows dt {
-          color: #777;
+          color: #666;
         }
         .poi-rows dd {
           margin: 0;
@@ -134,21 +140,22 @@
           padding-top: 6px;
           border-top: 1px solid #eee;
           font-size: 12px;
-          color: #777;
+          color: #666;
         }
     </style>
 </head>
 <body>
   <header class="site-header">
+    <h1 class="sr-only">Points of Interest Mauritius</h1>
     <a class="site-title" href="index.html">Leaflet Demo · Mauritius</a>
-    <nav>
+    <nav aria-label="Pages">
       <a href="index.html">Map</a>
       <a href="pois.html" aria-current="page">POIs</a>
       <a href="climate.html">Climate &amp; Sea Level</a>
       <a href="wind/wind.html">Wind &amp; Currents</a>
     </nav>
   </header>
-  <div id="map"></div>
+  <main id="map" aria-label="Points of Interest Mauritius"></main>
   <script type="importmap">
       {
           "imports": {
@@ -157,7 +164,7 @@
       }
   </script>
   <script type="module">
-      import {Map, Control, DomUtil, TileLayer, LayerGroup, GeoJSON, CircleMarker} from 'leaflet';
+      import {Map, Control, DomUtil, DomEvent, TileLayer, LayerGroup, GeoJSON, CircleMarker} from 'leaflet';
 
     // Leaflet GeoJSON layers
     let primarySchoolsLayer = new LayerGroup();
@@ -522,16 +529,20 @@
     // new Control.Layers(baseLayers).addTo(map);
     new Control.Layers(baseLayers, overlays).addTo(map);
 
-    // Legend with the category colors and line styles
+    // Legend with the category colors and line styles, collapsed on small screens
     const legend = new Control({ position: 'bottomright' });
     legend.onAdd = function () {
-        const div = DomUtil.create('div', 'legend');
+        const details = DomUtil.create('details', 'legend map-panel');
+        details.open = !matchMedia('(max-width: 600px)').matches;
+        DomEvent.disableClickPropagation(details);
+        DomEvent.disableScrollPropagation(details);
         const pointItems = Object.entries(colors)
           .map(([name, color]) => `<i style="background:${color}"></i>${name}`);
         const shapeItems = Object.entries(shapeStyles)
           .map(([name, style]) => `<i class="line" style="border-top-color:${style.color};border-top-style:${style.dashArray ? 'dashed' : 'solid'}"></i>${name}`);
-        div.innerHTML = [...pointItems, ...shapeItems].join('<br>');
-        return div;
+        details.innerHTML = '<summary>Legend</summary><div class="legend-items">'
+          + [...pointItems, ...shapeItems].join('<br>') + '</div>';
+        return details;
     };
     legend.addTo(map);
   </script>
