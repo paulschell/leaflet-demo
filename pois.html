@@ -67,45 +67,26 @@
         "Pharmacies": pharmaciesLayer,
     };
 
-    function buildPrimarySchoolPopup(feature) {
-      const props = feature.properties;
-      const rows = ['name', 'description']
-        .filter(key => props.hasOwnProperty(key) && props[key] != null)
-        .map(key => `<strong>${key}:</strong> ${props[key]}`)
+    // Escape HTML special characters, but keep the <br> line breaks used in the data
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/&lt;br\s*\/?&gt;/gi, '<br>');
+    }
+
+    function buildPopup(feature, fields) {
+      const props = feature.properties || {};
+      const rows = fields
+        .filter(key => props[key] != null)
+        .map(key => `<strong>${key}:</strong> ${escapeHtml(props[key])}`)
         .join('<br>');
 
       return rows || 'No data';
-    };
-
-    function buildShoppingMallPopup(feature) {
-        const props = feature.properties;
-        const rows = ['name', 'address']
-          .filter(key => props.hasOwnProperty(key) && props[key] != null)
-          .map(key => `<strong>${key}:</strong> ${props[key]}`)
-          .join('<br>');
-
-        return rows || 'No data';
-      };
-
-    function buildBusstopsPopup(feature) {
-        const props = feature.properties;
-        const rows = ['name']
-          .filter(key => props.hasOwnProperty(key) && props[key] != null)
-          .map(key => `<strong>${key}:</strong> ${props[key]}`)
-          .join('<br>');
-
-        return rows || 'No data';
-    };
-
-    function buildHospitalsPopup(feature) {
-        const props = feature.properties;
-        const rows = ['name', 'address', 'type']
-          .filter(key => props.hasOwnProperty(key) && props[key] != null)
-          .map(key => `<strong>${key}:</strong> ${props[key]}`)
-          .join('<br>');
-
-        return rows || 'No data';
-    };
+    }
 
     function geometryCollectionToFeatures(gc) {
         return gc.geometries.map((geom, idx) => ({
@@ -118,82 +99,40 @@
         }));
     };
 
-    // Load GeoJSON
-    fetch('./data/primary_schools.geojson')
-      .then(res => res.json())
-      .then(geojson => {
+    // Load a GeoJSON file into a layer group, showing the given fields in the popup
+    async function loadGeoJSON(url, targetLayer, fields, toGeoJSON = data => data) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const geojson = toGeoJSON(await response.json());
+
         new GeoJSON(geojson, {
           style: { color: '#ff7800', weight: 2 }, // Customize
           onEachFeature: (feature, layer) => {
-            if (feature.properties) {
-              layer.bindPopup(buildPrimarySchoolPopup(feature));
-            }
+            layer.bindPopup(buildPopup(feature, fields));
           },
-        }).addTo(primarySchoolsLayer);
-      });
+        }).addTo(targetLayer);
+      } catch (error) {
+        console.error(`Error loading ${url}:`, error);
+      }
+    }
 
-    fetch('./data/shoppingmall.geojson')
-        .then(res => res.json())
-        .then(geojson => {
-          new GeoJSON(geojson, {
-            style: { color: '#ff7800', weight: 2 }, // Customize
-            onEachFeature: (feature, layer) => {
-              if (feature.properties) {
-                layer.bindPopup(buildShoppingMallPopup(feature));
-              }
-            },
-          }).addTo(shoppingmallLayer);
-        });
-
-    fetch('./data/busstops.geojson')
-      .then(res => res.json())
-      .then(geojson => {
-          new GeoJSON(geojson, {
-            style: { color: '#ff7800', weight: 2 }, // Customize
-            onEachFeature: (feature, layer) => {
-              if (feature.properties) {
-                layer.bindPopup(buildBusstopsPopup(feature));
-              }
-            },
-          }).addTo(busstopLayer);
-        });
-
-    fetch('./data/post_offices.json')
-        .then(res => res.json())
-        .then(geojson => {
-          const feats = geometryCollectionToFeatures(geojson);
-          new GeoJSON(feats, {
-            style: { color: '#ff7800', weight: 2 },
-            onEachFeature: (feature, layer) => {
-              if (feature.properties) {
-                layer.bindPopup(buildBusstopsPopup(feature));
-              }
-            },
-          }).addTo(postOfficeLayer);
-        });
-
-    fetch('./data/hospitals_clinics.json')
-        .then(res => res.json())
-        .then(geojson => {
-          new GeoJSON(geojson, {
-            style: { color: '#ff7800', weight: 2 },
-            onEachFeature: (feature, layer) => {
-              if (feature.properties) {
-                  layer.bindPopup(buildHospitalsPopup(feature));
-              }
-            },
-          }).addTo(hospitalClinicsLayer);
-        });
+    loadGeoJSON('./data/primary_schools.geojson', primarySchoolsLayer, ['name', 'description']);
+    loadGeoJSON('./data/shoppingmall.geojson', shoppingmallLayer, ['name', 'address']);
+    loadGeoJSON('./data/busstops.geojson', busstopLayer, ['name']);
+    loadGeoJSON('./data/post_offices.json', postOfficeLayer, ['name'], geometryCollectionToFeatures);
+    loadGeoJSON('./data/hospitals_clinics.json', hospitalClinicsLayer, ['name', 'address', 'type']);
 
     // Function to load pharmacies from JSON
     async function loadPharmacies() {
       try {
         const response = await fetch('./data/mu_pharmacies.json');
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const pharmacies = await response.json();
 
         pharmacies.forEach(pharmacy => {
             const { Name_of_Pharmacy, Address, Contact_Number, Latitude, Longitude } = pharmacy;
-            const popupContent = ` <strong>${Name_of_Pharmacy}</strong><br>${Address}<br><br>📞 ${Contact_Number}`;
+            const popupContent = `<strong>${escapeHtml(Name_of_Pharmacy)}</strong><br>${escapeHtml(Address)}<br><br>📞 ${escapeHtml(Contact_Number)}`;
 
             const popup = new Popup({
                 maxWidth: 500,
@@ -201,8 +140,7 @@
                 maxHeight: 400   // makes the popup scrollable if content overflows
             }).setContent(popupContent);
 
-            // const marker = new Marker([Latitude, Longitude]).addTo(map).bindPopup(popup);
-            const marker = new Marker([Latitude, Longitude]).addTo(pharmaciesLayer).bindPopup(popup);
+            new Marker([Latitude, Longitude]).addTo(pharmaciesLayer).bindPopup(popup);
         });
       } catch (error) {
         console.error('Error loading pharmacies:', error);
