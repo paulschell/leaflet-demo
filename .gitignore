@@ -143,3 +143,7 @@ docs/
 
 # Raw data exports (geoportal.govmu.org)
 downloads/
+
+# Playwright
+test-results/
+playwright-report/

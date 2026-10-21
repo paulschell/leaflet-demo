@@ -8,6 +8,14 @@ npm start
 ```
 Then open http://localhost:8080. The pages load Leaflet from `node_modules` via an import map, so they need to be served over HTTP rather than opened as files.
 
+## Testing
+The pages are tested in Chromium with [Playwright](https://playwright.dev/). Install the browser once, then run the tests:
+```sh
+npx playwright install --only-shell chromium
+npm test
+```
+The tests start their own server on port 8090 and fail on any JavaScript or console error. Map tiles, Chart.js and leaflet-velocity are loaded from external servers, so an internet connection is required. Use `npx playwright test --headed` to watch the browser, or `npx playwright test tests/pois.spec.js` to run a single file.
+
 ## Pages
 | Page | Content |
 |---|---|
