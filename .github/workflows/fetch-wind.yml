@@ -2,8 +2,8 @@ name: Update wind data
 
 on:
   schedule:
-    # Daily at 04:00 UTC (08:00 in Mauritius)
-    - cron: '0 4 * * *'
+    # Weekly on Monday at 04:00 UTC (08:00 in Mauritius)
+    - cron: '0 4 * * 1'
   workflow_dispatch:
 
 permissions:

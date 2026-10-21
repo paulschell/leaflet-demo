@@ -32,7 +32,7 @@ The wind and current data is a snapshot stored in `wind/*.json`. To update it wi
 ```sh
 npm run fetch-wind
 ```
-The GitHub Action [Update wind data](.github/workflows/fetch-wind.yml) does this daily at 04:00 UTC on `main` and commits the new snapshot. It can also be started manually from the Actions tab.
+The GitHub Action [Update wind data](.github/workflows/fetch-wind.yml) does this weekly on Monday at 04:00 UTC on `main` and commits the new snapshot. It can also be started manually from the Actions tab.
 
 The zones on the climate risk and sea level rise pages are **example data**: invented rectangles with values loosely based on regional projections, not measured per location.
 
