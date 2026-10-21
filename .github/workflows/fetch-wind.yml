@@ -1,0 +1,41 @@
+name: Update wind data
+
+on:
+  schedule:
+    # Daily at 04:00 UTC (08:00 in Mauritius)
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-wind
+  cancel-in-progress: false
+
+jobs:
+  fetch-wind:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      # The script has no dependencies, so npm install is not needed
+      - name: Fetch wind and current data from Open-Meteo
+        run: node scripts/fetch-wind.mjs
+
+      - name: Commit updated data
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add wind/wind-mauritius.json wind/currents-mauritius.json
+          if git diff --cached --quiet; then
+            echo 'No changes.'
+            exit 0
+          fi
+          git commit -m "chore(wind): update wind and current data"
+          git push
