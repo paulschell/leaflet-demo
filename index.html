@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pharmacies Mauritius</title>
+    <title>Map of Mauritius</title>
     <link rel="shortcut icon" href="#">
     <link rel="stylesheet" href="./node_modules/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="css/site.css" />
@@ -12,7 +12,7 @@
     <header class="site-header">
         <a class="site-title" href="index.html">Leaflet Demo · Mauritius</a>
         <nav>
-            <a href="index.html" aria-current="page">Pharmacies</a>
+            <a href="index.html" aria-current="page">Map</a>
             <a href="pois.html">POIs</a>
             <a href="climate.html">Climate &amp; Sea Level</a>
             <a href="wind/wind.html">Wind &amp; Currents</a>
@@ -27,7 +27,7 @@
     }
 </script>
 <script type="module">
-    import {Map, Control, TileLayer, LayerGroup, Marker, Popup, LatLng, LatLngBounds} from 'leaflet';
+    import {Map, Control, TileLayer, LatLng, LatLngBounds} from 'leaflet';
 
     // Initialize the map with a specific view
     const initialLat = -20.575581867678267; // Latitude for the center of the view
@@ -70,48 +70,10 @@
       'Esri': esri,
     };
 
-    const pharmacies = new LayerGroup();
-
-    // Define overlays
-    const overlays = {
-      'Pharmacies': pharmacies,
-    };
-
-    new Control.Layers(baseLayers, overlays).addTo(map);
+    new Control.Layers(baseLayers).addTo(map);
 
     // Add default base layer
     baseLayers['OpenStreetMap'].addTo(map);
-
-    // Add default overlay
-    overlays['Pharmacies'].addTo(map);
-
-    // Function to load pharmacies from JSON
-    async function loadPharmacies() {
-        try {
-            const response = await fetch('./data/mu_pharmacies.json');
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const data = await response.json();
-
-            data.forEach(pharmacy => {
-                const { Name_of_Pharmacy, Address, Contact_Number, Latitude, Longitude } = pharmacy;
-
-                const popupContent = `<strong>${Name_of_Pharmacy}</strong><br>${Address}<br><br>📞 ${Contact_Number}`;
-
-                const popup = new Popup({
-                    maxWidth: 500, // Maximum width of the popup
-                    minWidth: 200, // Minimum width of the popup
-                    maxHeight: 400 // Maximum height of the popup (for scrollable content)
-                }).setContent(popupContent);
-
-                new Marker([Latitude, Longitude]).addTo(pharmacies).bindPopup(popup);
-            });
-        } catch (error) {
-            console.error('Error loading pharmacies:', error);
-        }
-    }
-
-    // Call the function to load pharmacies
-    loadPharmacies();
 </script>
 </body>
 </html>
