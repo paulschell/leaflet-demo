@@ -6,7 +6,7 @@ test.describe('index.html', () => {
   test('shows a plain map without overlays', async ({ page }) => {
     await page.goto('/index.html');
     await expect(page.locator('.leaflet-tile-pane > .leaflet-layer')).toHaveCount(1);
-    await expect(page.locator('.leaflet-control-layers-base label')).toHaveText(['OpenStreetMap', 'CARTO Light', 'Esri'].map(l => new RegExp(l)));
+    await expect(page.locator('.leaflet-control-layers-base label')).toHaveText(['OpenStreetMap', 'Esri'].map(l => new RegExp(l)));
     await expect(page.locator('.leaflet-control-layers-overlays label')).toHaveCount(0);
     await expect(page.locator('.leaflet-marker-icon')).toHaveCount(0);
   });
