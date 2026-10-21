@@ -23,7 +23,7 @@ The tests start their own server on port 8090 and fail on any JavaScript or cons
 | Page | Content |
 |---|---|
 | `index.html` | Start page: map of Mauritius with switchable base maps (OpenStreetMap, Esri) |
-| `pois.html` | Points of interest: primary schools, shopping malls, bus stops, post offices, hospitals & clinics, pharmacies |
+| `pois.html` | Points of interest: primary schools, shopping malls, bus stops, post offices, hospitals & clinics, pharmacies, social welfare centres, police stations, ATMs, speed cameras, dangerous bathing areas, plus bus routes and district boundaries |
 | `climate.html` | Climate risk zones (flood, drought, storm) and sea level rise by year (2050/2100) and emission scenario (SSP1-2.6/SSP5-8.5), with a Chart.js graph per zone |
 | `wind/wind.html` | Animated wind and ocean currents around Mauritius with [leaflet-velocity](https://github.com/onaci/leaflet-velocity) |
 
@@ -43,7 +43,16 @@ The zones on the climate page are **example data**: invented rectangles with val
 | `data/mu_pharmacies.json` | https://geoportal.govmu.org/catalogue/#/dataset/34 |
 | `data/primary_schools.geojson`, `data/shoppingmall.geojson`, `data/hospitals_clinics.json`, `data/post_offices.json` | https://geoportal.govmu.org/catalogue/#/search/?f=dataset |
 | `data/busstops.geojson` | https://geoportal.govmu.org/catalogue/#/search/?f=dataset (contains OpenStreetMap node IDs, © OpenStreetMap contributors, ODbL) |
+| `data/social_welfare_centres.geojson` | https://geoportal.govmu.org/catalogue/#/dataset/33 (ODbL) |
+| `data/police_stations.geojson` | https://geoportal.govmu.org/catalogue/#/dataset/11 (ODbL) |
+| `data/atms.geojson` | https://geoportal.govmu.org/catalogue/#/dataset/8 (ODbL) |
+| `data/speed_cameras.geojson` | https://geoportal.govmu.org/catalogue/#/dataset/18 (ODbL) |
+| `data/dangerous_bathing.geojson` | https://geoportal.govmu.org/catalogue/#/dataset/7 (licence not specified) |
+| `data/districts.geojson` | https://geoportal.govmu.org/catalogue/#/dataset/6 (ODbL), reprojected from UTM zone 40S and simplified |
+| `data/bus_routes.geojson` | https://geoportal.govmu.org/catalogue/#/dataset/4 (licence not specified), simplified |
 | `wind/wind-mauritius.json`, `wind/currents-mauritius.json` | [Open-Meteo](https://open-meteo.com/) Weather and Marine API (CC BY 4.0), 0.1° grid, created by `scripts/fetch-wind.mjs` |
+
+The geoportal files above were converted from the shapefile exports with `scripts/convert-geoportal.py` (needs Python with `pyshp`, `pyproj` and `shapely`). It reads the zip files from `downloads/`, which is not part of the repository.
 
 Sea level projections referenced: [IPCC AR6 WG1](https://www.ipcc.ch/report/ar6/wg1/), [NASA Sea Level Projection Tool](https://sealevel.nasa.gov/data_tools/17), [World Bank Climate Change Knowledge Portal](https://climateknowledgeportal.worldbank.org/country/mauritius).
 
