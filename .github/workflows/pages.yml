@@ -1,0 +1,58 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Pushes by the wind workflow do not trigger other workflows, so deploy after it explicitly
+  workflow_run:
+    workflows: [Update wind data]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      # Only Leaflet is needed at runtime, the test tools are dev dependencies
+      - run: npm ci --omit=dev
+
+      # The pages load Leaflet from node_modules via an import map, so it is copied along
+      - name: Assemble site
+        run: |
+          mkdir -p _site/node_modules/leaflet
+          cp -r *.html css data wind LICENSE _site/
+          cp -r node_modules/leaflet/dist _site/node_modules/leaflet/
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

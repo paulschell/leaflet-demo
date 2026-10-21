@@ -1,7 +1,7 @@
 const { test: base, expect } = require('@playwright/test');
 
 // Map tiles come from external servers and are not part of the tests
-const TILE_HOSTS = /tile\.openstreetmap\.org|arcgisonline\.com|stadiamaps\.com/;
+const TILE_HOSTS = /tile\.openstreetmap\.org|arcgisonline\.com|basemaps\.cartocdn\.com/;
 
 // Fails every test that causes a JavaScript error, a console error or an alert()
 const test = base.extend({

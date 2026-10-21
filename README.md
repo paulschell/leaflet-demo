@@ -8,6 +8,9 @@ npm start
 ```
 Then open http://localhost:8080. The pages load Leaflet from `node_modules` via an import map, so they need to be served over HTTP rather than opened as files.
 
+## GitHub Pages
+The demo is published at https://paulschell.github.io/leaflet-demo/. The workflow [Deploy to GitHub Pages](.github/workflows/pages.yml) deploys every push to `main` and every wind data update. It copies the pages and Leaflet from `node_modules` into the site, so the import map works the same as locally.
+
 ## Testing
 The pages are tested in Chromium with [Playwright](https://playwright.dev/). Install the browser once, then run the tests:
 ```sh
@@ -19,7 +22,7 @@ The tests start their own server on port 8090 and fail on any JavaScript or cons
 ## Pages
 | Page | Content |
 |---|---|
-| `index.html` | Start page: map of Mauritius with switchable base maps (OSM, Stadia, Esri) |
+| `index.html` | Start page: map of Mauritius with switchable base maps (OpenStreetMap, CARTO Light, Esri) |
 | `pois.html` | Points of interest: primary schools, shopping malls, bus stops, post offices, hospitals & clinics, pharmacies |
 | `climate.html` | Climate risk zones (flood, drought, storm) and sea level rise by year (2050/2100) and emission scenario (SSP1-2.6/SSP5-8.5), with a Chart.js graph per zone |
 | `wind/wind.html` | Animated wind and ocean currents around Mauritius with [leaflet-velocity](https://github.com/onaci/leaflet-velocity) |
