@@ -26,6 +26,11 @@ test.describe('pois.html', () => {
     await page.goto('/pois.html');
   });
 
+  // Stadia Maps needs an API key and answers 401 (#9)
+  test('offers only base layers that work without an API key', async ({ page }) => {
+    await expect(page.locator('.leaflet-control-layers-base label')).toHaveText([/OpenStreetMap/, /Esri Satellite/]);
+  });
+
   test('lists all POI categories as overlays and in the legend', async ({ page }) => {
     expect(await overlayLabels(page)).toEqual(Object.keys(OVERLAYS));
     await expect(page.locator('.legend .legend-items')).toHaveText(Object.keys(OVERLAYS).join(''));
