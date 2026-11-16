@@ -21,15 +21,39 @@ for (let j = 0; j < ny; j++) {
   }
 }
 
+// Network errors, timeouts, HTTP 429 and 5xx are usually temporary, so retry them
+// a few times with a growing pause. Other HTTP errors (e.g. 400) fail at once.
+const RETRY_DELAYS_MS = [5_000, 15_000];
+const REQUEST_TIMEOUT_MS = 30_000;
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+async function fetchJsonWithRetry(url) {
+  for (let attempt = 1; ; attempt++) {
+    let error;
+    try {
+      const response = await fetch(url, { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) });
+      if (response.ok) return await response.json();
+      error = new Error(`${url.host}: HTTP ${response.status} ${await response.text()}`);
+      error.retryable = response.status === 429 || response.status >= 500;
+    } catch (err) {
+      // fetch() itself failed: DNS, connect timeout, connection reset, abort
+      error = err;
+      error.retryable = true;
+    }
+    if (!error.retryable || attempt > RETRY_DELAYS_MS.length) throw error;
+    const delay = RETRY_DELAYS_MS[attempt - 1];
+    console.warn(`${url.host}: attempt ${attempt} failed (${error.cause?.code ?? error.name}: ${error.message}), retrying in ${delay / 1000} s`);
+    await sleep(delay);
+  }
+}
+
 async function fetchCurrent(baseUrl, params) {
   const url = new URL(baseUrl);
   url.searchParams.set('latitude', points.map(p => p.lat).join(','));
   url.searchParams.set('longitude', points.map(p => p.lon).join(','));
   for (const [key, value] of Object.entries(params)) url.searchParams.set(key, value);
 
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`${url.host}: HTTP ${response.status} ${await response.text()}`);
-  const locations = await response.json();
+  const locations = await fetchJsonWithRetry(url);
   if (locations.length !== points.length) throw new Error(`${url.host}: expected ${points.length} locations, got ${locations.length}`);
   return locations;
 }
